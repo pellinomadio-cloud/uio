@@ -1,0 +1,5 @@
+{
+  "name": "OPay Mobile App",
+  "description": "A mobile banking application interface inspired by OPay, built with React and Tailwind CSS. It features a user-friendly dashboard to view account balance, access various financial services like transfers, bill payments, and manage rewards.",
+  "requestFramePermissions": []
+}
