@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import type { Account } from './types';
+import type { Account, Transaction } from './types';
 
 // --- Icon Components ---
 const OpayLogo = () => (
@@ -19,10 +19,15 @@ const CameraIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 
 const UserCircleIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" /></svg>;
 const IconWrapper = ({ children, className = '' }: { children?: React.ReactElement, className?: string }) => <div className={`w-12 h-12 rounded-full flex items-center justify-center bg-lighter-green ${className}`}>{children}</div>;
 const HomeIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>;
-const RewardsIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1V4m0 2.01V5M12 20v-1m0-1v-1m0-1v-1m0-1v-1m0-1v-1m0-1V9m0 2.01V11m0 2.01V13m0 2.01V15m0 2.01V17m0 2.01V19M12 4c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8z" /></svg>;
+const RewardsIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1V4m0 2.01V5M12 20v-1m0-1v-1m0-1v-1m0-1v-1m0-1V9m0 2.01V11m0 2.01V13m0 2.01V15m0 2.01V17m0 2.01V19M12 4c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8z" /></svg>;
+const RewardsActionIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1V4m0 2.01V5M12 20v-1m0-1v-1m0-1v-1m0-1v-1m0-1V9m0 2.01V11m0 2.01V13m0 2.01V15m0 2.01V17m0 2.01V19M12 4c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8z" /></svg>;
 const FinanceIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>;
 const CardsIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>;
 const MeIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
+const ArrowLeftIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>;
+const AlarmClockIcon = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
+const CreditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" /></svg>;
+
 
 // --- UI Section Components ---
 const AppHeader = ({ userName }: { userName: string }) => (
@@ -45,7 +50,7 @@ const AppHeader = ({ userName }: { userName: string }) => (
   </header>
 );
 
-const BalanceCard = ({ balance }: { balance: number }) => {
+const BalanceCard = ({ balance, onNavigateToHistory }: { balance: number, onNavigateToHistory: () => void }) => {
   const formattedBalance = new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(balance);
   return (
     <div className="bg-primary text-primary-content rounded-2xl p-4 shadow-lg space-y-4">
@@ -54,7 +59,7 @@ const BalanceCard = ({ balance }: { balance: number }) => {
           <span>Available Balance</span>
           <EyeIcon />
         </div>
-        <button className="flex items-center space-x-1">
+        <button onClick={onNavigateToHistory} className="flex items-center space-x-1">
           <span>Transaction History</span>
           <ChevronRightIcon />
         </button>
@@ -77,17 +82,17 @@ const BusinessService = () => (
     </div>
 );
 
-const QuickActionItem = ({ icon, label }: { icon: React.ReactElement, label: string }) => (
-    <div className="flex flex-col items-center space-y-2">
+const QuickActionItem = ({ icon, label, onClick }: { icon: React.ReactElement, label: string, onClick?: () => void }) => (
+    <div onClick={onClick} className={`flex flex-col items-center space-y-2 ${onClick ? 'cursor-pointer' : ''}`}>
         <div className="w-16 h-16 bg-lighter-green rounded-2xl flex items-center justify-center">{icon}</div>
         <span className="text-sm font-medium text-dark-gray">{label}</span>
     </div>
 );
 
-const QuickActions = () => (
+const QuickActions = ({ onNavigateToRewards }: { onNavigateToRewards: () => void }) => (
     <div className="bg-white rounded-2xl p-4 flex justify-around items-center shadow-sm">
         <QuickActionItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>} label="To OPay" />
-        <QuickActionItem icon={<BuildingIcon />} label="To Bank" />
+        <QuickActionItem onClick={onNavigateToRewards} icon={<RewardsActionIcon />} label="Rewards" />
         <QuickActionItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>} label="Withdraw" />
     </div>
 );
@@ -241,16 +246,21 @@ const RegistrationPage = ({ onRegister }: { onRegister: (email: string) => void 
 
 
 // --- Page Components ---
-const HomePage = ({ userName, account }: { userName: string, account: Account }) => {
+const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory }: { 
+    userName: string, 
+    account: Account, 
+    onNavigateToRewards: () => void,
+    onNavigateToHistory: () => void 
+}) => {
     return (
         <>
             <div className="bg-white sticky top-0 z-10 shadow-sm">
                 <AppHeader userName={userName} />
             </div>
             <main className="p-4 space-y-5">
-                <BalanceCard balance={account.balance} />
+                <BalanceCard balance={account.balance} onNavigateToHistory={onNavigateToHistory} />
                 <BusinessService />
-                <QuickActions />
+                <QuickActions onNavigateToRewards={onNavigateToRewards} />
                 <Services />
                 <SpecialBonus />
                 <SecurityTest />
@@ -258,6 +268,144 @@ const HomePage = ({ userName, account }: { userName: string, account: Account })
         </>
     );
 };
+
+const RewardsPage = ({ onBack, account, setAccount, addTransaction }: { 
+    onBack: () => void; 
+    account: Account; 
+    setAccount: React.Dispatch<React.SetStateAction<Account | null>>;
+    addTransaction: (transaction: Omit<Transaction, 'id' | 'date'>) => void;
+}) => {
+    const [claimedDays, setClaimedDays] = useState(() => {
+        const saved = localStorage.getItem('opay_claimed_days');
+        return saved ? parseInt(saved, 10) : 0;
+    });
+
+    const [lastClaimTimestamp, setLastClaimTimestamp] = useState(() => {
+        const saved = localStorage.getItem('opay_last_claim');
+        return saved ? parseInt(saved, 10) : 0;
+    });
+
+    const [isClaimable, setIsClaimable] = useState(false);
+    const [countdown, setCountdown] = useState('');
+
+    useEffect(() => {
+        const now = Date.now();
+        const timeSinceLastClaim = now - lastClaimTimestamp;
+        const twentyFourHours = 24 * 60 * 60 * 1000;
+
+        if (timeSinceLastClaim >= twentyFourHours) {
+            setIsClaimable(true);
+        } else {
+            setIsClaimable(false);
+            const interval = setInterval(() => {
+                const remaining = twentyFourHours - (Date.now() - lastClaimTimestamp);
+                if (remaining <= 0) {
+                    setIsClaimable(true);
+                    setCountdown('');
+                    clearInterval(interval);
+                } else {
+                    const hours = Math.floor((remaining / (1000 * 60 * 60)) % 24);
+                    const minutes = Math.floor((remaining / 1000 / 60) % 60);
+                    const seconds = Math.floor((remaining / 1000) % 60);
+                    setCountdown(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
+                }
+            }, 1000);
+            return () => clearInterval(interval);
+        }
+    }, [lastClaimTimestamp]);
+    
+    useEffect(() => {
+        localStorage.setItem('opay_claimed_days', claimedDays.toString());
+    }, [claimedDays]);
+
+    useEffect(() => {
+        localStorage.setItem('opay_last_claim', lastClaimTimestamp.toString());
+    }, [lastClaimTimestamp]);
+
+    const handleClaim = () => {
+        if (!isClaimable || claimedDays >= 100) return;
+        
+        const rewardAmount = 100000;
+        const newClaimedDays = claimedDays + 1;
+        setClaimedDays(newClaimedDays);
+        
+        const now = Date.now();
+        setLastClaimTimestamp(now);
+        
+        setIsClaimable(false);
+        
+        if (setAccount && account) {
+            const newBalance = account.balance + rewardAmount;
+            const updatedAccount = { ...account, balance: newBalance };
+            setAccount(updatedAccount);
+            addTransaction({
+                description: `Daily Reward - Day ${newClaimedDays}`,
+                amount: rewardAmount,
+                type: 'credit',
+            });
+        }
+    };
+
+    const progress = Math.min(100, Math.round((claimedDays / 100) * 100));
+
+    return (
+      <div className="bg-lighter-green min-h-screen">
+        <header className="bg-lighter-green p-4 flex items-center space-x-4 sticky top-0 z-10">
+          <button onClick={onBack} className="bg-primary text-white p-2 rounded-lg flex items-center justify-center shadow-md">
+            <ArrowLeftIcon />
+          </button>
+          <h1 className="text-xl font-bold text-dark-gray">Daily Rewards</h1>
+        </header>
+        <main className="p-4 space-y-4">
+          <div className="bg-white rounded-xl p-4 space-y-2 shadow-md">
+            <div className="flex justify-between items-center text-sm font-medium">
+              <span>Progress: {progress}%</span>
+              <span className="text-gray-500">{claimedDays}/100 days</span>
+            </div>
+            <div className="w-full bg-medium-gray rounded-full h-2.5">
+              <div className="bg-primary h-2.5 rounded-full" style={{ width: `${progress}%` }}></div>
+            </div>
+          </div>
+
+          <div className="bg-primary text-white rounded-xl p-6 text-center space-y-4 shadow-lg">
+            <div className="flex justify-center">
+              <AlarmClockIcon />
+            </div>
+            <p>Next reward available in:</p>
+            {isClaimable ? (
+              <button onClick={handleClaim} className="bg-white/30 hover:bg-white/40 text-white font-bold py-3 px-8 rounded-lg text-lg w-full transition-colors">
+                Ready to Claim! 🎉
+              </button>
+            ) : (
+              <div className="bg-green-700/50 text-white font-mono py-3 px-8 rounded-lg text-lg w-full">
+                {countdown || '23:59:59'}
+              </div>
+            )}
+          </div>
+
+          <div className="grid grid-cols-4 gap-3">
+            {Array.from({ length: 100 }, (_, i) => i + 1).map((day) => {
+              const isClaimed = day <= claimedDays;
+              const canClaim = day === claimedDays + 1 && isClaimable;
+              const rewardAmount = new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', minimumFractionDigits: 0 }).format(100000);
+              
+              return (
+                <div key={day} className={`rounded-xl p-2 text-center text-xs space-y-1 shadow-sm
+                  ${isClaimed ? 'bg-primary text-white' : 'bg-white text-dark-gray border border-green-200'}
+                  ${canClaim ? 'animate-pulse border-2 border-yellow-400' : ''}
+                `}>
+                  <p className="font-semibold text-gray-500">Day {day}</p>
+                  <p className="font-bold text-sm">{rewardAmount}</p>
+                  {isClaimed && <p className="font-medium flex items-center justify-center space-x-1 text-green-200 text-[10px]">✓ Claimed</p>}
+                </div>
+              );
+            })}
+          </div>
+        </main>
+      </div>
+    );
+};
+
 
 const MePage = ({ user, setUser, profilePic, setProfilePic }: { 
     user: { email: string }, 
@@ -346,8 +494,55 @@ const MePage = ({ user, setUser, profilePic, setProfilePic }: {
     );
 };
 
+const TransactionHistoryPage = ({ onBack, transactions }: { 
+    onBack: () => void;
+    transactions: Transaction[];
+}) => {
+    const formatDate = (dateString: string) => {
+        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+
+    return (
+        <div className="bg-light-gray min-h-screen">
+            <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2">
+                    <ArrowLeftIcon />
+                </button>
+                <h1 className="text-xl font-bold text-dark-gray">Transaction History</h1>
+            </header>
+            <main className="p-4 space-y-3">
+                {transactions.length === 0 ? (
+                    <div className="text-center text-gray-500 mt-20">
+                        <p>No transactions yet.</p>
+                        <p className="text-sm">Your claimed rewards will appear here.</p>
+                    </div>
+                ) : (
+                    transactions.map(tx => (
+                        <div key={tx.id} className="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm">
+                            <div className="flex items-center space-x-4">
+                                <IconWrapper className="bg-light-green">
+                                    {tx.type === 'credit' ? <CreditIcon /> : <div />}
+                                </IconWrapper>
+                                <div>
+                                    <p className="font-semibold text-dark-gray">{tx.description}</p>
+                                    <p className="text-xs text-gray-500">{formatDate(tx.date)}</p>
+                                </div>
+                            </div>
+                            <p className={`font-bold text-lg ${tx.type === 'credit' ? 'text-primary' : 'text-red-500'}`}>
+                                + {new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(tx.amount)}
+                            </p>
+                        </div>
+                    ))
+                )}
+            </main>
+        </div>
+    );
+};
+
+
 const PlaceholderPage = ({ title }: { title: string }) => (
-    <div className="flex items-center justify-center h-[calc(100vh-6rem)]">
+    <div className="flex flex-col items-center justify-center h-[calc(100vh-6rem)]">
         <h1 className="text-2xl font-bold text-gray-400">{title} Page</h1>
         <p className="text-gray-500">Coming Soon!</p>
     </div>
@@ -359,12 +554,15 @@ const App: React.FC = () => {
     const [user, setUser] = useState<{ email: string } | null>(null);
     const [account, setAccount] = useState<Account | null>(null);
     const [profilePic, setProfilePic] = useState<string | null>(null);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [activeTab, setActiveTab] = useState('Home');
+    const [view, setView] = useState('main'); // 'main', 'rewards', 'history'
 
     useEffect(() => {
         try {
             const savedUser = localStorage.getItem('opay_user');
             const savedPfp = localStorage.getItem('opay_user_pfp');
+            const savedTransactions = localStorage.getItem('opay_transactions');
 
             if (savedUser) {
                 const userData = JSON.parse(savedUser);
@@ -382,10 +580,14 @@ const App: React.FC = () => {
              if (savedPfp) {
                 setProfilePic(savedPfp);
             }
+            if (savedTransactions) {
+                setTransactions(JSON.parse(savedTransactions));
+            }
         } catch (error) {
             console.error("Failed to parse data from localStorage", error);
             localStorage.removeItem('opay_user');
             localStorage.removeItem('opay_user_pfp');
+            localStorage.removeItem('opay_transactions');
         }
     }, []);
 
@@ -402,6 +604,19 @@ const App: React.FC = () => {
             });
         }
     }, [user]);
+
+    const addTransaction = (transaction: Omit<Transaction, 'id' | 'date'>) => {
+        setTransactions(prev => {
+            const newTransaction: Transaction = {
+                ...transaction,
+                id: `txn_${Date.now()}`,
+                date: new Date().toISOString(),
+            };
+            const updatedTransactions = [newTransaction, ...prev];
+            localStorage.setItem('opay_transactions', JSON.stringify(updatedTransactions));
+            return updatedTransactions;
+        });
+    };
 
     const handleRegister = (email: string) => {
         const userData = { email };
@@ -420,11 +635,20 @@ const App: React.FC = () => {
     if (!user || !account) {
         return <RegistrationPage onRegister={handleRegister} />;
     }
+    
+    if (view === 'rewards') {
+        return <RewardsPage onBack={() => setView('main')} account={account} setAccount={setAccount} addTransaction={addTransaction} />;
+    }
+    
+    if (view === 'history') {
+        return <TransactionHistoryPage onBack={() => setView('main')} transactions={transactions} />;
+    }
+
 
     const renderContent = () => {
         switch (activeTab) {
             case 'Home':
-                return <HomePage userName={account.name} account={account} />;
+                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} />;
             case 'Me':
                 return <MePage user={user} setUser={setUser} profilePic={profilePic} setProfilePic={setProfilePic} />;
             case 'Rewards':
@@ -434,7 +658,7 @@ const App: React.FC = () => {
             case 'Cards':
                  return <PlaceholderPage title="Cards" />;
             default:
-                return <HomePage userName={account.name} account={account} />;
+                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} />;
         }
     };
     
