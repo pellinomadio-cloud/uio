@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import type { Account, Transaction } from './types';
 
@@ -108,12 +107,14 @@ const ServiceItem = ({ icon, label, tag, onClick }: { icon: React.ReactElement; 
     </div>
 );
 
-const Services = ({ onNavigateToSync, isSubscribed, onNavigateToSubscription, onNavigateToAirtime, onNavigateToData }: { 
+const Services = ({ onNavigateToSync, isSubscribed, onNavigateToSubscription, onNavigateToAirtime, onNavigateToData, onNavigateToRefer, onNavigateToTelegram }: { 
     onNavigateToSync: () => void;
     isSubscribed: boolean;
     onNavigateToSubscription: () => void;
     onNavigateToAirtime: () => void;
     onNavigateToData: () => void;
+    onNavigateToRefer: () => void;
+    onNavigateToTelegram: () => void;
 }) => {
     const handleServiceClick = (service: 'airtime' | 'data') => {
         if (isSubscribed) {
@@ -129,11 +130,11 @@ const Services = ({ onNavigateToSync, isSubscribed, onNavigateToSubscription, on
         <div className="bg-white rounded-2xl p-4 grid grid-cols-4 gap-y-6 gap-x-2 shadow-sm">
             <ServiceItem onClick={() => handleServiceClick('airtime')} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>} label="Airtime" tag="Up to 6%"/>
             <ServiceItem onClick={() => handleServiceClick('data')} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path></svg>} label="Data" tag="Up to 6%"/>
-            <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>} label="Betting" />
-            <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>} label="TV" />
+            <ServiceItem onClick={onNavigateToTelegram} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>} label="Betting" />
+            <ServiceItem onClick={onNavigateToTelegram} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>} label="TV" />
             <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>} label="Safebox" />
             <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>} label="Loan" tag="LoanMore" />
-            <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>} label="Refer & Earn" />
+            <ServiceItem onClick={onNavigateToRefer} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>} label="Refer & Earn" />
             <ServiceItem onClick={onNavigateToSync} icon={<SyncIcon />} label="Sync Account" />
         </div>
     );
@@ -373,8 +374,35 @@ const AuthFlow = ({ onLogin, onRegister }: { onLogin: (email: string, password: 
     return <LoginPage onLogin={onLogin} onSwitchToRegister={() => setView('register')} />
 }
 
+// --- Subscription Helper ---
+const getSubscriptionStatus = (transactions: Transaction[]): 'none' | 'weekly' | 'monthly' | 'yearly' => {
+    // Transactions are sorted by date descending, so find will get the latest subscription.
+    const subscriptionTx = transactions.find(tx => tx.description.toLowerCase().includes('subscribed to the'));
+
+    if (!subscriptionTx) {
+        return 'none';
+    }
+
+    const description = subscriptionTx.description.toLowerCase();
+    const txDate = new Date(subscriptionTx.date);
+    const now = new Date();
+    const daysSinceTx = (now.getTime() - txDate.getTime()) / (1000 * 3600 * 24);
+
+    if (description.includes('yearly plan')) {
+        return daysSinceTx <= 365 ? 'yearly' : 'none';
+    }
+    if (description.includes('monthly plan')) {
+        return daysSinceTx <= 30 ? 'monthly' : 'none';
+    }
+    if (description.includes('weekly plan')) {
+        return daysSinceTx <= 7 ? 'weekly' : 'none';
+    }
+
+    return 'none';
+};
+
 // --- Page Components ---
-const HomePage = ({ userName, account, transactions, onNavigateToRewards, onNavigateToHistory, onNavigateToSubscription, onNavigateToAdmin, onNavigateToSync, onNavigateToWithdraw, onNavigateToAirtime, onNavigateToData, testimonial }: { 
+const HomePage = ({ userName, account, transactions, onNavigateToRewards, onNavigateToHistory, onNavigateToSubscription, onNavigateToAdmin, onNavigateToSync, onNavigateToWithdraw, onNavigateToAirtime, onNavigateToData, onNavigateToRefer, onNavigateToTelegram, testimonial }: { 
     userName: string, 
     account: Account,
     transactions: Transaction[],
@@ -386,12 +414,12 @@ const HomePage = ({ userName, account, transactions, onNavigateToRewards, onNavi
     onNavigateToWithdraw: () => void,
     onNavigateToAirtime: () => void,
     onNavigateToData: () => void,
+    onNavigateToRefer: () => void,
+    onNavigateToTelegram: () => void,
     testimonial: { name: string; amount: number } | null,
 }) => {
-    const isSubscribed = transactions.some(tx => 
-        tx.description.toLowerCase().includes('monthly plan') || 
-        tx.description.toLowerCase().includes('yearly plan')
-    );
+    const subscriptionStatus = getSubscriptionStatus(transactions);
+    const isSubscribed = subscriptionStatus === 'monthly' || subscriptionStatus === 'yearly';
 
     return (
         <>
@@ -408,6 +436,8 @@ const HomePage = ({ userName, account, transactions, onNavigateToRewards, onNavi
                     onNavigateToSubscription={onNavigateToSubscription}
                     onNavigateToAirtime={onNavigateToAirtime}
                     onNavigateToData={onNavigateToData}
+                    onNavigateToRefer={onNavigateToRefer}
+                    onNavigateToTelegram={onNavigateToTelegram}
                 />
                 <SpecialBonus />
                 <SecurityTest onNavigateToAdmin={onNavigateToAdmin} />
@@ -1076,9 +1106,8 @@ const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transaction
         setIsLoading(true);
 
         setTimeout(() => {
-            const isSubscribed = transactions.some(tx => 
-                tx.description.toLowerCase().includes('subscribed to the')
-            );
+            const subscriptionStatus = getSubscriptionStatus(transactions);
+            const isSubscribed = subscriptionStatus !== 'none';
 
             if (isSubscribed) {
                 const newBalance = account.balance - numericAmount;
@@ -1094,7 +1123,7 @@ const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transaction
                     onBack();
                 }, 2000);
             } else {
-                setError('Withdrawal failed. You must subscribe to a plan to withdraw funds.');
+                setError('Withdrawal failed. You must have an active subscription to withdraw funds.');
             }
             setIsLoading(false);
         }, 5000);
@@ -1195,6 +1224,120 @@ const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transaction
     );
 };
 
+const ReferAndEarnPage = ({ onBack, userEmail }: { onBack: () => void; userEmail: string; }) => {
+    const telegramLink = 'https://t.me/veripay99';
+    const rewardAmount = 1000;
+    
+    const [referralProof, setReferralProof] = useState<string | null>(null);
+    const [proofFileName, setProofFileName] = useState<string>('');
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleShare = () => {
+        const message = `Hey! I'm inviting you to join this amazing platform. You can join their Telegram group here: ${telegramLink}`;
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+    };
+
+    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setReferralProof(reader.result as string);
+                setProofFileName(file.name);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleSubmit = () => {
+        if (!referralProof) return;
+
+        const subject = `Referral Proof Submission - ${userEmail}`;
+        const body = `Hello,
+
+Please find my referral proof attached. I have referred a new user to the Telegram group.
+
+My account email is: ${userEmail}
+
+Please credit my account with the ₦${rewardAmount} reward after verification.
+
+Thank you.
+`;
+        const mailtoLink = `mailto:ukf5483@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoLink;
+    };
+
+    return (
+        <div className="bg-light-gray min-h-screen">
+            <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2">
+                    <ArrowLeftIcon />
+                </button>
+                <h1 className="text-xl font-bold text-dark-gray">Refer & Earn</h1>
+            </header>
+            <main className="p-4 space-y-6">
+                <div className="bg-white p-4 rounded-xl shadow-sm text-center space-y-2">
+                    <h2 className="text-2xl font-bold text-primary">Earn ₦{rewardAmount.toLocaleString()}!</h2>
+                    <p className="text-gray-600">For every friend you invite to our Telegram group.</p>
+                </div>
+                
+                <div className="bg-white p-4 rounded-xl shadow-sm space-y-4">
+                    <h3 className="font-bold text-lg text-dark-gray">How It Works</h3>
+                    <ul className="space-y-3 text-sm text-gray-700 list-inside">
+                        <li className="flex items-start"><span className="bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2">1</span> Share our Telegram link with your friends on WhatsApp.</li>
+                        <li className="flex items-start"><span className="bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2">2</span> Ask your friend to join the Telegram group.</li>
+                        <li className="flex items-start"><span className="bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2">3</span> Upload a screenshot of your friend joining as proof.</li>
+                        <li className="flex items-start"><span className="bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2">4</span> Get ₦{rewardAmount.toLocaleString()} credited to your account after verification.</li>
+                    </ul>
+                </div>
+
+                <div className="bg-white p-4 rounded-xl shadow-sm space-y-3">
+                    <h3 className="font-bold text-lg text-dark-gray">Share The Link</h3>
+                    <input 
+                        type="text"
+                        readOnly
+                        value={telegramLink}
+                        className="w-full bg-light-gray p-3 rounded-lg border border-medium-gray text-sm"
+                    />
+                    <button onClick={handleShare} className="w-full bg-green-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" /></svg>
+                        <span>Share on WhatsApp</span>
+                    </button>
+                </div>
+                
+                 <div className="bg-white p-4 rounded-xl shadow-sm space-y-3">
+                    <h3 className="font-bold text-lg text-dark-gray">Upload Proof</h3>
+                     <p className="text-sm text-gray-600">Upload a screenshot showing your friend has joined the group.</p>
+                     <input 
+                        type="file" 
+                        ref={fileInputRef} 
+                        onChange={handleFileUpload} 
+                        className="hidden" 
+                        accept="image/*" 
+                    />
+                    <button onClick={() => fileInputRef.current?.click()} className="w-full border-2 border-dashed border-medium-gray rounded-lg p-4 text-center text-gray-500 hover:border-primary hover:text-primary transition-colors">
+                        {proofFileName ? `✓ ${proofFileName}` : 'Click to select a screenshot'}
+                    </button>
+                    {referralProof && (
+                        <div className="mt-4">
+                            <img src={referralProof} alt="Referral proof preview" className="rounded-lg max-h-48 mx-auto" />
+                        </div>
+                    )}
+                </div>
+
+                <button 
+                    onClick={handleSubmit}
+                    disabled={!referralProof}
+                    className="w-full bg-primary text-white font-bold py-4 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:bg-medium-gray disabled:cursor-not-allowed"
+                >
+                   Submit for Verification
+                </button>
+            </main>
+        </div>
+    );
+};
+
 const PlaceholderPage = ({ title }: { title: string }) => (
     <div className="flex flex-col items-center justify-center h-[calc(100vh-6rem)]">
         <h1 className="text-2xl font-bold text-gray-400">{title} Page</h1>
@@ -1213,7 +1356,7 @@ const App: React.FC = () => {
     const [lastClaimTimestamp, setLastClaimTimestamp] = useState(0);
 
     const [activeTab, setActiveTab] = useState('Home');
-    const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription', 'admin', 'sync', 'withdraw', 'airtime', 'data'
+    const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription', 'admin', 'sync', 'withdraw', 'airtime', 'data', 'refer'
     const [testimonial, setTestimonial] = useState<{ name: string; amount: number; } | null>(null);
 
     const loadUserData = (email: string) => {
@@ -1349,6 +1492,10 @@ const App: React.FC = () => {
         setView('main');
     };
 
+    const handleNavigateToTelegram = () => {
+        window.open('https://t.me/veripay99', '_blank', 'noopener,noreferrer');
+    };
+
     if (!user || !account) {
         return <AuthFlow onLogin={handleLogin} onRegister={handleRegister} />;
     }
@@ -1375,6 +1522,10 @@ const App: React.FC = () => {
     
     if (view === 'withdraw') {
         return <WithdrawPage onBack={() => setView('main')} account={account} setAccount={setAccount} addTransaction={addTransaction} transactions={transactions} onNavigateToSubscription={() => setView('subscription')} />;
+    }
+
+    if (view === 'refer') {
+        return <ReferAndEarnPage onBack={() => setView('main')} userEmail={user.email} />;
     }
 
     if (view === 'airtime') {
@@ -1405,7 +1556,7 @@ const App: React.FC = () => {
     const renderContent = () => {
         switch (activeTab) {
             case 'Home':
-                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} testimonial={testimonial} />;
+                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} onNavigateToRefer={() => setView('refer')} onNavigateToTelegram={handleNavigateToTelegram} testimonial={testimonial} />;
             case 'Me':
                 return <MePage user={user} setUser={setUser} profilePic={profilePic} setProfilePic={setProfilePic} onLogout={handleLogout} />;
             case 'Rewards':
@@ -1415,7 +1566,7 @@ const App: React.FC = () => {
             case 'Cards':
                  return <PlaceholderPage title="Cards" />;
             default:
-                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} testimonial={testimonial} />;
+                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} onNavigateToRefer={() => setView('refer')} onNavigateToTelegram={handleNavigateToTelegram} testimonial={testimonial} />;
         }
     };
     
