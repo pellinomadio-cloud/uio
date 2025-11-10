@@ -16,14 +16,14 @@ const EyeIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5
 const ChevronRightIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>;
 const BuildingIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>;
 const CameraIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>;
-const UserCircleIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" /></svg>;
-const IconWrapper = ({ children, className = '' }: { children?: React.ReactElement, className?: string }) => <div className={`w-12 h-12 rounded-full flex items-center justify-center bg-lighter-green ${className}`}>{children}</div>;
-const HomeIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>;
-const RewardsIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1V4m0 2.01V5M12 20v-1m0-1v-1m0-1v-1m0-1v-1m0-1V9m0 2.01V11m0 2.01V13m0 2.01V15m0 2.01V17m0 2.01V19M12 4c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8z" /></svg>;
+const UserCircleIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 text-gray-300 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" /></svg>;
+const IconWrapper = ({ children, className = '' }: { children?: React.ReactElement, className?: string }) => <div className={`w-12 h-12 rounded-full flex items-center justify-center bg-lighter-green dark:bg-gray-700 ${className}`}>{children}</div>;
+const HomeIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray dark:text-gray-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>;
+const RewardsIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray dark:text-gray-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1V4m0 2.01V5M12 20v-1m0-1v-1m0-1v-1m0-1v-1m0-1V9m0 2.01V11m0 2.01V13m0 2.01V15m0 2.01V17m0 2.01V19M12 4c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8z" /></svg>;
 const RewardsActionIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1V4m0 2.01V5M12 20v-1m0-1v-1m0-1v-1m0-1v-1m0-1V9m0 2.01V11m0 2.01V13m0 2.01V15m0 2.01V17m0 2.01V19M12 4c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8z" /></svg>;
-const FinanceIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>;
-const CardsIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>;
-const MeIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
+const FinanceIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray dark:text-gray-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>;
+const CardsIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray dark:text-gray-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>;
+const MeIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'text-primary' : 'text-dark-gray dark:text-gray-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
 const ArrowLeftIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>;
 const AlarmClockIcon = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
 const CreditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" /></svg>;
@@ -33,12 +33,12 @@ const SyncIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-
 
 // --- UI Section Components ---
 const AppHeader = ({ userName }: { userName: string }) => (
-  <header className="flex items-center justify-between p-4 bg-white">
+  <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-800">
     <div className="flex items-center space-x-2">
       <NovapayLogo />
-      <h1 className="font-bold text-lg capitalize">Hi, {userName}</h1>
+      <h1 className="font-bold text-lg capitalize text-dark-gray dark:text-gray-200">Hi, {userName}</h1>
     </div>
-    <div className="flex items-center space-x-4 text-dark-gray">
+    <div className="flex items-center space-x-4 text-dark-gray dark:text-gray-300">
         <div className="relative">
             <HeadsetIcon />
             <span className="absolute -top-1 -right-2 text-xs text-white bg-red-500 px-1 rounded-full font-semibold">HELP</span>
@@ -75,10 +75,10 @@ const BalanceCard = ({ balance, onNavigateToHistory }: { balance: number, onNavi
 };
 
 const BusinessService = () => (
-    <div className="bg-white rounded-2xl p-4 flex justify-between items-center shadow-sm">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 flex justify-between items-center shadow-sm">
         <div className="flex items-center space-x-3">
             <IconWrapper><BuildingIcon /></IconWrapper>
-            <p>Business Service - Today's Sales: ₦0.00</p>
+            <p className="text-dark-gray dark:text-gray-200">Business Service - Today's Sales: ₦0.00</p>
         </div>
         <ChevronRightIcon />
     </div>
@@ -86,13 +86,13 @@ const BusinessService = () => (
 
 const QuickActionItem = ({ icon, label, onClick }: { icon: React.ReactElement, label: string, onClick?: () => void }) => (
     <div onClick={onClick} className={`flex flex-col items-center space-y-2 ${onClick ? 'cursor-pointer' : ''}`}>
-        <div className="w-16 h-16 bg-lighter-green rounded-2xl flex items-center justify-center">{icon}</div>
-        <span className="text-sm font-medium text-dark-gray">{label}</span>
+        <div className="w-16 h-16 bg-lighter-green dark:bg-gray-700 rounded-2xl flex items-center justify-center">{icon}</div>
+        <span className="text-sm font-medium text-dark-gray dark:text-gray-300">{label}</span>
     </div>
 );
 
 const QuickActions = ({ onNavigateToRewards, onNavigateToSubscription, onNavigateToWithdraw }: { onNavigateToRewards: () => void, onNavigateToSubscription: () => void, onNavigateToWithdraw: () => void }) => (
-    <div className="bg-white rounded-2xl p-4 flex justify-around items-center shadow-sm">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 flex justify-around items-center shadow-sm">
         <QuickActionItem onClick={onNavigateToSubscription} icon={<CrownIcon />} label="Subscribe" />
         <QuickActionItem onClick={onNavigateToRewards} icon={<RewardsActionIcon />} label="Rewards" />
         <QuickActionItem onClick={onNavigateToWithdraw} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>} label="Withdraw" />
@@ -101,9 +101,9 @@ const QuickActions = ({ onNavigateToRewards, onNavigateToSubscription, onNavigat
 
 const ServiceItem = ({ icon, label, tag, onClick }: { icon: React.ReactElement; label: string; tag?: string; onClick?: () => void; }) => (
     <div onClick={onClick} className={`flex flex-col items-center space-y-2 text-center relative ${onClick ? 'cursor-pointer' : ''}`}>
-        {tag && <span className="absolute -top-2 text-xs bg-red-100 text-red-500 px-2 py-0.5 rounded-full font-semibold">{tag}</span>}
-        <IconWrapper className="w-14 h-14 bg-light-green">{icon}</IconWrapper>
-        <span className="text-xs font-medium text-dark-gray">{label}</span>
+        {tag && <span className="absolute -top-2 text-xs bg-red-100 text-red-500 dark:bg-red-900/50 dark:text-red-400 px-2 py-0.5 rounded-full font-semibold">{tag}</span>}
+        <IconWrapper className="w-14 h-14 bg-light-green dark:bg-gray-700">{icon}</IconWrapper>
+        <span className="text-xs font-medium text-dark-gray dark:text-gray-300">{label}</span>
     </div>
 );
 
@@ -128,7 +128,7 @@ const Services = ({ onNavigateToSync, isSubscribed, onNavigateToSubscription, on
     };
 
     return (
-        <div className="bg-white rounded-2xl p-4 grid grid-cols-4 gap-y-6 gap-x-2 shadow-sm">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 grid grid-cols-4 gap-y-6 gap-x-2 shadow-sm">
             <ServiceItem onClick={() => handleServiceClick('airtime')} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>} label="Airtime" tag="Up to 6%"/>
             <ServiceItem onClick={() => handleServiceClick('data')} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path></svg>} label="Data" tag="Up to 6%"/>
             <ServiceItem onClick={onNavigateToTelegram} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>} label="Betting" />
@@ -143,29 +143,29 @@ const Services = ({ onNavigateToSync, isSubscribed, onNavigateToSubscription, on
 
 
 const SpecialBonus = () => (
-    <div className="bg-gradient-to-r from-green-50 via-teal-50 to-cyan-50 rounded-2xl p-4 flex justify-between items-center shadow-sm overflow-hidden relative">
+    <div className="bg-gradient-to-r from-green-50 via-teal-50 to-cyan-50 dark:bg-gray-800 rounded-2xl p-4 flex justify-between items-center shadow-sm overflow-hidden relative">
         <div className="space-y-1 z-10">
-            <h3 className="font-bold text-dark-gray flex items-center">Special Bonus For Your <ChevronRightIcon /></h3>
-            <p className="font-bold text-lg text-gray-800">Claim Your Rewards 🎁</p>
-            <p className="text-xs text-gray-500">Grab FREE coupons & cashbacks!</p>
+            <h3 className="font-bold text-dark-gray dark:text-gray-200 flex items-center">Special Bonus For Your <ChevronRightIcon /></h3>
+            <p className="font-bold text-lg text-gray-800 dark:text-gray-100">Claim Your Rewards 🎁</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Grab FREE coupons & cashbacks!</p>
         </div>
         <div className="absolute -right-8 -bottom-8">
-             <svg className="w-40 h-40 text-primary opacity-10" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path></svg>
+             <svg className="w-40 h-40 text-primary opacity-10 dark:opacity-20" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path></svg>
         </div>
     </div>
 );
 
 const SecurityTest = ({ onNavigateToAdmin }: { onNavigateToAdmin: () => void }) => (
-    <div className="bg-white rounded-2xl p-4 shadow-sm space-y-2">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm space-y-2">
         <div className="flex justify-between items-center">
-            <h3 className="font-bold text-dark-gray flex items-center space-x-2">
+            <h3 className="font-bold text-dark-gray dark:text-gray-200 flex items-center space-x-2">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
                 <span>Security Test</span>
             </h3>
-            <button onClick={onNavigateToAdmin} className="text-xs font-semibold bg-green-100 text-primary px-3 py-1.5 rounded-full cursor-pointer">Click for Security</button>
+            <button onClick={onNavigateToAdmin} className="text-xs font-semibold bg-green-100 text-primary dark:bg-green-900/50 dark:text-green-300 px-3 py-1.5 rounded-full cursor-pointer">Click for Security</button>
         </div>
-        <p className="text-sm text-gray-600">What should I do if my phone gets stolen?</p>
-        <p className="text-sm text-gray-400">A. Block your account, dial *955*131#.</p>
+        <p className="text-sm text-gray-600 dark:text-gray-300">What should I do if my phone gets stolen?</p>
+        <p className="text-sm text-gray-400 dark:text-gray-500">A. Block your account, dial *955*131#.</p>
     </div>
 );
 
@@ -178,14 +178,14 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string, setActiveTa
         { name: 'Me', icon: MeIcon },
     ];
     return (
-        <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-medium-gray shadow-lg">
+        <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white dark:bg-gray-800 border-t border-medium-gray dark:border-gray-700 shadow-lg">
             <div className="flex justify-around">
                 {navItems.map(item => {
                     const isActive = activeTab === item.name;
                     return (
                         <button key={item.name} onClick={() => setActiveTab(item.name)} className="flex flex-col items-center justify-center text-center p-3 space-y-1">
                             <item.icon active={isActive} />
-                            <span className={`text-xs font-medium ${isActive ? 'text-primary' : 'text-dark-gray'}`}>{item.name}</span>
+                            <span className={`text-xs font-medium ${isActive ? 'text-primary' : 'text-dark-gray dark:text-gray-400'}`}>{item.name}</span>
                         </button>
                     )
                 })}
@@ -224,13 +224,13 @@ const LoginPage = ({ onLogin, onSwitchToRegister }: { onLogin: (email: string, p
     };
 
     return (
-        <div className="min-h-screen bg-light-gray flex flex-col justify-center items-center p-4">
+        <div className="min-h-screen bg-light-gray dark:bg-gray-900 flex flex-col justify-center items-center p-4">
             <div className="max-w-sm w-full mx-auto">
                 <div className="flex justify-center mb-6">
                     <NovapayLogo />
                 </div>
-                <div className="bg-white p-8 rounded-2xl shadow-md space-y-6">
-                    <h1 className="text-2xl font-bold text-center text-dark-gray">Login to Your Account</h1>
+                <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-md space-y-6">
+                    <h1 className="text-2xl font-bold text-center text-dark-gray dark:text-gray-200">Login to Your Account</h1>
                     <form onSubmit={handleLogin} className="space-y-4">
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700 sr-only">Email</label>
@@ -240,7 +240,7 @@ const LoginPage = ({ onLogin, onSwitchToRegister }: { onLogin: (email: string, p
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Email Address"
-                                className="w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                                className="w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded-lg focus:ring-primary focus:border-primary"
                                 required
                             />
                         </div>
@@ -252,7 +252,7 @@ const LoginPage = ({ onLogin, onSwitchToRegister }: { onLogin: (email: string, p
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="6-digit Password"
-                                className="w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                                className="w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded-lg focus:ring-primary focus:border-primary"
                                 maxLength={6}
                                 pattern="\d{6}"
                                 required
@@ -267,7 +267,7 @@ const LoginPage = ({ onLogin, onSwitchToRegister }: { onLogin: (email: string, p
                             {isLoading ? 'Logging in...' : 'Login'}
                         </button>
                     </form>
-                    <p className="text-center text-sm text-gray-600 mt-4">
+                    <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-4">
                         Don't have an account?{' '}
                         <span onClick={onSwitchToRegister} className="font-semibold text-primary cursor-pointer">
                             Register
@@ -310,13 +310,13 @@ const RegistrationPage = ({ onRegister, onSwitchToLogin }: { onRegister: (email:
     };
 
     return (
-        <div className="min-h-screen bg-light-gray flex flex-col justify-center items-center p-4">
+        <div className="min-h-screen bg-light-gray dark:bg-gray-900 flex flex-col justify-center items-center p-4">
             <div className="max-w-sm w-full mx-auto">
                  <div className="flex justify-center mb-6">
                     <NovapayLogo />
                 </div>
-                <div className="bg-white p-8 rounded-2xl shadow-md space-y-6">
-                    <h1 className="text-2xl font-bold text-center text-dark-gray">Create Your Account</h1>
+                <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-md space-y-6">
+                    <h1 className="text-2xl font-bold text-center text-dark-gray dark:text-gray-200">Create Your Account</h1>
                     <form onSubmit={handleRegister} className="space-y-4">
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700 sr-only">Email</label>
@@ -326,7 +326,7 @@ const RegistrationPage = ({ onRegister, onSwitchToLogin }: { onRegister: (email:
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Email Address"
-                                className="w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                                className="w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded-lg focus:ring-primary focus:border-primary"
                                 required
                             />
                         </div>
@@ -338,7 +338,7 @@ const RegistrationPage = ({ onRegister, onSwitchToLogin }: { onRegister: (email:
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="6-digit Password"
-                                className="w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                                className="w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded-lg focus:ring-primary focus:border-primary"
                                 maxLength={6}
                                 pattern="\d{6}"
                                 required
@@ -353,7 +353,7 @@ const RegistrationPage = ({ onRegister, onSwitchToLogin }: { onRegister: (email:
                             {isLoading ? 'Registering...' : 'Register'}
                         </button>
                     </form>
-                    <p className="text-center text-sm text-gray-600 mt-4">
+                    <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-4">
                         Already have an account?{' '}
                         <span onClick={onSwitchToLogin} className="font-semibold text-primary cursor-pointer">
                             Login
@@ -425,7 +425,7 @@ const HomePage = ({ userName, account, transactions, onNavigateToRewards, onNavi
 
     return (
         <>
-            <div className="bg-white sticky top-0 z-10 shadow-sm">
+            <div className="bg-white dark:bg-gray-800 sticky top-0 z-10 shadow-sm">
                 <AppHeader userName={userName} />
             </div>
             <main className="p-4 space-y-5">
@@ -516,20 +516,20 @@ const RewardsPage = ({ onBack, account, setAccount, addTransaction, claimedDays,
     const progress = Math.min(100, Math.round((claimedDays / 100) * 100));
 
     return (
-      <div className="bg-lighter-green min-h-screen">
-        <header className="bg-lighter-green p-4 flex items-center space-x-4 sticky top-0 z-10">
+      <div className="bg-lighter-green dark:bg-gray-900 min-h-screen">
+        <header className="bg-lighter-green dark:bg-gray-900 p-4 flex items-center space-x-4 sticky top-0 z-10">
           <button onClick={onBack} className="bg-primary text-white p-2 rounded-lg flex items-center justify-center shadow-md">
             <ArrowLeftIcon />
           </button>
-          <h1 className="text-xl font-bold text-dark-gray">Daily Rewards</h1>
+          <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Daily Rewards</h1>
         </header>
         <main className="p-4 space-y-4">
-          <div className="bg-white rounded-xl p-4 space-y-2 shadow-md">
-            <div className="flex justify-between items-center text-sm font-medium">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 space-y-2 shadow-md">
+            <div className="flex justify-between items-center text-sm font-medium text-dark-gray dark:text-gray-300">
               <span>Progress: {progress}%</span>
-              <span className="text-gray-500">{claimedDays}/100 days</span>
+              <span className="text-gray-500 dark:text-gray-400">{claimedDays}/100 days</span>
             </div>
-            <div className="w-full bg-medium-gray rounded-full h-2.5">
+            <div className="w-full bg-medium-gray dark:bg-gray-700 rounded-full h-2.5">
               <div className="bg-primary h-2.5 rounded-full" style={{ width: `${progress}%` }}></div>
             </div>
           </div>
@@ -558,10 +558,10 @@ const RewardsPage = ({ onBack, account, setAccount, addTransaction, claimedDays,
               
               return (
                 <div key={day} className={`rounded-xl p-2 text-center text-xs space-y-1 shadow-sm
-                  ${isClaimed ? 'bg-primary text-white' : 'bg-white text-dark-gray border border-green-200'}
+                  ${isClaimed ? 'bg-primary text-white' : 'bg-white dark:bg-gray-800 text-dark-gray dark:text-gray-300 border border-green-200 dark:border-gray-700'}
                   ${canClaim ? 'animate-pulse border-2 border-yellow-400' : ''}
                 `}>
-                  <p className="font-semibold text-gray-500">Day {day}</p>
+                  <p className="font-semibold text-gray-500 dark:text-gray-400">Day {day}</p>
                   <p className="font-bold text-sm">{rewardAmount}</p>
                   {isClaimed && <p className="font-medium flex items-center justify-center space-x-1 text-green-200 text-[10px]">✓ Claimed</p>}
                 </div>
@@ -626,27 +626,27 @@ Thank you.
     };
     
     return (
-        <div className="bg-light-gray min-h-screen">
-            <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                <button onClick={onBack} className="p-2 -ml-2">
+        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
+            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200">
                     <ArrowLeftIcon />
                 </button>
-                <h1 className="text-xl font-bold text-dark-gray">Subscription Plans</h1>
+                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Subscription Plans</h1>
             </header>
             <main className="p-4 space-y-6">
                 <div>
-                    <h2 className="text-lg font-semibold text-dark-gray mb-3">Choose Your Plan</h2>
+                    <h2 className="text-lg font-semibold text-dark-gray dark:text-gray-200 mb-3">Choose Your Plan</h2>
                     <div className="space-y-3">
                         {plans.map(plan => (
                             <div
                                 key={plan.name}
                                 onClick={() => setSelectedPlan(plan)}
-                                className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${selectedPlan?.name === plan.name ? 'border-primary bg-lighter-green' : 'border-medium-gray bg-white'}`}
+                                className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${selectedPlan?.name === plan.name ? 'border-primary bg-lighter-green dark:border-primary dark:bg-primary/10' : 'border-medium-gray dark:border-gray-600 bg-white dark:bg-gray-800'}`}
                             >
                                 <div className="flex justify-between items-center">
                                     <div>
-                                        <h3 className="font-bold text-dark-gray">{plan.name} Plan</h3>
-                                        <p className="text-sm text-gray-500">{plan.duration} of premium access</p>
+                                        <h3 className="font-bold text-dark-gray dark:text-gray-200">{plan.name} Plan</h3>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400">{plan.duration} of premium access</p>
                                     </div>
                                     <p className="text-xl font-bold text-primary">₦{plan.price.toLocaleString()}</p>
                                 </div>
@@ -655,22 +655,22 @@ Thank you.
                     </div>
                 </div>
 
-                <div className="bg-white p-4 rounded-xl shadow-sm space-y-3">
-                    <h2 className="text-lg font-semibold text-dark-gray">Payment Details</h2>
-                    <p className="text-sm text-gray-600">Make payment to the account below. Your plan will be activated after confirmation.</p>
-                    <div className="bg-light-gray p-3 rounded-lg space-y-2">
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm space-y-3">
+                    <h2 className="text-lg font-semibold text-dark-gray dark:text-gray-200">Payment Details</h2>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Make payment to the account below. Your plan will be activated after confirmation.</p>
+                    <div className="bg-light-gray dark:bg-gray-700 p-3 rounded-lg space-y-2">
                         <div className="flex justify-between items-center text-sm">
-                            <span className="text-gray-500">Bank Name:</span>
-                            <span className="font-semibold text-dark-gray">MOMO-psb</span>
+                            <span className="text-gray-500 dark:text-gray-400">Bank Name:</span>
+                            <span className="font-semibold text-dark-gray dark:text-gray-200">MOMO-psb</span>
                         </div>
                          <div className="flex justify-between items-center text-sm">
-                            <span className="text-gray-500">Account Name:</span>
-                            <span className="font-semibold text-dark-gray">oluwatosin olido</span>
+                            <span className="text-gray-500 dark:text-gray-400">Account Name:</span>
+                            <span className="font-semibold text-dark-gray dark:text-gray-200">oluwatosin olido</span>
                         </div>
                         <div className="flex justify-between items-center">
                             <div>
-                                <span className="text-gray-500 text-sm">Account Number:</span>
-                                <p className="font-bold text-lg text-dark-gray tracking-wider">7075402374</p>
+                                <span className="text-gray-500 dark:text-gray-400 text-sm">Account Number:</span>
+                                <p className="font-bold text-lg text-dark-gray dark:text-gray-200 tracking-wider">7075402374</p>
                             </div>
                             <button onClick={handleCopy} className="bg-green-100 text-primary text-xs font-semibold px-3 py-1.5 rounded-full">
                                 {copySuccess || 'Copy'}
@@ -679,8 +679,8 @@ Thank you.
                     </div>
                 </div>
                 
-                 <div className="bg-white p-4 rounded-xl shadow-sm space-y-3">
-                    <h2 className="text-lg font-semibold text-dark-gray">Upload Payment Proof</h2>
+                 <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm space-y-3">
+                    <h2 className="text-lg font-semibold text-dark-gray dark:text-gray-200">Upload Payment Proof</h2>
                      <input 
                         type="file" 
                         ref={fileInputRef} 
@@ -688,7 +688,7 @@ Thank you.
                         className="hidden" 
                         accept="image/*" 
                     />
-                    <button onClick={() => fileInputRef.current?.click()} className="w-full border-2 border-dashed border-medium-gray rounded-lg p-4 text-center text-gray-500 hover:border-primary hover:text-primary transition-colors">
+                    <button onClick={() => fileInputRef.current?.click()} className="w-full border-2 border-dashed border-medium-gray dark:border-gray-600 rounded-lg p-4 text-center text-gray-500 dark:text-gray-400 hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary transition-colors">
                         {proofFileName ? `✓ ${proofFileName}` : 'Click to select an image'}
                     </button>
                     {paymentProof && (
@@ -711,14 +711,14 @@ Thank you.
 };
 
 
-const MePage = ({ user, setUser, profilePic, setProfilePic, onLogout }: { 
+const MePage = ({ user, profilePic, setProfilePic, onLogout, darkMode, setDarkMode }: { 
     user: { email: string }, 
-    setUser: React.Dispatch<React.SetStateAction<{ email: string } | null>>,
     profilePic: string | null,
     setProfilePic: React.Dispatch<React.SetStateAction<string | null>>,
-    onLogout: () => void
+    onLogout: () => void,
+    darkMode: boolean,
+    setDarkMode: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
-    const [newEmail, setNewEmail] = useState(user.email);
     const [message, setMessage] = useState('');
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -735,15 +735,24 @@ const MePage = ({ user, setUser, profilePic, setProfilePic, onLogout }: {
     };
     
     const handleSave = () => {
-        // In a real app, email change would require re-authentication and more complex logic.
-        // For this mock, we'll just show a success message as the data is saved automatically via useEffect in App.
         setMessage('Profile updated successfully!');
         setTimeout(() => setMessage(''), 3000);
     };
 
+    const ToggleSwitch = ({ isEnabled, onToggle }: { isEnabled: boolean, onToggle: () => void }) => (
+        <button
+            onClick={onToggle}
+            className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors duration-300 focus:outline-none ${isEnabled ? 'bg-primary' : 'bg-gray-300 dark:bg-gray-600'}`}
+        >
+            <span
+                className={`inline-block w-4 h-4 transform bg-white rounded-full transition-transform duration-300 ${isEnabled ? 'translate-x-6' : 'translate-x-1'}`}
+            />
+        </button>
+    );
+
     return (
         <div className="p-4 space-y-6">
-            <h1 className="text-2xl font-bold text-center text-dark-gray">My Profile</h1>
+            <h1 className="text-2xl font-bold text-center text-dark-gray dark:text-gray-200">My Profile</h1>
             <div className="flex flex-col items-center space-y-4">
                 <div className="relative cursor-pointer" onClick={() => fileInputRef.current?.click()}>
                     <input 
@@ -764,36 +773,46 @@ const MePage = ({ user, setUser, profilePic, setProfilePic, onLogout }: {
                         <CameraIcon />
                     </div>
                 </div>
-                <p className="font-semibold text-lg">{user.email.split('@')[0]}</p>
+                <p className="font-semibold text-lg text-dark-gray dark:text-gray-200">{user.email.split('@')[0]}</p>
             </div>
             
-            <div className="bg-white p-6 rounded-2xl shadow-md space-y-4">
-                <h2 className="font-bold text-lg text-dark-gray">Edit Information</h2>
-                 <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={user.email}
-                        readOnly
-                        disabled
-                        className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary bg-gray-100 cursor-not-allowed"
-                    />
-                    <p className="text-xs text-gray-500 mt-1">Email address cannot be changed.</p>
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md space-y-4">
+                <div className="pb-4">
+                    <h2 className="font-bold text-lg text-dark-gray dark:text-gray-200 mb-2">Appearance</h2>
+                    <div className="flex justify-between items-center">
+                        <label htmlFor="darkModeToggle" className="font-medium text-dark-gray dark:text-gray-300">Dark Mode</label>
+                        <ToggleSwitch isEnabled={darkMode} onToggle={() => setDarkMode(!darkMode)} />
+                    </div>
                 </div>
-                {message && <p className="text-sm text-green-600 text-center">{message}</p>}
-                <button
-                    onClick={handleSave}
-                    className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors"
-                >
-                    Save Changes
-                </button>
-                 <button
-                    onClick={onLogout}
-                    className="w-full bg-red-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-600 transition-colors"
-                >
-                    Logout
-                </button>
+
+                <div className="pt-4 border-t border-medium-gray dark:border-gray-700">
+                    <h2 className="font-bold text-lg text-dark-gray dark:text-gray-200">Edit Information</h2>
+                    <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-400">Email Address</label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={user.email}
+                            readOnly
+                            disabled
+                            className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 rounded-lg focus:ring-primary focus:border-primary bg-gray-100 dark:bg-gray-700 dark:text-gray-400 cursor-not-allowed"
+                        />
+                        <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">Email address cannot be changed.</p>
+                    </div>
+                    {message && <p className="text-sm text-green-600 text-center">{message}</p>}
+                    <button
+                        onClick={handleSave}
+                        className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors mt-4"
+                    >
+                        Save Changes
+                    </button>
+                     <button
+                        onClick={onLogout}
+                        className="w-full bg-red-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-600 transition-colors mt-2"
+                    >
+                        Logout
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -809,29 +828,29 @@ const TransactionHistoryPage = ({ onBack, transactions }: {
     };
 
     return (
-        <div className="bg-light-gray min-h-screen">
-            <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                <button onClick={onBack} className="p-2 -ml-2">
+        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
+            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200">
                     <ArrowLeftIcon />
                 </button>
-                <h1 className="text-xl font-bold text-dark-gray">Transaction History</h1>
+                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Transaction History</h1>
             </header>
             <main className="p-4 space-y-3">
                 {transactions.length === 0 ? (
-                    <div className="text-center text-gray-500 mt-20">
+                    <div className="text-center text-gray-500 dark:text-gray-400 mt-20">
                         <p>No transactions yet.</p>
                         <p className="text-sm">Your claimed rewards and withdrawals will appear here.</p>
                     </div>
                 ) : (
                     transactions.map(tx => (
-                        <div key={tx.id} className="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm">
+                        <div key={tx.id} className="bg-white dark:bg-gray-800 rounded-xl p-4 flex items-center justify-between shadow-sm">
                             <div className="flex items-center space-x-4">
-                                <IconWrapper className="bg-light-green">
+                                <IconWrapper className="bg-light-green dark:bg-gray-700">
                                     {tx.type === 'credit' ? <CreditIcon /> : <DebitIcon />}
                                 </IconWrapper>
                                 <div>
-                                    <p className="font-semibold text-dark-gray">{tx.description}</p>
-                                    <p className="text-xs text-gray-500">{formatDate(tx.date)}</p>
+                                    <p className="font-semibold text-dark-gray dark:text-gray-200">{tx.description}</p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">{formatDate(tx.date)}</p>
                                 </div>
                             </div>
                            {tx.amount > 0 && (
@@ -894,33 +913,33 @@ const AdminPage = ({ onBack, user, addTransaction }: {
     };
 
     return (
-        <div className="bg-light-gray min-h-screen">
-            <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                <button onClick={onBack} className="p-2 -ml-2">
+        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
+            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200">
                     <ArrowLeftIcon />
                 </button>
-                <h1 className="text-xl font-bold text-dark-gray">Admin Panel</h1>
+                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Admin Panel</h1>
             </header>
             <main className="p-4">
-                <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl shadow-md space-y-6">
-                    <h2 className="text-lg font-bold text-center text-dark-gray">Subscribe User</h2>
+                <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md space-y-6">
+                    <h2 className="text-lg font-bold text-center text-dark-gray dark:text-gray-200">Subscribe User</h2>
                     <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">User Email</label>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">User Email</label>
                         <input
                             type="email"
                             id="email"
                             value={user.email}
                             disabled
-                            className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg bg-gray-100 cursor-not-allowed"
+                            className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 cursor-not-allowed"
                         />
                     </div>
                      <div>
-                        <label htmlFor="plan" className="block text-sm font-medium text-gray-700">Select Plan</label>
+                        <label htmlFor="plan" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Select Plan</label>
                         <select
                             id="plan"
                             value={selectedPlan.name}
                             onChange={(e) => setSelectedPlan(plans.find(p => p.name === e.target.value) || plans[0])}
-                            className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                            className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
                         >
                             {plans.map(plan => (
                                 <option key={plan.name} value={plan.name}>
@@ -930,14 +949,14 @@ const AdminPage = ({ onBack, user, addTransaction }: {
                         </select>
                     </div>
                      <div>
-                        <label htmlFor="admin-password" className="block text-sm font-medium text-gray-700">Admin Password</label>
+                        <label htmlFor="admin-password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Admin Password</label>
                         <input
                             type="password"
                             id="admin-password"
                             value={adminPassword}
                             onChange={(e) => setAdminPassword(e.target.value)}
                             placeholder="Enter admin password"
-                            className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                            className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
                             required
                         />
                     </div>
@@ -1021,21 +1040,21 @@ const SyncAccountPage = ({ onBack, user }: { onBack: () => void; user: { email: 
     };
 
     return (
-        <div className="bg-light-gray min-h-screen">
-            <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                <button onClick={onBack} className="p-2 -ml-2">
+        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
+            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200">
                     <ArrowLeftIcon />
                 </button>
-                <h1 className="text-xl font-bold text-dark-gray">Sync & Restore Account</h1>
+                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Sync & Restore Account</h1>
             </header>
             <main className="p-4 space-y-6">
-                <div className="bg-white p-4 rounded-xl shadow-sm space-y-3">
-                    <h2 className="text-lg font-semibold text-dark-gray">1. Sync Your Account</h2>
-                    <p className="text-sm text-gray-600">Copy this code and paste it on another device to restore your account data.</p>
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm space-y-3">
+                    <h2 className="text-lg font-semibold text-dark-gray dark:text-gray-200">1. Sync Your Account</h2>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Copy this code and paste it on another device to restore your account data.</p>
                     <textarea
                         readOnly
                         value={isGenerating ? 'Generating code...' : syncCode}
-                        className="w-full h-32 p-2 border border-medium-gray rounded-lg bg-gray-50 font-mono text-xs"
+                        className="w-full h-32 p-2 border border-medium-gray dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-gray-300 font-mono text-xs"
                         placeholder="Your account sync code will appear here."
                     />
                     <button
@@ -1047,13 +1066,13 @@ const SyncAccountPage = ({ onBack, user }: { onBack: () => void; user: { email: 
                     </button>
                 </div>
                 
-                <div className="bg-white p-4 rounded-xl shadow-sm space-y-3">
-                    <h2 className="text-lg font-semibold text-dark-gray">2. Restore Account</h2>
-                    <p className="text-sm text-gray-600">Paste a sync code here to restore another account on this device.</p>
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm space-y-3">
+                    <h2 className="text-lg font-semibold text-dark-gray dark:text-gray-200">2. Restore Account</h2>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Paste a sync code here to restore another account on this device.</p>
                     <textarea
                         value={restoreCode}
                         onChange={(e) => setRestoreCode(e.target.value)}
-                        className="w-full h-32 p-2 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary font-mono text-xs"
+                        className="w-full h-32 p-2 border border-medium-gray dark:border-gray-600 rounded-lg focus:ring-primary focus:border-primary font-mono text-xs dark:bg-gray-700 dark:text-gray-300"
                         placeholder="Paste sync code here..."
                     />
                     {restoreMessage && <p className={`text-sm text-center ${restoreMessage.includes('failed') ? 'text-red-500' : 'text-green-600'}`}>{restoreMessage}</p>}
@@ -1093,7 +1112,7 @@ const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transaction
     
     useEffect(() => {
         if(isLocked) {
-            setError('Your account is currently locked. Withdrawals are disabled. Please contact customer support.');
+            setError('Account locked. Contact services.');
         }
     }, [isLocked]);
 
@@ -1103,7 +1122,7 @@ const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transaction
         setSuccess('');
 
         if (isLocked) {
-            setError('Your account is currently locked. Withdrawals are disabled. Please contact customer support.');
+            setError('Account locked. Contact services.');
             return;
         }
 
@@ -1145,24 +1164,24 @@ const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transaction
     };
 
     return (
-        <div className="bg-light-gray min-h-screen">
-            <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                <button onClick={onBack} className="p-2 -ml-2">
+        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
+            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200">
                     <ArrowLeftIcon />
                 </button>
-                <h1 className="text-xl font-bold text-dark-gray">Withdraw Funds</h1>
+                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Withdraw Funds</h1>
             </header>
             <main className="p-4">
-                <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl shadow-md space-y-6">
+                <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md space-y-6">
                     <fieldset disabled={isLocked}>
                         <div className="space-y-6">
                             <div>
-                                <label htmlFor="bank" className="block text-sm font-medium text-gray-700">Select Bank</label>
+                                <label htmlFor="bank" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Select Bank</label>
                                 <select
                                     id="bank"
                                     value={bank}
                                     onChange={(e) => setBank(e.target.value)}
-                                    className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                                    className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
                                     required
                                 >
                                     <option value="" disabled>-- Select a bank --</option>
@@ -1170,40 +1189,40 @@ const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transaction
                                 </select>
                             </div>
                              <div>
-                                <label htmlFor="account-number" className="block text-sm font-medium text-gray-700">Account Number</label>
+                                <label htmlFor="account-number" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Account Number</label>
                                 <input
                                     type="text"
                                     id="account-number"
                                     value={accountNumber}
                                     onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, ''))}
                                     placeholder="Enter 10-digit account number"
-                                    className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                                    className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
                                     pattern="\d{10}"
                                     maxLength={10}
                                     required
                                 />
                             </div>
                              <div>
-                                <label htmlFor="account-name" className="block text-sm font-medium text-gray-700">Account Name</label>
+                                <label htmlFor="account-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Account Name</label>
                                 <input
                                     type="text"
                                     id="account-name"
                                     value={accountName}
                                     onChange={(e) => setAccountName(e.target.value)}
                                     placeholder="Enter account name"
-                                    className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                                    className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
                                     required
                                 />
                             </div>
                             <div>
-                                <label htmlFor="amount" className="block text-sm font-medium text-gray-700">Amount (NGN)</label>
+                                <label htmlFor="amount" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Amount (NGN)</label>
                                 <input
                                     type="number"
                                     id="amount"
                                     value={amount}
                                     onChange={(e) => setAmount(e.target.value)}
                                     placeholder="0.00"
-                                    className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                                    className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
                                     required
                                 />
                             </div>
@@ -1211,7 +1230,7 @@ const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transaction
                     </fieldset>
                     
                     {error && (
-                        <div className="text-sm text-red-500 text-center p-3 bg-red-50 rounded-lg">
+                        <div className="text-sm text-red-500 text-center p-3 bg-red-50 dark:bg-red-900/20 dark:text-red-300 rounded-lg">
                             <p>{error}</p>
                             {error.includes('subscription') && !isLocked && (
                                 <button type="button" onClick={onNavigateToSubscription} className="font-bold underline mt-2 text-primary">
@@ -1288,22 +1307,22 @@ Thank you.
     };
 
     return (
-        <div className="bg-light-gray min-h-screen">
-            <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                <button onClick={onBack} className="p-2 -ml-2">
+        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
+            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200">
                     <ArrowLeftIcon />
                 </button>
-                <h1 className="text-xl font-bold text-dark-gray">Refer & Earn</h1>
+                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Refer & Earn</h1>
             </header>
             <main className="p-4 space-y-6">
-                <div className="bg-white p-4 rounded-xl shadow-sm text-center space-y-2">
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm text-center space-y-2">
                     <h2 className="text-2xl font-bold text-primary">Earn ₦{rewardAmount.toLocaleString()}!</h2>
-                    <p className="text-gray-600">For every friend you invite to our Telegram group.</p>
+                    <p className="text-gray-600 dark:text-gray-300">For every friend you invite to our Telegram group.</p>
                 </div>
                 
-                <div className="bg-white p-4 rounded-xl shadow-sm space-y-4">
-                    <h3 className="font-bold text-lg text-dark-gray">How It Works</h3>
-                    <ul className="space-y-3 text-sm text-gray-700 list-inside">
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm space-y-4">
+                    <h3 className="font-bold text-lg text-dark-gray dark:text-gray-200">How It Works</h3>
+                    <ul className="space-y-3 text-sm text-gray-700 dark:text-gray-300 list-inside">
                         <li className="flex items-start"><span className="bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2">1</span> Share our Telegram link with your friends on WhatsApp.</li>
                         <li className="flex items-start"><span className="bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2">2</span> Ask your friend to join the Telegram group.</li>
                         <li className="flex items-start"><span className="bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2">3</span> Upload a screenshot of your friend joining as proof.</li>
@@ -1311,13 +1330,13 @@ Thank you.
                     </ul>
                 </div>
 
-                <div className="bg-white p-4 rounded-xl shadow-sm space-y-3">
-                    <h3 className="font-bold text-lg text-dark-gray">Share The Link</h3>
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm space-y-3">
+                    <h3 className="font-bold text-lg text-dark-gray dark:text-gray-200">Share The Link</h3>
                     <input 
                         type="text"
                         readOnly
                         value={telegramLink}
-                        className="w-full bg-light-gray p-3 rounded-lg border border-medium-gray text-sm"
+                        className="w-full bg-light-gray dark:bg-gray-700 p-3 rounded-lg border border-medium-gray dark:border-gray-600 text-sm dark:text-gray-300"
                     />
                     <button onClick={handleShare} className="w-full bg-green-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" /></svg>
@@ -1325,9 +1344,9 @@ Thank you.
                     </button>
                 </div>
                 
-                 <div className="bg-white p-4 rounded-xl shadow-sm space-y-3">
-                    <h3 className="font-bold text-lg text-dark-gray">Upload Proof</h3>
-                     <p className="text-sm text-gray-600">Upload a screenshot showing your friend has joined the group.</p>
+                 <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm space-y-3">
+                    <h3 className="font-bold text-lg text-dark-gray dark:text-gray-200">Upload Proof</h3>
+                     <p className="text-sm text-gray-600 dark:text-gray-400">Upload a screenshot showing your friend has joined the group.</p>
                      <input 
                         type="file" 
                         ref={fileInputRef} 
@@ -1335,7 +1354,7 @@ Thank you.
                         className="hidden" 
                         accept="image/*" 
                     />
-                    <button onClick={() => fileInputRef.current?.click()} className="w-full border-2 border-dashed border-medium-gray rounded-lg p-4 text-center text-gray-500 hover:border-primary hover:text-primary transition-colors">
+                    <button onClick={() => fileInputRef.current?.click()} className="w-full border-2 border-dashed border-medium-gray dark:border-gray-600 rounded-lg p-4 text-center text-gray-500 dark:text-gray-400 hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary transition-colors">
                         {proofFileName ? `✓ ${proofFileName}` : 'Click to select a screenshot'}
                     </button>
                     {referralProof && (
@@ -1414,22 +1433,22 @@ const SafeboxPage = ({ onBack }: { onBack: () => void; }) => {
     };
 
     return (
-        <div className="bg-light-gray min-h-screen">
-            <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                <button onClick={onBack} className="p-2 -ml-2"> <ArrowLeftIcon /> </button>
-                <h1 className="text-xl font-bold text-dark-gray">Safebox - Account Management</h1>
+        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
+            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200"> <ArrowLeftIcon /> </button>
+                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Safebox - Account Management</h1>
             </header>
             <main className="p-4 space-y-4">
-                <div className="bg-white p-4 rounded-xl shadow-sm">
-                    <h2 className="text-lg font-semibold text-dark-gray mb-3">All Users</h2>
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm">
+                    <h2 className="text-lg font-semibold text-dark-gray dark:text-gray-200 mb-3">All Users</h2>
                     {message && <p className="text-center text-sm mb-3 p-2 rounded-md bg-yellow-100 text-yellow-800">{message}</p>}
-                    {isLoading ? <p>Loading users...</p> : (
+                    {isLoading ? <p className="dark:text-gray-300">Loading users...</p> : (
                         <div className="space-y-3">
                             {users.map(user => (
-                                <div key={user.email} className="bg-light-gray p-3 rounded-lg">
+                                <div key={user.email} className="bg-light-gray dark:bg-gray-700 p-3 rounded-lg">
                                     <div className="flex justify-between items-center">
                                         <div>
-                                            <p className="font-medium text-dark-gray text-sm">{user.email}</p>
+                                            <p className="font-medium text-dark-gray dark:text-gray-300 text-sm">{user.email}</p>
                                             <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${user.isLocked ? 'bg-red-200 text-red-800' : 'bg-green-200 text-green-800'}`}>
                                                 {user.isLocked ? 'Locked' : 'Active'}
                                             </span>
@@ -1439,17 +1458,17 @@ const SafeboxPage = ({ onBack }: { onBack: () => void; }) => {
                                         </button>
                                     </div>
                                     {targetUser === user.email && (
-                                        <div className="mt-3 pt-3 border-t border-medium-gray space-y-2">
-                                            <p className="text-xs text-gray-600">Enter admin password to confirm:</p>
+                                        <div className="mt-3 pt-3 border-t border-medium-gray dark:border-gray-600 space-y-2">
+                                            <p className="text-xs text-gray-600 dark:text-gray-400">Enter admin password to confirm:</p>
                                             <input
                                                 type="password"
                                                 value={adminPassword}
                                                 onChange={e => setAdminPassword(e.target.value)}
-                                                className="w-full px-3 py-2 border border-medium-gray rounded-lg text-sm"
+                                                className="w-full px-3 py-2 border border-medium-gray dark:border-gray-500 dark:bg-gray-600 rounded-lg text-sm"
                                                 placeholder="Admin Password"
                                             />
                                             <div className="flex space-x-2 justify-end">
-                                                <button onClick={() => setTargetUser(null)} className="text-sm font-semibold px-4 py-2 rounded-lg bg-gray-200">Cancel</button>
+                                                <button onClick={() => setTargetUser(null)} className="text-sm font-semibold px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-500">Cancel</button>
                                                 <button onClick={() => handleLockToggle(user.email, user.isLocked)} className="text-sm font-semibold px-4 py-2 rounded-lg bg-primary text-white">Confirm</button>
                                             </div>
                                         </div>
@@ -1466,8 +1485,8 @@ const SafeboxPage = ({ onBack }: { onBack: () => void; }) => {
 
 const PlaceholderPage = ({ title }: { title: string }) => (
     <div className="flex flex-col items-center justify-center h-[calc(100vh-6rem)]">
-        <h1 className="text-2xl font-bold text-gray-400">{title} Page</h1>
-        <p className="text-gray-500">Coming Soon!</p>
+        <h1 className="text-2xl font-bold text-gray-400 dark:text-gray-500">{title} Page</h1>
+        <p className="text-gray-500 dark:text-gray-600">Coming Soon!</p>
     </div>
 );
 
@@ -1481,10 +1500,30 @@ const App: React.FC = () => {
     const [claimedDays, setClaimedDays] = useState(0);
     const [lastClaimTimestamp, setLastClaimTimestamp] = useState(0);
     const [isLocked, setIsLocked] = useState(false);
+    const [darkMode, setDarkMode] = useState(false);
 
     const [activeTab, setActiveTab] = useState('Home');
     const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription', 'admin', 'sync', 'withdraw', 'airtime', 'data', 'refer', 'safebox'
     const [testimonial, setTestimonial] = useState<{ name: string; amount: number; } | null>(null);
+
+    // Load theme from local storage on initial render
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('novapay_theme');
+        if (savedTheme === 'dark') {
+            setDarkMode(true);
+        }
+    }, []);
+
+    // Apply theme to document and save to local storage
+    useEffect(() => {
+        if (darkMode) {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('novapay_theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('novapay_theme', 'light');
+        }
+    }, [darkMode]);
 
     const loadUserData = (email: string) => {
         try {
@@ -1666,9 +1705,9 @@ const App: React.FC = () => {
     if (view === 'airtime') {
         return (
             <>
-                <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                    <button onClick={() => setView('main')} className="p-2 -ml-2"><ArrowLeftIcon /></button>
-                    <h1 className="text-xl font-bold text-dark-gray">Buy Airtime</h1>
+                <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                    <button onClick={() => setView('main')} className="p-2 -ml-2 text-dark-gray dark:text-gray-200"><ArrowLeftIcon /></button>
+                    <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Buy Airtime</h1>
                 </header>
                 <PlaceholderPage title="Buy Airtime" />
                 <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -1678,9 +1717,9 @@ const App: React.FC = () => {
     if (view === 'data') {
         return (
             <>
-                <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                    <button onClick={() => setView('main')} className="p-2 -ml-2"><ArrowLeftIcon /></button>
-                    <h1 className="text-xl font-bold text-dark-gray">Buy Data</h1>
+                <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                    <button onClick={() => setView('main')} className="p-2 -ml-2 text-dark-gray dark:text-gray-200"><ArrowLeftIcon /></button>
+                    <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Buy Data</h1>
                 </header>
                 <PlaceholderPage title="Buy Data" />
                 <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -1693,7 +1732,7 @@ const App: React.FC = () => {
             case 'Home':
                 return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} onNavigateToRefer={() => setView('refer')} onNavigateToTelegram={handleNavigateToTelegram} onNavigateToSafebox={() => setView('safebox')} testimonial={testimonial} />;
             case 'Me':
-                return <MePage user={user} setUser={setUser} profilePic={profilePic} setProfilePic={setProfilePic} onLogout={handleLogout} />;
+                return <MePage user={user} profilePic={profilePic} setProfilePic={setProfilePic} onLogout={handleLogout} darkMode={darkMode} setDarkMode={setDarkMode} />;
             case 'Rewards':
                  return <PlaceholderPage title="Rewards" />;
             case 'Finance':
@@ -1706,7 +1745,7 @@ const App: React.FC = () => {
     };
     
     return (
-        <div className="max-w-md mx-auto bg-light-gray font-sans relative pb-24 min-h-screen">
+        <div className="max-w-md mx-auto bg-light-gray dark:bg-gray-900 font-sans relative pb-24 min-h-screen">
             {renderContent()}
             <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
         </div>
