@@ -172,13 +172,88 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string, setActiveTa
     );
 }
 
-// --- Registration Page Component ---
-const RegistrationPage = ({ onRegister }: { onRegister: (email: string) => void }) => {
+// --- Auth Page Components ---
+
+const LoginPage = ({ onLogin, onSwitchToRegister }: { onLogin: (email: string, password: string) => Promise<string | null>, onSwitchToRegister: () => void }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleRegister = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+        setIsLoading(true);
+        const loginError = await onLogin(email, password);
+        if (loginError) {
+            setError(loginError);
+        }
+        setIsLoading(false);
+    };
+
+    return (
+        <div className="min-h-screen bg-light-gray flex flex-col justify-center items-center p-4">
+            <div className="max-w-sm w-full mx-auto">
+                <div className="flex justify-center mb-6">
+                    <OpayLogo />
+                </div>
+                <div className="bg-white p-8 rounded-2xl shadow-md space-y-6">
+                    <h1 className="text-2xl font-bold text-center text-dark-gray">Login to Your Account</h1>
+                    <form onSubmit={handleLogin} className="space-y-4">
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 sr-only">Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Email Address"
+                                className="w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="password" className="block text-sm font-medium text-gray-700 sr-only">Password</label>
+                            <input
+                                type="password"
+                                id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="6-digit Password"
+                                className="w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                                maxLength={6}
+                                pattern="\d{6}"
+                                required
+                            />
+                        </div>
+                        {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:bg-medium-gray"
+                        >
+                            {isLoading ? 'Logging in...' : 'Login'}
+                        </button>
+                    </form>
+                    <p className="text-center text-sm text-gray-600 mt-4">
+                        Don't have an account?{' '}
+                        <span onClick={onSwitchToRegister} className="font-semibold text-primary cursor-pointer">
+                            Register
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const RegistrationPage = ({ onRegister, onSwitchToLogin }: { onRegister: (email: string, password: string) => Promise<string | null>, onSwitchToLogin: () => void }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
 
@@ -193,8 +268,13 @@ const RegistrationPage = ({ onRegister }: { onRegister: (email: string) => void 
             setError('Password must be exactly 6 digits.');
             return;
         }
-
-        onRegister(email);
+        
+        setIsLoading(true);
+        const registrationError = await onRegister(email, password);
+        if (registrationError) {
+            setError(registrationError);
+        }
+        setIsLoading(false);
     };
 
     return (
@@ -235,17 +315,33 @@ const RegistrationPage = ({ onRegister }: { onRegister: (email: string) => void 
                         {error && <p className="text-sm text-red-500 text-center">{error}</p>}
                         <button
                             type="submit"
-                            className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors"
+                            disabled={isLoading}
+                            className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:bg-medium-gray"
                         >
-                            Register
+                            {isLoading ? 'Registering...' : 'Register'}
                         </button>
                     </form>
+                    <p className="text-center text-sm text-gray-600 mt-4">
+                        Already have an account?{' '}
+                        <span onClick={onSwitchToLogin} className="font-semibold text-primary cursor-pointer">
+                            Login
+                        </span>
+                    </p>
                 </div>
             </div>
         </div>
     );
 };
 
+const AuthFlow = ({ onLogin, onRegister }: { onLogin: (email: string, password: string) => Promise<string | null>, onRegister: (email: string, password: string) => Promise<string | null> }) => {
+    const [view, setView] = useState('login'); // 'login' or 'register'
+
+    if (view === 'register') {
+        return <RegistrationPage onRegister={onRegister} onSwitchToLogin={() => setView('login')} />
+    }
+    
+    return <LoginPage onLogin={onLogin} onSwitchToRegister={() => setView('register')} />
+}
 
 // --- Page Components ---
 const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory, onNavigateToSubscription, onNavigateToAdmin, onNavigateToSync, onNavigateToWithdraw }: { 
@@ -275,22 +371,16 @@ const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory,
     );
 };
 
-const RewardsPage = ({ onBack, account, setAccount, addTransaction }: { 
+const RewardsPage = ({ onBack, account, setAccount, addTransaction, claimedDays, setClaimedDays, lastClaimTimestamp, setLastClaimTimestamp }: { 
     onBack: () => void; 
     account: Account; 
     setAccount: React.Dispatch<React.SetStateAction<Account | null>>;
     addTransaction: (transaction: Omit<Transaction, 'id' | 'date'>) => void;
+    claimedDays: number;
+    setClaimedDays: React.Dispatch<React.SetStateAction<number>>;
+    lastClaimTimestamp: number;
+    setLastClaimTimestamp: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-    const [claimedDays, setClaimedDays] = useState(() => {
-        const saved = localStorage.getItem('opay_claimed_days');
-        return saved ? parseInt(saved, 10) : 0;
-    });
-
-    const [lastClaimTimestamp, setLastClaimTimestamp] = useState(() => {
-        const saved = localStorage.getItem('opay_last_claim');
-        return saved ? parseInt(saved, 10) : 0;
-    });
-
     const [isClaimable, setIsClaimable] = useState(false);
     const [countdown, setCountdown] = useState('');
 
@@ -318,14 +408,6 @@ const RewardsPage = ({ onBack, account, setAccount, addTransaction }: {
             }, 1000);
             return () => clearInterval(interval);
         }
-    }, [lastClaimTimestamp]);
-    
-    useEffect(() => {
-        localStorage.setItem('opay_claimed_days', claimedDays.toString());
-    }, [claimedDays]);
-
-    useEffect(() => {
-        localStorage.setItem('opay_last_claim', lastClaimTimestamp.toString());
     }, [lastClaimTimestamp]);
 
     const handleClaim = () => {
@@ -550,11 +632,12 @@ Thank you.
 };
 
 
-const MePage = ({ user, setUser, profilePic, setProfilePic }: { 
+const MePage = ({ user, setUser, profilePic, setProfilePic, onLogout }: { 
     user: { email: string }, 
     setUser: React.Dispatch<React.SetStateAction<{ email: string } | null>>,
     profilePic: string | null,
-    setProfilePic: React.Dispatch<React.SetStateAction<string | null>>
+    setProfilePic: React.Dispatch<React.SetStateAction<string | null>>,
+    onLogout: () => void
 }) => {
     const [newEmail, setNewEmail] = useState(user.email);
     const [message, setMessage] = useState('');
@@ -567,22 +650,14 @@ const MePage = ({ user, setUser, profilePic, setProfilePic }: {
             reader.onloadend = () => {
                 const base64String = reader.result as string;
                 setProfilePic(base64String);
-                localStorage.setItem('opay_user_pfp', base64String);
             };
             reader.readAsDataURL(file);
         }
     };
     
     const handleSave = () => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(newEmail)) {
-            setMessage('Please enter a valid email address.');
-            return;
-        }
-
-        const updatedUser = { email: newEmail };
-        localStorage.setItem('opay_user', JSON.stringify(updatedUser));
-        setUser(updatedUser);
+        // In a real app, email change would require re-authentication and more complex logic.
+        // For this mock, we'll just show a success message as the data is saved automatically via useEffect in App.
         setMessage('Profile updated successfully!');
         setTimeout(() => setMessage(''), 3000);
     };
@@ -620,10 +695,12 @@ const MePage = ({ user, setUser, profilePic, setProfilePic }: {
                     <input
                         type="email"
                         id="email"
-                        value={newEmail}
-                        onChange={(e) => setNewEmail(e.target.value)}
-                        className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                        value={user.email}
+                        readOnly
+                        disabled
+                        className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary bg-gray-100 cursor-not-allowed"
                     />
+                    <p className="text-xs text-gray-500 mt-1">Email address cannot be changed.</p>
                 </div>
                 {message && <p className="text-sm text-green-600 text-center">{message}</p>}
                 <button
@@ -631,6 +708,12 @@ const MePage = ({ user, setUser, profilePic, setProfilePic }: {
                     className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors"
                 >
                     Save Changes
+                </button>
+                 <button
+                    onClick={onLogout}
+                    className="w-full bg-red-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-600 transition-colors"
+                >
+                    Logout
                 </button>
             </div>
         </div>
@@ -793,7 +876,7 @@ const AdminPage = ({ onBack, user, addTransaction }: {
     );
 };
 
-const SyncAccountPage = ({ onBack }: { onBack: () => void }) => {
+const SyncAccountPage = ({ onBack, user }: { onBack: () => void; user: { email: string } }) => {
     const [syncCode, setSyncCode] = useState('');
     const [restoreCode, setRestoreCode] = useState('');
     const [copySuccess, setCopySuccess] = useState('');
@@ -802,26 +885,14 @@ const SyncAccountPage = ({ onBack }: { onBack: () => void }) => {
 
     useEffect(() => {
         try {
-            const user = localStorage.getItem('opay_user');
-            const profilePic = localStorage.getItem('opay_user_pfp');
-            const transactions = localStorage.getItem('opay_transactions');
-            const claimedDays = localStorage.getItem('opay_claimed_days');
-            const lastClaimTimestamp = localStorage.getItem('opay_last_claim');
-
-            if (!user) {
+            const userData = localStorage.getItem(`opay_data_${user.email}`);
+            
+            if (!userData) {
                 setSyncCode('Error: User data not found.');
                 return;
             }
 
-            const syncDataObject = {
-                user: JSON.parse(user),
-                profilePic: profilePic,
-                transactions: transactions ? JSON.parse(transactions) : [],
-                claimedDays: claimedDays ? parseInt(claimedDays, 10) : 0,
-                lastClaimTimestamp: lastClaimTimestamp ? parseInt(lastClaimTimestamp, 10) : 0,
-            };
-
-            const jsonString = JSON.stringify(syncDataObject);
+            const jsonString = JSON.stringify(JSON.parse(userData));
             const encoded = btoa(jsonString);
             setSyncCode(encoded);
         } catch (error) {
@@ -830,7 +901,7 @@ const SyncAccountPage = ({ onBack }: { onBack: () => void }) => {
         } finally {
             setIsGenerating(false);
         }
-    }, []);
+    }, [user.email]);
     
     const handleCopy = () => {
         if (!syncCode || syncCode.startsWith('Error')) return;
@@ -852,21 +923,13 @@ const SyncAccountPage = ({ onBack }: { onBack: () => void }) => {
             const decodedString = atob(restoreCode);
             const data = JSON.parse(decodedString);
 
-            if (!data.user || !data.user.email) {
+            if (!data.account || !data.account.name) {
                 throw new Error('Invalid sync code format.');
             }
 
-            localStorage.setItem('opay_user', JSON.stringify(data.user));
-            if (data.profilePic) {
-                localStorage.setItem('opay_user_pfp', data.profilePic);
-            } else {
-                localStorage.removeItem('opay_user_pfp');
-            }
-            localStorage.setItem('opay_transactions', JSON.stringify(data.transactions || []));
-            localStorage.setItem('opay_claimed_days', (data.claimedDays || 0).toString());
-            localStorage.setItem('opay_last_claim', (data.lastClaimTimestamp || 0).toString());
-
-            setRestoreMessage('Account restored successfully! The app will now reload.');
+            localStorage.setItem(`opay_data_${user.email}`, JSON.stringify(data));
+            
+            setRestoreMessage('Account data synced successfully! The app will now reload.');
             
             setTimeout(() => {
                 window.location.reload();
@@ -1100,55 +1163,58 @@ const App: React.FC = () => {
     const [account, setAccount] = useState<Account | null>(null);
     const [profilePic, setProfilePic] = useState<string | null>(null);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [claimedDays, setClaimedDays] = useState(0);
+    const [lastClaimTimestamp, setLastClaimTimestamp] = useState(0);
+
     const [activeTab, setActiveTab] = useState('Home');
     const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription', 'admin', 'sync', 'withdraw'
 
-    useEffect(() => {
+    const loadUserData = (email: string) => {
         try {
-            const savedUser = localStorage.getItem('opay_user');
-            const savedPfp = localStorage.getItem('opay_user_pfp');
-            const savedTransactions = localStorage.getItem('opay_transactions');
-
-            if (savedUser) {
-                const userData = JSON.parse(savedUser);
-                setUser(userData);
-                
-                const userAccount: Account = {
-                    id: 'acc_1',
-                    name: userData.email.split('@')[0],
-                    accountNumber: '**** **** **** 5000',
-                    balance: 5000,
-                    type: 'checking',
-                };
-                setAccount(userAccount);
-            }
-             if (savedPfp) {
-                setProfilePic(savedPfp);
-            }
-            if (savedTransactions) {
-                setTransactions(JSON.parse(savedTransactions));
+            const userDataRaw = localStorage.getItem(`opay_data_${email}`);
+            if (userDataRaw) {
+                const data = JSON.parse(userDataRaw);
+                setUser({ email });
+                setAccount(data.account);
+                setTransactions(data.transactions || []);
+                setProfilePic(data.profilePic || null);
+                setClaimedDays(data.claimedDays || 0);
+                setLastClaimTimestamp(data.lastClaimTimestamp || 0);
             }
         } catch (error) {
-            console.error("Failed to parse data from localStorage", error);
-            localStorage.removeItem('opay_user');
-            localStorage.removeItem('opay_user_pfp');
-            localStorage.removeItem('opay_transactions');
+            console.error("Failed to load user data", error);
+        }
+    };
+
+    useEffect(() => {
+        try {
+            const sessionRaw = localStorage.getItem('opay_session');
+            if (sessionRaw) {
+                const session = JSON.parse(sessionRaw);
+                if (session.email) {
+                    loadUserData(session.email);
+                }
+            }
+        } catch (error) {
+            console.error("Failed to parse session data from localStorage", error);
+            localStorage.removeItem('opay_session');
         }
     }, []);
 
     useEffect(() => {
-        if (user) {
-            setAccount(prevAccount => {
-                if (prevAccount) {
-                    const newName = user.email.split('@')[0];
-                    if (prevAccount.name !== newName) {
-                        return { ...prevAccount, name: newName };
-                    }
-                }
-                return prevAccount;
-            });
-        }
-    }, [user]);
+        if (!user || !account) return;
+
+        const dataToSave = {
+            account,
+            transactions,
+            profilePic,
+            claimedDays,
+            lastClaimTimestamp,
+        };
+        localStorage.setItem(`opay_data_${user.email}`, JSON.stringify(dataToSave));
+
+    }, [user, account, transactions, profilePic, claimedDays, lastClaimTimestamp]);
+
 
     const addTransaction = (transaction: Omit<Transaction, 'id' | 'date'>) => {
         setTransactions(prev => {
@@ -1157,32 +1223,72 @@ const App: React.FC = () => {
                 id: `txn_${Date.now()}`,
                 date: new Date().toISOString(),
             };
-            const updatedTransactions = [newTransaction, ...prev].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-            localStorage.setItem('opay_transactions', JSON.stringify(updatedTransactions));
-            return updatedTransactions;
+            return [newTransaction, ...prev].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         });
     };
+    
+    const handleLogin = async (email: string, password: string): Promise<string | null> => {
+        const usersRaw = localStorage.getItem('opay_users');
+        const users = usersRaw ? JSON.parse(usersRaw) : [];
 
-    const handleRegister = (email: string) => {
-        const userData = { email };
-        const newAccount: Account = {
-            id: 'acc_1',
+        const foundUser = users.find((u: any) => u.email === email);
+        if (!foundUser || foundUser.password !== password) {
+            return 'Invalid email or password.';
+        }
+
+        localStorage.setItem('opay_session', JSON.stringify({ email }));
+        loadUserData(email);
+        return null;
+    };
+
+    const handleRegister = async (email: string, password: string): Promise<string | null> => {
+        const usersRaw = localStorage.getItem('opay_users');
+        const users = usersRaw ? JSON.parse(usersRaw) : [];
+
+        if (users.find((u: any) => u.email === email)) {
+            return 'An account with this email already exists.';
+        }
+
+        users.push({ email, password });
+        localStorage.setItem('opay_users', JSON.stringify(users));
+
+        const initialAccount: Account = {
+            id: `acc_${email}`,
             name: email.split('@')[0],
             accountNumber: '**** **** **** 5000',
             balance: 5000,
             type: 'checking',
         };
-        localStorage.setItem('opay_user', JSON.stringify(userData));
-        setUser(userData);
-        setAccount(newAccount);
+        const initialUserData = {
+            account: initialAccount,
+            transactions: [],
+            profilePic: null,
+            claimedDays: 0,
+            lastClaimTimestamp: 0,
+        };
+        localStorage.setItem(`opay_data_${email}`, JSON.stringify(initialUserData));
+
+        return handleLogin(email, password);
+    };
+    
+    const handleLogout = () => {
+        localStorage.removeItem('opay_session');
+        setUser(null);
+        setAccount(null);
+        setTransactions([]);
+        setProfilePic(null);
+        setClaimedDays(0);
+        setLastClaimTimestamp(0);
+        setActiveTab('Home');
+        setView('main');
     };
 
     if (!user || !account) {
-        return <RegistrationPage onRegister={handleRegister} />;
+        return <AuthFlow onLogin={handleLogin} onRegister={handleRegister} />;
     }
     
     if (view === 'rewards') {
-        return <RewardsPage onBack={() => setView('main')} account={account} setAccount={setAccount} addTransaction={addTransaction} />;
+        return <RewardsPage onBack={() => setView('main')} account={account} setAccount={setAccount} addTransaction={addTransaction} claimedDays={claimedDays} setClaimedDays={setClaimedDays} lastClaimTimestamp={lastClaimTimestamp} setLastClaimTimestamp={setLastClaimTimestamp} />;
     }
     
     if (view === 'history') {
@@ -1198,7 +1304,7 @@ const App: React.FC = () => {
     }
 
     if (view === 'sync') {
-        return <SyncAccountPage onBack={() => setView('main')} />;
+        return <SyncAccountPage onBack={() => setView('main')} user={user} />;
     }
     
     if (view === 'withdraw') {
@@ -1210,7 +1316,7 @@ const App: React.FC = () => {
             case 'Home':
                 return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} />;
             case 'Me':
-                return <MePage user={user} setUser={setUser} profilePic={profilePic} setProfilePic={setProfilePic} />;
+                return <MePage user={user} setUser={setUser} profilePic={profilePic} setProfilePic={setProfilePic} onLogout={handleLogout} />;
             case 'Rewards':
                  return <PlaceholderPage title="Rewards" />;
             case 'Finance':
