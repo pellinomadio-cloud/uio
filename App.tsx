@@ -107,7 +107,7 @@ const ServiceItem = ({ icon, label, tag, onClick }: { icon: React.ReactElement; 
     </div>
 );
 
-const Services = ({ onNavigateToSync, isSubscribed, onNavigateToSubscription, onNavigateToAirtime, onNavigateToData, onNavigateToRefer, onNavigateToTelegram }: { 
+const Services = ({ onNavigateToSync, isSubscribed, onNavigateToSubscription, onNavigateToAirtime, onNavigateToData, onNavigateToRefer, onNavigateToTelegram, onNavigateToSafebox }: { 
     onNavigateToSync: () => void;
     isSubscribed: boolean;
     onNavigateToSubscription: () => void;
@@ -115,6 +115,7 @@ const Services = ({ onNavigateToSync, isSubscribed, onNavigateToSubscription, on
     onNavigateToData: () => void;
     onNavigateToRefer: () => void;
     onNavigateToTelegram: () => void;
+    onNavigateToSafebox: () => void;
 }) => {
     const handleServiceClick = (service: 'airtime' | 'data') => {
         if (isSubscribed) {
@@ -132,7 +133,7 @@ const Services = ({ onNavigateToSync, isSubscribed, onNavigateToSubscription, on
             <ServiceItem onClick={() => handleServiceClick('data')} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path></svg>} label="Data" tag="Up to 6%"/>
             <ServiceItem onClick={onNavigateToTelegram} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>} label="Betting" />
             <ServiceItem onClick={onNavigateToTelegram} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>} label="TV" />
-            <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>} label="Safebox" />
+            <ServiceItem onClick={onNavigateToSafebox} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>} label="Safebox" />
             <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>} label="Loan" tag="LoanMore" />
             <ServiceItem onClick={onNavigateToRefer} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>} label="Refer & Earn" />
             <ServiceItem onClick={onNavigateToSync} icon={<SyncIcon />} label="Sync Account" />
@@ -402,7 +403,7 @@ const getSubscriptionStatus = (transactions: Transaction[]): 'none' | 'weekly' |
 };
 
 // --- Page Components ---
-const HomePage = ({ userName, account, transactions, onNavigateToRewards, onNavigateToHistory, onNavigateToSubscription, onNavigateToAdmin, onNavigateToSync, onNavigateToWithdraw, onNavigateToAirtime, onNavigateToData, onNavigateToRefer, onNavigateToTelegram, testimonial }: { 
+const HomePage = ({ userName, account, transactions, onNavigateToRewards, onNavigateToHistory, onNavigateToSubscription, onNavigateToAdmin, onNavigateToSync, onNavigateToWithdraw, onNavigateToAirtime, onNavigateToData, onNavigateToRefer, onNavigateToTelegram, onNavigateToSafebox, testimonial }: { 
     userName: string, 
     account: Account,
     transactions: Transaction[],
@@ -416,6 +417,7 @@ const HomePage = ({ userName, account, transactions, onNavigateToRewards, onNavi
     onNavigateToData: () => void,
     onNavigateToRefer: () => void,
     onNavigateToTelegram: () => void,
+    onNavigateToSafebox: () => void,
     testimonial: { name: string; amount: number } | null,
 }) => {
     const subscriptionStatus = getSubscriptionStatus(transactions);
@@ -438,6 +440,7 @@ const HomePage = ({ userName, account, transactions, onNavigateToRewards, onNavi
                     onNavigateToData={onNavigateToData}
                     onNavigateToRefer={onNavigateToRefer}
                     onNavigateToTelegram={onNavigateToTelegram}
+                    onNavigateToSafebox={onNavigateToSafebox}
                 />
                 <SpecialBonus />
                 <SecurityTest onNavigateToAdmin={onNavigateToAdmin} />
@@ -1066,13 +1069,14 @@ const SyncAccountPage = ({ onBack, user }: { onBack: () => void; user: { email: 
     );
 };
 
-const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transactions, onNavigateToSubscription }: { 
+const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transactions, onNavigateToSubscription, isLocked }: { 
     onBack: () => void;
     account: Account;
     setAccount: React.Dispatch<React.SetStateAction<Account | null>>;
     addTransaction: (transaction: Omit<Transaction, 'id' | 'date'>) => void;
     transactions: Transaction[];
     onNavigateToSubscription: () => void;
+    isLocked: boolean;
 }) => {
     const [bank, setBank] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
@@ -1086,11 +1090,22 @@ const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transaction
         'OPay', 'PalmPay', 'Moniepoint', 'Access Bank', 'UBA', 'GTBank', 
         'First Bank', 'Zenith Bank', 'Kuda Bank', 'Wema Bank', 'Fidelity Bank'
     ];
+    
+    useEffect(() => {
+        if(isLocked) {
+            setError('Your account is currently locked. Withdrawals are disabled. Please contact customer support.');
+        }
+    }, [isLocked]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
         setSuccess('');
+
+        if (isLocked) {
+            setError('Your account is currently locked. Withdrawals are disabled. Please contact customer support.');
+            return;
+        }
 
         const numericAmount = parseFloat(amount);
         if (isNaN(numericAmount) || numericAmount <= 0) {
@@ -1139,62 +1154,66 @@ const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transaction
             </header>
             <main className="p-4">
                 <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl shadow-md space-y-6">
-                    <div>
-                        <label htmlFor="bank" className="block text-sm font-medium text-gray-700">Select Bank</label>
-                        <select
-                            id="bank"
-                            value={bank}
-                            onChange={(e) => setBank(e.target.value)}
-                            className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
-                            required
-                        >
-                            <option value="" disabled>-- Select a bank --</option>
-                            {banks.map(b => <option key={b} value={b}>{b}</option>)}
-                        </select>
-                    </div>
-                     <div>
-                        <label htmlFor="account-number" className="block text-sm font-medium text-gray-700">Account Number</label>
-                        <input
-                            type="text"
-                            id="account-number"
-                            value={accountNumber}
-                            onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, ''))}
-                            placeholder="Enter 10-digit account number"
-                            className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
-                            pattern="\d{10}"
-                            maxLength={10}
-                            required
-                        />
-                    </div>
-                     <div>
-                        <label htmlFor="account-name" className="block text-sm font-medium text-gray-700">Account Name</label>
-                        <input
-                            type="text"
-                            id="account-name"
-                            value={accountName}
-                            onChange={(e) => setAccountName(e.target.value)}
-                            placeholder="Enter account name"
-                            className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="amount" className="block text-sm font-medium text-gray-700">Amount (NGN)</label>
-                        <input
-                            type="number"
-                            id="amount"
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
-                            placeholder="0.00"
-                            className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
-                            required
-                        />
-                    </div>
+                    <fieldset disabled={isLocked}>
+                        <div className="space-y-6">
+                            <div>
+                                <label htmlFor="bank" className="block text-sm font-medium text-gray-700">Select Bank</label>
+                                <select
+                                    id="bank"
+                                    value={bank}
+                                    onChange={(e) => setBank(e.target.value)}
+                                    className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                                    required
+                                >
+                                    <option value="" disabled>-- Select a bank --</option>
+                                    {banks.map(b => <option key={b} value={b}>{b}</option>)}
+                                </select>
+                            </div>
+                             <div>
+                                <label htmlFor="account-number" className="block text-sm font-medium text-gray-700">Account Number</label>
+                                <input
+                                    type="text"
+                                    id="account-number"
+                                    value={accountNumber}
+                                    onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, ''))}
+                                    placeholder="Enter 10-digit account number"
+                                    className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                                    pattern="\d{10}"
+                                    maxLength={10}
+                                    required
+                                />
+                            </div>
+                             <div>
+                                <label htmlFor="account-name" className="block text-sm font-medium text-gray-700">Account Name</label>
+                                <input
+                                    type="text"
+                                    id="account-name"
+                                    value={accountName}
+                                    onChange={(e) => setAccountName(e.target.value)}
+                                    placeholder="Enter account name"
+                                    className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="amount" className="block text-sm font-medium text-gray-700">Amount (NGN)</label>
+                                <input
+                                    type="number"
+                                    id="amount"
+                                    value={amount}
+                                    onChange={(e) => setAmount(e.target.value)}
+                                    placeholder="0.00"
+                                    className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                                    required
+                                />
+                            </div>
+                        </div>
+                    </fieldset>
                     
                     {error && (
                         <div className="text-sm text-red-500 text-center p-3 bg-red-50 rounded-lg">
                             <p>{error}</p>
-                            {error.includes('subscribe') && (
+                            {error.includes('subscription') && !isLocked && (
                                 <button type="button" onClick={onNavigateToSubscription} className="font-bold underline mt-2 text-primary">
                                     Go to Subscription Page
                                 </button>
@@ -1205,8 +1224,8 @@ const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transaction
                     
                     <button
                         type="submit"
-                        disabled={isLoading}
-                        className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:bg-medium-gray flex items-center justify-center"
+                        disabled={isLoading || isLocked}
+                        className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:bg-medium-gray flex items-center justify-center disabled:cursor-not-allowed"
                     >
                         {isLoading ? (
                             <>
@@ -1338,6 +1357,113 @@ Thank you.
     );
 };
 
+const SafeboxPage = ({ onBack }: { onBack: () => void; }) => {
+    type UserStatus = { email: string; isLocked: boolean };
+    const [users, setUsers] = useState<UserStatus[]>([]);
+    const [adminPassword, setAdminPassword] = useState('');
+    const [targetUser, setTargetUser] = useState<string | null>(null);
+    const [message, setMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+
+    const loadUsers = () => {
+        try {
+            const usersRaw = localStorage.getItem('novapay_users');
+            const userList = usersRaw ? JSON.parse(usersRaw) : [];
+            const userStatuses = userList.map((user: { email: string }) => {
+                const dataRaw = localStorage.getItem(`novapay_data_${user.email}`);
+                const data = dataRaw ? JSON.parse(dataRaw) : {};
+                return { email: user.email, isLocked: data.isLocked || false };
+            });
+            setUsers(userStatuses);
+        } catch (e) {
+            setMessage('Error loading user data.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadUsers();
+    }, []);
+
+    const handleLockToggle = (email: string, currentStatus: boolean) => {
+        setMessage('');
+        if (adminPassword !== 'MAVELLDC') {
+            setMessage('Incorrect admin password.');
+            return;
+        }
+
+        try {
+            const dataRaw = localStorage.getItem(`novapay_data_${email}`);
+            if (dataRaw) {
+                const data = JSON.parse(dataRaw);
+                data.isLocked = !currentStatus;
+                localStorage.setItem(`novapay_data_${email}`, JSON.stringify(data));
+                
+                // Update state to reflect change
+                setUsers(users.map(u => u.email === email ? { ...u, isLocked: !currentStatus } : u));
+                setMessage(`User ${email} has been ${!currentStatus ? 'locked' : 'unlocked'}.`);
+                setTargetUser(null);
+                setAdminPassword('');
+            } else {
+                setMessage('Could not find data for this user.');
+            }
+        } catch (e) {
+            setMessage('An error occurred while updating user status.');
+        }
+    };
+
+    return (
+        <div className="bg-light-gray min-h-screen">
+            <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2"> <ArrowLeftIcon /> </button>
+                <h1 className="text-xl font-bold text-dark-gray">Safebox - Account Management</h1>
+            </header>
+            <main className="p-4 space-y-4">
+                <div className="bg-white p-4 rounded-xl shadow-sm">
+                    <h2 className="text-lg font-semibold text-dark-gray mb-3">All Users</h2>
+                    {message && <p className="text-center text-sm mb-3 p-2 rounded-md bg-yellow-100 text-yellow-800">{message}</p>}
+                    {isLoading ? <p>Loading users...</p> : (
+                        <div className="space-y-3">
+                            {users.map(user => (
+                                <div key={user.email} className="bg-light-gray p-3 rounded-lg">
+                                    <div className="flex justify-between items-center">
+                                        <div>
+                                            <p className="font-medium text-dark-gray text-sm">{user.email}</p>
+                                            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${user.isLocked ? 'bg-red-200 text-red-800' : 'bg-green-200 text-green-800'}`}>
+                                                {user.isLocked ? 'Locked' : 'Active'}
+                                            </span>
+                                        </div>
+                                        <button onClick={() => setTargetUser(user.email)} className={`text-sm font-semibold px-4 py-2 rounded-lg ${user.isLocked ? 'bg-green-600' : 'bg-red-600'} text-white`}>
+                                            {user.isLocked ? 'Unlock' : 'Lock'}
+                                        </button>
+                                    </div>
+                                    {targetUser === user.email && (
+                                        <div className="mt-3 pt-3 border-t border-medium-gray space-y-2">
+                                            <p className="text-xs text-gray-600">Enter admin password to confirm:</p>
+                                            <input
+                                                type="password"
+                                                value={adminPassword}
+                                                onChange={e => setAdminPassword(e.target.value)}
+                                                className="w-full px-3 py-2 border border-medium-gray rounded-lg text-sm"
+                                                placeholder="Admin Password"
+                                            />
+                                            <div className="flex space-x-2 justify-end">
+                                                <button onClick={() => setTargetUser(null)} className="text-sm font-semibold px-4 py-2 rounded-lg bg-gray-200">Cancel</button>
+                                                <button onClick={() => handleLockToggle(user.email, user.isLocked)} className="text-sm font-semibold px-4 py-2 rounded-lg bg-primary text-white">Confirm</button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </main>
+        </div>
+    );
+};
+
 const PlaceholderPage = ({ title }: { title: string }) => (
     <div className="flex flex-col items-center justify-center h-[calc(100vh-6rem)]">
         <h1 className="text-2xl font-bold text-gray-400">{title} Page</h1>
@@ -1354,9 +1480,10 @@ const App: React.FC = () => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [claimedDays, setClaimedDays] = useState(0);
     const [lastClaimTimestamp, setLastClaimTimestamp] = useState(0);
+    const [isLocked, setIsLocked] = useState(false);
 
     const [activeTab, setActiveTab] = useState('Home');
-    const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription', 'admin', 'sync', 'withdraw', 'airtime', 'data', 'refer'
+    const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription', 'admin', 'sync', 'withdraw', 'airtime', 'data', 'refer', 'safebox'
     const [testimonial, setTestimonial] = useState<{ name: string; amount: number; } | null>(null);
 
     const loadUserData = (email: string) => {
@@ -1370,6 +1497,7 @@ const App: React.FC = () => {
                 setProfilePic(data.profilePic || null);
                 setClaimedDays(data.claimedDays || 0);
                 setLastClaimTimestamp(data.lastClaimTimestamp || 0);
+                setIsLocked(data.isLocked || false);
             }
         } catch (error) {
             console.error("Failed to load user data", error);
@@ -1400,10 +1528,11 @@ const App: React.FC = () => {
             profilePic,
             claimedDays,
             lastClaimTimestamp,
+            isLocked,
         };
         localStorage.setItem(`novapay_data_${user.email}`, JSON.stringify(dataToSave));
 
-    }, [user, account, transactions, profilePic, claimedDays, lastClaimTimestamp]);
+    }, [user, account, transactions, profilePic, claimedDays, lastClaimTimestamp, isLocked]);
 
     const names = ['Olamide', 'Bisi', 'Tunde', 'Chiamaka', 'Ade', 'Fatima', 'Emeka', 'Aisha', 'Ibrahim', 'Ngozi'];
 
@@ -1474,6 +1603,7 @@ const App: React.FC = () => {
             profilePic: null,
             claimedDays: 0,
             lastClaimTimestamp: 0,
+            isLocked: false,
         };
         localStorage.setItem(`novapay_data_${email}`, JSON.stringify(initialUserData));
 
@@ -1488,6 +1618,7 @@ const App: React.FC = () => {
         setProfilePic(null);
         setClaimedDays(0);
         setLastClaimTimestamp(0);
+        setIsLocked(false);
         setActiveTab('Home');
         setView('main');
     };
@@ -1521,11 +1652,15 @@ const App: React.FC = () => {
     }
     
     if (view === 'withdraw') {
-        return <WithdrawPage onBack={() => setView('main')} account={account} setAccount={setAccount} addTransaction={addTransaction} transactions={transactions} onNavigateToSubscription={() => setView('subscription')} />;
+        return <WithdrawPage onBack={() => setView('main')} account={account} setAccount={setAccount} addTransaction={addTransaction} transactions={transactions} onNavigateToSubscription={() => setView('subscription')} isLocked={isLocked} />;
     }
 
     if (view === 'refer') {
         return <ReferAndEarnPage onBack={() => setView('main')} userEmail={user.email} />;
+    }
+    
+    if (view === 'safebox') {
+        return <SafeboxPage onBack={() => setView('main')} />;
     }
 
     if (view === 'airtime') {
@@ -1556,7 +1691,7 @@ const App: React.FC = () => {
     const renderContent = () => {
         switch (activeTab) {
             case 'Home':
-                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} onNavigateToRefer={() => setView('refer')} onNavigateToTelegram={handleNavigateToTelegram} testimonial={testimonial} />;
+                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} onNavigateToRefer={() => setView('refer')} onNavigateToTelegram={handleNavigateToTelegram} onNavigateToSafebox={() => setView('safebox')} testimonial={testimonial} />;
             case 'Me':
                 return <MePage user={user} setUser={setUser} profilePic={profilePic} setProfilePic={setProfilePic} onLogout={handleLogout} />;
             case 'Rewards':
@@ -1566,7 +1701,7 @@ const App: React.FC = () => {
             case 'Cards':
                  return <PlaceholderPage title="Cards" />;
             default:
-                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} onNavigateToRefer={() => setView('refer')} onNavigateToTelegram={handleNavigateToTelegram} testimonial={testimonial} />;
+                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} onNavigateToRefer={() => setView('refer')} onNavigateToTelegram={handleNavigateToTelegram} onNavigateToSafebox={() => setView('safebox')} testimonial={testimonial} />;
         }
     };
     
