@@ -389,6 +389,20 @@ const App: React.FC = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if (user) {
+            setAccount(prevAccount => {
+                if (prevAccount) {
+                    const newName = user.email.split('@')[0];
+                    if (prevAccount.name !== newName) {
+                        return { ...prevAccount, name: newName };
+                    }
+                }
+                return prevAccount;
+            });
+        }
+    }, [user]);
+
     const handleRegister = (email: string) => {
         const userData = { email };
         const newAccount: Account = {
