@@ -27,7 +27,7 @@ const MeIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.or
 const ArrowLeftIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>;
 const AlarmClockIcon = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
 const CreditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" /></svg>;
-
+const CrownIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>;
 
 // --- UI Section Components ---
 const AppHeader = ({ userName }: { userName: string }) => (
@@ -89,9 +89,9 @@ const QuickActionItem = ({ icon, label, onClick }: { icon: React.ReactElement, l
     </div>
 );
 
-const QuickActions = ({ onNavigateToRewards }: { onNavigateToRewards: () => void }) => (
+const QuickActions = ({ onNavigateToRewards, onNavigateToSubscription }: { onNavigateToRewards: () => void, onNavigateToSubscription: () => void }) => (
     <div className="bg-white rounded-2xl p-4 flex justify-around items-center shadow-sm">
-        <QuickActionItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>} label="To OPay" />
+        <QuickActionItem onClick={onNavigateToSubscription} icon={<CrownIcon />} label="Subscribe" />
         <QuickActionItem onClick={onNavigateToRewards} icon={<RewardsActionIcon />} label="Rewards" />
         <QuickActionItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>} label="Withdraw" />
     </div>
@@ -246,11 +246,12 @@ const RegistrationPage = ({ onRegister }: { onRegister: (email: string) => void 
 
 
 // --- Page Components ---
-const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory }: { 
+const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory, onNavigateToSubscription }: { 
     userName: string, 
     account: Account, 
     onNavigateToRewards: () => void,
-    onNavigateToHistory: () => void 
+    onNavigateToHistory: () => void,
+    onNavigateToSubscription: () => void,
 }) => {
     return (
         <>
@@ -260,7 +261,7 @@ const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory 
             <main className="p-4 space-y-5">
                 <BalanceCard balance={account.balance} onNavigateToHistory={onNavigateToHistory} />
                 <BusinessService />
-                <QuickActions onNavigateToRewards={onNavigateToRewards} />
+                <QuickActions onNavigateToRewards={onNavigateToRewards} onNavigateToSubscription={onNavigateToSubscription} />
                 <Services />
                 <SpecialBonus />
                 <SecurityTest />
@@ -403,6 +404,143 @@ const RewardsPage = ({ onBack, account, setAccount, addTransaction }: {
           </div>
         </main>
       </div>
+    );
+};
+
+const SubscriptionPage = ({ onBack, userEmail }: { onBack: () => void; userEmail: string; }) => {
+    const plans = [
+        { name: 'Weekly', price: 6200, duration: '7 days' },
+        { name: 'Monthly', price: 8300, duration: '30 days' },
+        { name: 'Yearly', price: 30000, duration: '365 days' },
+    ];
+
+    const [selectedPlan, setSelectedPlan] = useState<typeof plans[0] | null>(null);
+    const [paymentProof, setPaymentProof] = useState<string | null>(null);
+    const [proofFileName, setProofFileName] = useState<string>('');
+    const [copySuccess, setCopySuccess] = useState('');
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPaymentProof(reader.result as string);
+                setProofFileName(file.name);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleCopy = () => {
+        const accountNumber = '7075402374';
+        navigator.clipboard.writeText(accountNumber).then(() => {
+            setCopySuccess('Copied!');
+            setTimeout(() => setCopySuccess(''), 2000);
+        }, () => {
+            setCopySuccess('Failed to copy');
+            setTimeout(() => setCopySuccess(''), 2000);
+        });
+    };
+
+    const handleSubmit = () => {
+        if (!selectedPlan || !paymentProof) return;
+
+        const subject = `Subscription Payment Proof - ${selectedPlan.name} Plan`;
+        const body = `Hello,
+
+Please find my payment proof attached for the ${selectedPlan.name} subscription.
+
+My account email is: ${userEmail}
+
+Thank you.
+`;
+        const mailtoLink = `mailto:ukf5483@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoLink;
+    };
+    
+    return (
+        <div className="bg-light-gray min-h-screen">
+            <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2">
+                    <ArrowLeftIcon />
+                </button>
+                <h1 className="text-xl font-bold text-dark-gray">Subscription Plans</h1>
+            </header>
+            <main className="p-4 space-y-6">
+                <div>
+                    <h2 className="text-lg font-semibold text-dark-gray mb-3">Choose Your Plan</h2>
+                    <div className="space-y-3">
+                        {plans.map(plan => (
+                            <div
+                                key={plan.name}
+                                onClick={() => setSelectedPlan(plan)}
+                                className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${selectedPlan?.name === plan.name ? 'border-primary bg-lighter-green' : 'border-medium-gray bg-white'}`}
+                            >
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <h3 className="font-bold text-dark-gray">{plan.name} Plan</h3>
+                                        <p className="text-sm text-gray-500">{plan.duration} of premium access</p>
+                                    </div>
+                                    <p className="text-xl font-bold text-primary">₦{plan.price.toLocaleString()}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="bg-white p-4 rounded-xl shadow-sm space-y-3">
+                    <h2 className="text-lg font-semibold text-dark-gray">Payment Details</h2>
+                    <p className="text-sm text-gray-600">Make payment to the account below. Your plan will be activated after confirmation.</p>
+                    <div className="bg-light-gray p-3 rounded-lg space-y-2">
+                        <div className="flex justify-between items-center text-sm">
+                            <span className="text-gray-500">Bank Name:</span>
+                            <span className="font-semibold text-dark-gray">MOMO-psb</span>
+                        </div>
+                         <div className="flex justify-between items-center text-sm">
+                            <span className="text-gray-500">Account Name:</span>
+                            <span className="font-semibold text-dark-gray">oluwatosin olido</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <span className="text-gray-500 text-sm">Account Number:</span>
+                                <p className="font-bold text-lg text-dark-gray tracking-wider">7075402374</p>
+                            </div>
+                            <button onClick={handleCopy} className="bg-green-100 text-primary text-xs font-semibold px-3 py-1.5 rounded-full">
+                                {copySuccess || 'Copy'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                 <div className="bg-white p-4 rounded-xl shadow-sm space-y-3">
+                    <h2 className="text-lg font-semibold text-dark-gray">Upload Payment Proof</h2>
+                     <input 
+                        type="file" 
+                        ref={fileInputRef} 
+                        onChange={handleFileUpload} 
+                        className="hidden" 
+                        accept="image/*" 
+                    />
+                    <button onClick={() => fileInputRef.current?.click()} className="w-full border-2 border-dashed border-medium-gray rounded-lg p-4 text-center text-gray-500 hover:border-primary hover:text-primary transition-colors">
+                        {proofFileName ? `✓ ${proofFileName}` : 'Click to select an image'}
+                    </button>
+                    {paymentProof && (
+                        <div className="mt-4">
+                            <img src={paymentProof} alt="Payment proof preview" className="rounded-lg max-h-48 mx-auto" />
+                        </div>
+                    )}
+                </div>
+
+                <button 
+                    onClick={handleSubmit}
+                    disabled={!selectedPlan || !paymentProof}
+                    className="w-full bg-primary text-white font-bold py-4 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:bg-medium-gray disabled:cursor-not-allowed"
+                >
+                   {selectedPlan ? `Submit for ${selectedPlan.name} Plan` : 'Select a plan and upload proof'}
+                </button>
+            </main>
+        </div>
     );
 };
 
@@ -556,7 +694,7 @@ const App: React.FC = () => {
     const [profilePic, setProfilePic] = useState<string | null>(null);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [activeTab, setActiveTab] = useState('Home');
-    const [view, setView] = useState('main'); // 'main', 'rewards', 'history'
+    const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription'
 
     useEffect(() => {
         try {
@@ -643,12 +781,16 @@ const App: React.FC = () => {
     if (view === 'history') {
         return <TransactionHistoryPage onBack={() => setView('main')} transactions={transactions} />;
     }
+    
+    if (view === 'subscription') {
+        return <SubscriptionPage onBack={() => setView('main')} userEmail={user.email} />;
+    }
 
 
     const renderContent = () => {
         switch (activeTab) {
             case 'Home':
-                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} />;
+                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} />;
             case 'Me':
                 return <MePage user={user} setUser={setUser} profilePic={profilePic} setProfilePic={setProfilePic} />;
             case 'Rewards':
@@ -658,7 +800,7 @@ const App: React.FC = () => {
             case 'Cards':
                  return <PlaceholderPage title="Cards" />;
             default:
-                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} />;
+                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} />;
         }
     };
     
