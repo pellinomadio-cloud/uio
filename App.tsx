@@ -1,8 +1,9 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import type { Account, Transaction } from './types';
 
 // --- Icon Components ---
-const OpayLogo = () => (
+const NovapayLogo = () => (
   <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="24" cy="24" r="24" fill="#16A34A"/>
     <path d="M24.0002 12C17.3728 12 12.0002 17.3726 12.0002 24C12.0002 30.6274 17.3728 36 24.0002 36C30.6276 36 36.0002 30.6274 36.0002 24C36.0002 17.3726 30.6276 12 24.0002 12ZM24.0002 32.4C19.3492 32.4 15.6002 28.651 15.6002 24C15.6002 19.349 19.3492 15.6 24.0002 15.6C28.6512 15.6 32.4002 19.349 32.4002 24C32.4002 28.651 28.6512 32.4 24.0002 32.4Z" fill="white"/>
@@ -27,7 +28,7 @@ const MeIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.or
 const ArrowLeftIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>;
 const AlarmClockIcon = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
 const CreditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" /></svg>;
-const DebitIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010-18z" /></svg>;
+const DebitIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110 18 9 9 0 010-18z" /></svg>;
 const CrownIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>;
 const SyncIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5m11 2a9 9 0 11-18 0 9 9 0 0118 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M20 4v5h-5" /></svg>;
 
@@ -35,7 +36,7 @@ const SyncIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-
 const AppHeader = ({ userName }: { userName: string }) => (
   <header className="flex items-center justify-between p-4 bg-white">
     <div className="flex items-center space-x-2">
-      <OpayLogo />
+      <NovapayLogo />
       <h1 className="font-bold text-lg capitalize">Hi, {userName}</h1>
     </div>
     <div className="flex items-center space-x-4 text-dark-gray">
@@ -107,18 +108,37 @@ const ServiceItem = ({ icon, label, tag, onClick }: { icon: React.ReactElement; 
     </div>
 );
 
-const Services = ({ onNavigateToSync }: { onNavigateToSync: () => void }) => (
-    <div className="bg-white rounded-2xl p-4 grid grid-cols-4 gap-y-6 gap-x-2 shadow-sm">
-        <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>} label="Airtime" tag="Up to 6%"/>
-        <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path></svg>} label="Data" tag="Up to 6%"/>
-        <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>} label="Betting" />
-        <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>} label="TV" />
-        <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>} label="Safebox" />
-        <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>} label="Loan" tag="LoanMore" />
-        <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>} label="Refer & Earn" />
-        <ServiceItem onClick={onNavigateToSync} icon={<SyncIcon />} label="Sync Account" />
-    </div>
-);
+const Services = ({ onNavigateToSync, isSubscribed, onNavigateToSubscription, onNavigateToAirtime, onNavigateToData }: { 
+    onNavigateToSync: () => void;
+    isSubscribed: boolean;
+    onNavigateToSubscription: () => void;
+    onNavigateToAirtime: () => void;
+    onNavigateToData: () => void;
+}) => {
+    const handleServiceClick = (service: 'airtime' | 'data') => {
+        if (isSubscribed) {
+            if (service === 'airtime') onNavigateToAirtime();
+            else onNavigateToData();
+        } else {
+            alert('You need a Monthly or Yearly subscription to use this service. Please subscribe to continue.');
+            onNavigateToSubscription();
+        }
+    };
+
+    return (
+        <div className="bg-white rounded-2xl p-4 grid grid-cols-4 gap-y-6 gap-x-2 shadow-sm">
+            <ServiceItem onClick={() => handleServiceClick('airtime')} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>} label="Airtime" tag="Up to 6%"/>
+            <ServiceItem onClick={() => handleServiceClick('data')} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path></svg>} label="Data" tag="Up to 6%"/>
+            <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>} label="Betting" />
+            <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>} label="TV" />
+            <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>} label="Safebox" />
+            <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>} label="Loan" tag="LoanMore" />
+            <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>} label="Refer & Earn" />
+            <ServiceItem onClick={onNavigateToSync} icon={<SyncIcon />} label="Sync Account" />
+        </div>
+    );
+};
+
 
 const SpecialBonus = () => (
     <div className="bg-gradient-to-r from-green-50 via-teal-50 to-cyan-50 rounded-2xl p-4 flex justify-between items-center shadow-sm overflow-hidden relative">
@@ -172,6 +192,16 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string, setActiveTa
     );
 }
 
+// --- New Component ---
+const TestimonialPopup = ({ name, amount }: { name: string; amount: number; }) => (
+    <div className="fixed bottom-24 left-1/2 -translate-x-1/2 max-w-xs w-full px-4" style={{ zIndex: 100 }}>
+         <div className="bg-gray-800/90 backdrop-blur-sm text-white p-3 rounded-lg shadow-lg text-sm text-center">
+            <p><strong>{name}</strong> just withdrew <strong>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', minimumFractionDigits: 0 }).format(amount)}</strong></p>
+        </div>
+    </div>
+);
+
+
 // --- Auth Page Components ---
 
 const LoginPage = ({ onLogin, onSwitchToRegister }: { onLogin: (email: string, password: string) => Promise<string | null>, onSwitchToRegister: () => void }) => {
@@ -195,7 +225,7 @@ const LoginPage = ({ onLogin, onSwitchToRegister }: { onLogin: (email: string, p
         <div className="min-h-screen bg-light-gray flex flex-col justify-center items-center p-4">
             <div className="max-w-sm w-full mx-auto">
                 <div className="flex justify-center mb-6">
-                    <OpayLogo />
+                    <NovapayLogo />
                 </div>
                 <div className="bg-white p-8 rounded-2xl shadow-md space-y-6">
                     <h1 className="text-2xl font-bold text-center text-dark-gray">Login to Your Account</h1>
@@ -281,7 +311,7 @@ const RegistrationPage = ({ onRegister, onSwitchToLogin }: { onRegister: (email:
         <div className="min-h-screen bg-light-gray flex flex-col justify-center items-center p-4">
             <div className="max-w-sm w-full mx-auto">
                  <div className="flex justify-center mb-6">
-                    <OpayLogo />
+                    <NovapayLogo />
                 </div>
                 <div className="bg-white p-8 rounded-2xl shadow-md space-y-6">
                     <h1 className="text-2xl font-bold text-center text-dark-gray">Create Your Account</h1>
@@ -344,16 +374,25 @@ const AuthFlow = ({ onLogin, onRegister }: { onLogin: (email: string, password: 
 }
 
 // --- Page Components ---
-const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory, onNavigateToSubscription, onNavigateToAdmin, onNavigateToSync, onNavigateToWithdraw }: { 
+const HomePage = ({ userName, account, transactions, onNavigateToRewards, onNavigateToHistory, onNavigateToSubscription, onNavigateToAdmin, onNavigateToSync, onNavigateToWithdraw, onNavigateToAirtime, onNavigateToData, testimonial }: { 
     userName: string, 
-    account: Account, 
+    account: Account,
+    transactions: Transaction[],
     onNavigateToRewards: () => void,
     onNavigateToHistory: () => void,
     onNavigateToSubscription: () => void,
     onNavigateToAdmin: () => void,
     onNavigateToSync: () => void,
     onNavigateToWithdraw: () => void,
+    onNavigateToAirtime: () => void,
+    onNavigateToData: () => void,
+    testimonial: { name: string; amount: number } | null,
 }) => {
+    const isSubscribed = transactions.some(tx => 
+        tx.description.toLowerCase().includes('monthly plan') || 
+        tx.description.toLowerCase().includes('yearly plan')
+    );
+
     return (
         <>
             <div className="bg-white sticky top-0 z-10 shadow-sm">
@@ -363,10 +402,17 @@ const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory,
                 <BalanceCard balance={account.balance} onNavigateToHistory={onNavigateToHistory} />
                 <BusinessService />
                 <QuickActions onNavigateToRewards={onNavigateToRewards} onNavigateToSubscription={onNavigateToSubscription} onNavigateToWithdraw={onNavigateToWithdraw} />
-                <Services onNavigateToSync={onNavigateToSync} />
+                <Services 
+                    onNavigateToSync={onNavigateToSync}
+                    isSubscribed={isSubscribed}
+                    onNavigateToSubscription={onNavigateToSubscription}
+                    onNavigateToAirtime={onNavigateToAirtime}
+                    onNavigateToData={onNavigateToData}
+                />
                 <SpecialBonus />
                 <SecurityTest onNavigateToAdmin={onNavigateToAdmin} />
             </main>
+            {testimonial && <TestimonialPopup name={testimonial.name} amount={testimonial.amount} />}
         </>
     );
 };
@@ -885,7 +931,7 @@ const SyncAccountPage = ({ onBack, user }: { onBack: () => void; user: { email: 
 
     useEffect(() => {
         try {
-            const userData = localStorage.getItem(`opay_data_${user.email}`);
+            const userData = localStorage.getItem(`novapay_data_${user.email}`);
             
             if (!userData) {
                 setSyncCode('Error: User data not found.');
@@ -927,7 +973,7 @@ const SyncAccountPage = ({ onBack, user }: { onBack: () => void; user: { email: 
                 throw new Error('Invalid sync code format.');
             }
 
-            localStorage.setItem(`opay_data_${user.email}`, JSON.stringify(data));
+            localStorage.setItem(`novapay_data_${user.email}`, JSON.stringify(data));
             
             setRestoreMessage('Account data synced successfully! The app will now reload.');
             
@@ -1167,11 +1213,12 @@ const App: React.FC = () => {
     const [lastClaimTimestamp, setLastClaimTimestamp] = useState(0);
 
     const [activeTab, setActiveTab] = useState('Home');
-    const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription', 'admin', 'sync', 'withdraw'
+    const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription', 'admin', 'sync', 'withdraw', 'airtime', 'data'
+    const [testimonial, setTestimonial] = useState<{ name: string; amount: number; } | null>(null);
 
     const loadUserData = (email: string) => {
         try {
-            const userDataRaw = localStorage.getItem(`opay_data_${email}`);
+            const userDataRaw = localStorage.getItem(`novapay_data_${email}`);
             if (userDataRaw) {
                 const data = JSON.parse(userDataRaw);
                 setUser({ email });
@@ -1188,7 +1235,7 @@ const App: React.FC = () => {
 
     useEffect(() => {
         try {
-            const sessionRaw = localStorage.getItem('opay_session');
+            const sessionRaw = localStorage.getItem('novapay_session');
             if (sessionRaw) {
                 const session = JSON.parse(sessionRaw);
                 if (session.email) {
@@ -1197,7 +1244,7 @@ const App: React.FC = () => {
             }
         } catch (error) {
             console.error("Failed to parse session data from localStorage", error);
-            localStorage.removeItem('opay_session');
+            localStorage.removeItem('novapay_session');
         }
     }, []);
 
@@ -1211,9 +1258,28 @@ const App: React.FC = () => {
             claimedDays,
             lastClaimTimestamp,
         };
-        localStorage.setItem(`opay_data_${user.email}`, JSON.stringify(dataToSave));
+        localStorage.setItem(`novapay_data_${user.email}`, JSON.stringify(dataToSave));
 
     }, [user, account, transactions, profilePic, claimedDays, lastClaimTimestamp]);
+
+    const names = ['Olamide', 'Bisi', 'Tunde', 'Chiamaka', 'Ade', 'Fatima', 'Emeka', 'Aisha', 'Ibrahim', 'Ngozi'];
+
+    useEffect(() => {
+        if(!user) return; // Only run when logged in
+
+        const interval = setInterval(() => {
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomAmount = Math.floor(Math.random() * (200000 - 20000 + 1)) + 20000;
+            setTestimonial({ name: randomName, amount: randomAmount });
+            
+            setTimeout(() => {
+                setTestimonial(null);
+            }, 6000); // Disappears after 6 seconds
+
+        }, 7000); // Appears every 7 seconds
+
+        return () => clearInterval(interval);
+    }, [user]);
 
 
     const addTransaction = (transaction: Omit<Transaction, 'id' | 'date'>) => {
@@ -1228,7 +1294,7 @@ const App: React.FC = () => {
     };
     
     const handleLogin = async (email: string, password: string): Promise<string | null> => {
-        const usersRaw = localStorage.getItem('opay_users');
+        const usersRaw = localStorage.getItem('novapay_users');
         const users = usersRaw ? JSON.parse(usersRaw) : [];
 
         const foundUser = users.find((u: any) => u.email === email);
@@ -1236,13 +1302,13 @@ const App: React.FC = () => {
             return 'Invalid email or password.';
         }
 
-        localStorage.setItem('opay_session', JSON.stringify({ email }));
+        localStorage.setItem('novapay_session', JSON.stringify({ email }));
         loadUserData(email);
         return null;
     };
 
     const handleRegister = async (email: string, password: string): Promise<string | null> => {
-        const usersRaw = localStorage.getItem('opay_users');
+        const usersRaw = localStorage.getItem('novapay_users');
         const users = usersRaw ? JSON.parse(usersRaw) : [];
 
         if (users.find((u: any) => u.email === email)) {
@@ -1250,7 +1316,7 @@ const App: React.FC = () => {
         }
 
         users.push({ email, password });
-        localStorage.setItem('opay_users', JSON.stringify(users));
+        localStorage.setItem('novapay_users', JSON.stringify(users));
 
         const initialAccount: Account = {
             id: `acc_${email}`,
@@ -1266,13 +1332,13 @@ const App: React.FC = () => {
             claimedDays: 0,
             lastClaimTimestamp: 0,
         };
-        localStorage.setItem(`opay_data_${email}`, JSON.stringify(initialUserData));
+        localStorage.setItem(`novapay_data_${email}`, JSON.stringify(initialUserData));
 
         return handleLogin(email, password);
     };
     
     const handleLogout = () => {
-        localStorage.removeItem('opay_session');
+        localStorage.removeItem('novapay_session');
         setUser(null);
         setAccount(null);
         setTransactions([]);
@@ -1311,10 +1377,35 @@ const App: React.FC = () => {
         return <WithdrawPage onBack={() => setView('main')} account={account} setAccount={setAccount} addTransaction={addTransaction} transactions={transactions} onNavigateToSubscription={() => setView('subscription')} />;
     }
 
+    if (view === 'airtime') {
+        return (
+            <>
+                <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                    <button onClick={() => setView('main')} className="p-2 -ml-2"><ArrowLeftIcon /></button>
+                    <h1 className="text-xl font-bold text-dark-gray">Buy Airtime</h1>
+                </header>
+                <PlaceholderPage title="Buy Airtime" />
+                <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+            </>
+        )
+    }
+    if (view === 'data') {
+        return (
+            <>
+                <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                    <button onClick={() => setView('main')} className="p-2 -ml-2"><ArrowLeftIcon /></button>
+                    <h1 className="text-xl font-bold text-dark-gray">Buy Data</h1>
+                </header>
+                <PlaceholderPage title="Buy Data" />
+                <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+            </>
+        )
+    }
+
     const renderContent = () => {
         switch (activeTab) {
             case 'Home':
-                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} />;
+                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} testimonial={testimonial} />;
             case 'Me':
                 return <MePage user={user} setUser={setUser} profilePic={profilePic} setProfilePic={setProfilePic} onLogout={handleLogout} />;
             case 'Rewards':
@@ -1324,7 +1415,7 @@ const App: React.FC = () => {
             case 'Cards':
                  return <PlaceholderPage title="Cards" />;
             default:
-                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} />;
+                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} testimonial={testimonial} />;
         }
     };
     
