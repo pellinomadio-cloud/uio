@@ -28,6 +28,7 @@ const ArrowLeftIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h
 const AlarmClockIcon = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
 const CreditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" /></svg>;
 const CrownIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>;
+const SyncIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5m11 2a9 9 0 11-18 0 9 9 0 0118 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M20 4v5h-5" /></svg>;
 
 // --- UI Section Components ---
 const AppHeader = ({ userName }: { userName: string }) => (
@@ -97,15 +98,15 @@ const QuickActions = ({ onNavigateToRewards, onNavigateToSubscription }: { onNav
     </div>
 );
 
-const ServiceItem = ({ icon, label, tag }: { icon: React.ReactElement; label: string; tag?: string; }) => (
-    <div className="flex flex-col items-center space-y-2 text-center relative">
+const ServiceItem = ({ icon, label, tag, onClick }: { icon: React.ReactElement; label: string; tag?: string; onClick?: () => void; }) => (
+    <div onClick={onClick} className={`flex flex-col items-center space-y-2 text-center relative ${onClick ? 'cursor-pointer' : ''}`}>
         {tag && <span className="absolute -top-2 text-xs bg-red-100 text-red-500 px-2 py-0.5 rounded-full font-semibold">{tag}</span>}
         <IconWrapper className="w-14 h-14 bg-light-green">{icon}</IconWrapper>
         <span className="text-xs font-medium text-dark-gray">{label}</span>
     </div>
 );
 
-const Services = () => (
+const Services = ({ onNavigateToSync }: { onNavigateToSync: () => void }) => (
     <div className="bg-white rounded-2xl p-4 grid grid-cols-4 gap-y-6 gap-x-2 shadow-sm">
         <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>} label="Airtime" tag="Up to 6%"/>
         <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path></svg>} label="Data" tag="Up to 6%"/>
@@ -114,7 +115,7 @@ const Services = () => (
         <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>} label="Safebox" />
         <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>} label="Loan" tag="LoanMore" />
         <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>} label="Refer & Earn" />
-        <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>} label="More" />
+        <ServiceItem onClick={onNavigateToSync} icon={<SyncIcon />} label="Sync Account" />
     </div>
 );
 
@@ -131,14 +132,14 @@ const SpecialBonus = () => (
     </div>
 );
 
-const SecurityTest = () => (
+const SecurityTest = ({ onNavigateToAdmin }: { onNavigateToAdmin: () => void }) => (
     <div className="bg-white rounded-2xl p-4 shadow-sm space-y-2">
         <div className="flex justify-between items-center">
             <h3 className="font-bold text-dark-gray flex items-center space-x-2">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
                 <span>Security Test</span>
             </h3>
-            <button className="text-xs font-semibold bg-green-100 text-primary px-3 py-1.5 rounded-full">Click for Security</button>
+            <button onClick={onNavigateToAdmin} className="text-xs font-semibold bg-green-100 text-primary px-3 py-1.5 rounded-full cursor-pointer">Click for Security</button>
         </div>
         <p className="text-sm text-gray-600">What should I do if my phone gets stolen?</p>
         <p className="text-sm text-gray-400">A. Block your account, dial *955*131#.</p>
@@ -246,12 +247,14 @@ const RegistrationPage = ({ onRegister }: { onRegister: (email: string) => void 
 
 
 // --- Page Components ---
-const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory, onNavigateToSubscription }: { 
+const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory, onNavigateToSubscription, onNavigateToAdmin, onNavigateToSync }: { 
     userName: string, 
     account: Account, 
     onNavigateToRewards: () => void,
     onNavigateToHistory: () => void,
     onNavigateToSubscription: () => void,
+    onNavigateToAdmin: () => void,
+    onNavigateToSync: () => void,
 }) => {
     return (
         <>
@@ -262,9 +265,9 @@ const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory,
                 <BalanceCard balance={account.balance} onNavigateToHistory={onNavigateToHistory} />
                 <BusinessService />
                 <QuickActions onNavigateToRewards={onNavigateToRewards} onNavigateToSubscription={onNavigateToSubscription} />
-                <Services />
+                <Services onNavigateToSync={onNavigateToSync} />
                 <SpecialBonus />
-                <SecurityTest />
+                <SecurityTest onNavigateToAdmin={onNavigateToAdmin} />
             </main>
         </>
     );
@@ -660,16 +663,18 @@ const TransactionHistoryPage = ({ onBack, transactions }: {
                         <div key={tx.id} className="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm">
                             <div className="flex items-center space-x-4">
                                 <IconWrapper className="bg-light-green">
-                                    {tx.type === 'credit' ? <CreditIcon /> : <div />}
+                                    <CreditIcon />
                                 </IconWrapper>
                                 <div>
                                     <p className="font-semibold text-dark-gray">{tx.description}</p>
                                     <p className="text-xs text-gray-500">{formatDate(tx.date)}</p>
                                 </div>
                             </div>
-                            <p className={`font-bold text-lg ${tx.type === 'credit' ? 'text-primary' : 'text-red-500'}`}>
+                           {tx.amount > 0 && (
+                             <p className={`font-bold text-lg ${tx.type === 'credit' ? 'text-primary' : 'text-red-500'}`}>
                                 + {new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(tx.amount)}
-                            </p>
+                             </p>
+                           )}
                         </div>
                     ))
                 )}
@@ -678,6 +683,246 @@ const TransactionHistoryPage = ({ onBack, transactions }: {
     );
 };
 
+const AdminPage = ({ onBack, user, addTransaction }: {
+    onBack: () => void;
+    user: { email: string };
+    addTransaction: (transaction: Omit<Transaction, 'id' | 'date'>) => void;
+}) => {
+    const plans = [
+        { name: 'Weekly', price: 6200 },
+        { name: 'Monthly', price: 8300 },
+        { name: 'Yearly', price: 30000 },
+    ];
+    
+    const [selectedPlan, setSelectedPlan] = useState<typeof plans[0]>(plans[0]);
+    const [adminPassword, setAdminPassword] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+        setSuccess('');
+
+        if (adminPassword !== 'MAVELLDC') {
+            setError('Incorrect admin password.');
+            return;
+        }
+
+        if (!selectedPlan) {
+            setError('Please select a subscription plan.');
+            return;
+        }
+
+        addTransaction({
+            description: `Congratulations! You've been subscribed to the ${selectedPlan.name} plan.`,
+            amount: 0,
+            type: 'credit',
+        });
+
+        setSuccess(`User ${user.email} has been subscribed to the ${selectedPlan.name} plan.`);
+        setAdminPassword('');
+        
+        setTimeout(() => {
+            onBack();
+        }, 2500);
+    };
+
+    return (
+        <div className="bg-light-gray min-h-screen">
+            <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2">
+                    <ArrowLeftIcon />
+                </button>
+                <h1 className="text-xl font-bold text-dark-gray">Admin Panel</h1>
+            </header>
+            <main className="p-4">
+                <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl shadow-md space-y-6">
+                    <h2 className="text-lg font-bold text-center text-dark-gray">Subscribe User</h2>
+                    <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">User Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={user.email}
+                            disabled
+                            className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg bg-gray-100 cursor-not-allowed"
+                        />
+                    </div>
+                     <div>
+                        <label htmlFor="plan" className="block text-sm font-medium text-gray-700">Select Plan</label>
+                        <select
+                            id="plan"
+                            value={selectedPlan.name}
+                            onChange={(e) => setSelectedPlan(plans.find(p => p.name === e.target.value) || plans[0])}
+                            className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                        >
+                            {plans.map(plan => (
+                                <option key={plan.name} value={plan.name}>
+                                    {plan.name} - ₦{plan.price.toLocaleString()}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                     <div>
+                        <label htmlFor="admin-password" className="block text-sm font-medium text-gray-700">Admin Password</label>
+                        <input
+                            type="password"
+                            id="admin-password"
+                            value={adminPassword}
+                            onChange={(e) => setAdminPassword(e.target.value)}
+                            placeholder="Enter admin password"
+                            className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                            required
+                        />
+                    </div>
+                    {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+                    {success && <p className="text-sm text-green-600 text-center">{success}</p>}
+                    <button
+                        type="submit"
+                        className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors"
+                    >
+                        Subscribe User
+                    </button>
+                </form>
+            </main>
+        </div>
+    );
+};
+
+const SyncAccountPage = ({ onBack }: { onBack: () => void }) => {
+    const [syncCode, setSyncCode] = useState('');
+    const [restoreCode, setRestoreCode] = useState('');
+    const [copySuccess, setCopySuccess] = useState('');
+    const [restoreMessage, setRestoreMessage] = useState('');
+    const [isGenerating, setIsGenerating] = useState(true);
+
+    useEffect(() => {
+        try {
+            const user = localStorage.getItem('opay_user');
+            const profilePic = localStorage.getItem('opay_user_pfp');
+            const transactions = localStorage.getItem('opay_transactions');
+            const claimedDays = localStorage.getItem('opay_claimed_days');
+            const lastClaimTimestamp = localStorage.getItem('opay_last_claim');
+
+            if (!user) {
+                setSyncCode('Error: User data not found.');
+                return;
+            }
+
+            const syncDataObject = {
+                user: JSON.parse(user),
+                profilePic: profilePic,
+                transactions: transactions ? JSON.parse(transactions) : [],
+                claimedDays: claimedDays ? parseInt(claimedDays, 10) : 0,
+                lastClaimTimestamp: lastClaimTimestamp ? parseInt(lastClaimTimestamp, 10) : 0,
+            };
+
+            const jsonString = JSON.stringify(syncDataObject);
+            const encoded = btoa(jsonString);
+            setSyncCode(encoded);
+        } catch (error) {
+            console.error('Failed to generate sync code:', error);
+            setSyncCode('Error generating sync code.');
+        } finally {
+            setIsGenerating(false);
+        }
+    }, []);
+    
+    const handleCopy = () => {
+        if (!syncCode || syncCode.startsWith('Error')) return;
+        navigator.clipboard.writeText(syncCode).then(() => {
+            setCopySuccess('Copied to clipboard!');
+            setTimeout(() => setCopySuccess(''), 2000);
+        }, () => {
+            setCopySuccess('Failed to copy.');
+        });
+    };
+
+    const handleRestore = () => {
+        if (!restoreCode.trim()) {
+            setRestoreMessage('Please paste a code to restore.');
+            return;
+        }
+
+        try {
+            const decodedString = atob(restoreCode);
+            const data = JSON.parse(decodedString);
+
+            if (!data.user || !data.user.email) {
+                throw new Error('Invalid sync code format.');
+            }
+
+            localStorage.setItem('opay_user', JSON.stringify(data.user));
+            if (data.profilePic) {
+                localStorage.setItem('opay_user_pfp', data.profilePic);
+            } else {
+                localStorage.removeItem('opay_user_pfp');
+            }
+            localStorage.setItem('opay_transactions', JSON.stringify(data.transactions || []));
+            localStorage.setItem('opay_claimed_days', (data.claimedDays || 0).toString());
+            localStorage.setItem('opay_last_claim', (data.lastClaimTimestamp || 0).toString());
+
+            setRestoreMessage('Account restored successfully! The app will now reload.');
+            
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+
+        } catch (error) {
+            console.error('Failed to restore account:', error);
+            setRestoreMessage('Restore failed. The code is invalid or corrupted.');
+        }
+    };
+
+    return (
+        <div className="bg-light-gray min-h-screen">
+            <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2">
+                    <ArrowLeftIcon />
+                </button>
+                <h1 className="text-xl font-bold text-dark-gray">Sync & Restore Account</h1>
+            </header>
+            <main className="p-4 space-y-6">
+                <div className="bg-white p-4 rounded-xl shadow-sm space-y-3">
+                    <h2 className="text-lg font-semibold text-dark-gray">1. Sync Your Account</h2>
+                    <p className="text-sm text-gray-600">Copy this code and paste it on another device to restore your account data.</p>
+                    <textarea
+                        readOnly
+                        value={isGenerating ? 'Generating code...' : syncCode}
+                        className="w-full h-32 p-2 border border-medium-gray rounded-lg bg-gray-50 font-mono text-xs"
+                        placeholder="Your account sync code will appear here."
+                    />
+                    <button
+                        onClick={handleCopy}
+                        disabled={isGenerating || syncCode.startsWith('Error')}
+                        className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:bg-medium-gray"
+                    >
+                        {copySuccess || 'Copy Code'}
+                    </button>
+                </div>
+                
+                <div className="bg-white p-4 rounded-xl shadow-sm space-y-3">
+                    <h2 className="text-lg font-semibold text-dark-gray">2. Restore Account</h2>
+                    <p className="text-sm text-gray-600">Paste a sync code here to restore another account on this device.</p>
+                    <textarea
+                        value={restoreCode}
+                        onChange={(e) => setRestoreCode(e.target.value)}
+                        className="w-full h-32 p-2 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary font-mono text-xs"
+                        placeholder="Paste sync code here..."
+                    />
+                    {restoreMessage && <p className={`text-sm text-center ${restoreMessage.includes('failed') ? 'text-red-500' : 'text-green-600'}`}>{restoreMessage}</p>}
+                    <button
+                        onClick={handleRestore}
+                        className="w-full bg-green-800 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-900 transition-colors"
+                    >
+                        Restore Account
+                    </button>
+                </div>
+            </main>
+        </div>
+    );
+};
 
 const PlaceholderPage = ({ title }: { title: string }) => (
     <div className="flex flex-col items-center justify-center h-[calc(100vh-6rem)]">
@@ -694,7 +939,7 @@ const App: React.FC = () => {
     const [profilePic, setProfilePic] = useState<string | null>(null);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [activeTab, setActiveTab] = useState('Home');
-    const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription'
+    const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription', 'admin', 'sync'
 
     useEffect(() => {
         try {
@@ -750,7 +995,7 @@ const App: React.FC = () => {
                 id: `txn_${Date.now()}`,
                 date: new Date().toISOString(),
             };
-            const updatedTransactions = [newTransaction, ...prev];
+            const updatedTransactions = [newTransaction, ...prev].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
             localStorage.setItem('opay_transactions', JSON.stringify(updatedTransactions));
             return updatedTransactions;
         });
@@ -785,12 +1030,19 @@ const App: React.FC = () => {
     if (view === 'subscription') {
         return <SubscriptionPage onBack={() => setView('main')} userEmail={user.email} />;
     }
+    
+    if (view === 'admin') {
+        return <AdminPage onBack={() => setView('main')} user={user} addTransaction={addTransaction} />;
+    }
 
+    if (view === 'sync') {
+        return <SyncAccountPage onBack={() => setView('main')} />;
+    }
 
     const renderContent = () => {
         switch (activeTab) {
             case 'Home':
-                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} />;
+                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} />;
             case 'Me':
                 return <MePage user={user} setUser={setUser} profilePic={profilePic} setProfilePic={setProfilePic} />;
             case 'Rewards':
@@ -800,7 +1052,7 @@ const App: React.FC = () => {
             case 'Cards':
                  return <PlaceholderPage title="Cards" />;
             default:
-                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} />;
+                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} />;
         }
     };
     
