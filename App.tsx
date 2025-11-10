@@ -27,6 +27,7 @@ const MeIcon = ({ active }: { active: boolean }) => <svg xmlns="http://www.w3.or
 const ArrowLeftIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>;
 const AlarmClockIcon = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
 const CreditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" /></svg>;
+const DebitIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010-18z" /></svg>;
 const CrownIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>;
 const SyncIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5m11 2a9 9 0 11-18 0 9 9 0 0118 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M20 4v5h-5" /></svg>;
 
@@ -90,11 +91,11 @@ const QuickActionItem = ({ icon, label, onClick }: { icon: React.ReactElement, l
     </div>
 );
 
-const QuickActions = ({ onNavigateToRewards, onNavigateToSubscription }: { onNavigateToRewards: () => void, onNavigateToSubscription: () => void }) => (
+const QuickActions = ({ onNavigateToRewards, onNavigateToSubscription, onNavigateToWithdraw }: { onNavigateToRewards: () => void, onNavigateToSubscription: () => void, onNavigateToWithdraw: () => void }) => (
     <div className="bg-white rounded-2xl p-4 flex justify-around items-center shadow-sm">
         <QuickActionItem onClick={onNavigateToSubscription} icon={<CrownIcon />} label="Subscribe" />
         <QuickActionItem onClick={onNavigateToRewards} icon={<RewardsActionIcon />} label="Rewards" />
-        <QuickActionItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>} label="Withdraw" />
+        <QuickActionItem onClick={onNavigateToWithdraw} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>} label="Withdraw" />
     </div>
 );
 
@@ -247,7 +248,7 @@ const RegistrationPage = ({ onRegister }: { onRegister: (email: string) => void 
 
 
 // --- Page Components ---
-const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory, onNavigateToSubscription, onNavigateToAdmin, onNavigateToSync }: { 
+const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory, onNavigateToSubscription, onNavigateToAdmin, onNavigateToSync, onNavigateToWithdraw }: { 
     userName: string, 
     account: Account, 
     onNavigateToRewards: () => void,
@@ -255,6 +256,7 @@ const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory,
     onNavigateToSubscription: () => void,
     onNavigateToAdmin: () => void,
     onNavigateToSync: () => void,
+    onNavigateToWithdraw: () => void,
 }) => {
     return (
         <>
@@ -264,7 +266,7 @@ const HomePage = ({ userName, account, onNavigateToRewards, onNavigateToHistory,
             <main className="p-4 space-y-5">
                 <BalanceCard balance={account.balance} onNavigateToHistory={onNavigateToHistory} />
                 <BusinessService />
-                <QuickActions onNavigateToRewards={onNavigateToRewards} onNavigateToSubscription={onNavigateToSubscription} />
+                <QuickActions onNavigateToRewards={onNavigateToRewards} onNavigateToSubscription={onNavigateToSubscription} onNavigateToWithdraw={onNavigateToWithdraw} />
                 <Services onNavigateToSync={onNavigateToSync} />
                 <SpecialBonus />
                 <SecurityTest onNavigateToAdmin={onNavigateToAdmin} />
@@ -656,14 +658,14 @@ const TransactionHistoryPage = ({ onBack, transactions }: {
                 {transactions.length === 0 ? (
                     <div className="text-center text-gray-500 mt-20">
                         <p>No transactions yet.</p>
-                        <p className="text-sm">Your claimed rewards will appear here.</p>
+                        <p className="text-sm">Your claimed rewards and withdrawals will appear here.</p>
                     </div>
                 ) : (
                     transactions.map(tx => (
                         <div key={tx.id} className="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm">
                             <div className="flex items-center space-x-4">
                                 <IconWrapper className="bg-light-green">
-                                    <CreditIcon />
+                                    {tx.type === 'credit' ? <CreditIcon /> : <DebitIcon />}
                                 </IconWrapper>
                                 <div>
                                     <p className="font-semibold text-dark-gray">{tx.description}</p>
@@ -672,7 +674,8 @@ const TransactionHistoryPage = ({ onBack, transactions }: {
                             </div>
                            {tx.amount > 0 && (
                              <p className={`font-bold text-lg ${tx.type === 'credit' ? 'text-primary' : 'text-red-500'}`}>
-                                + {new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(tx.amount)}
+                                {tx.type === 'credit' ? '+ ' : '- '}
+                                {new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(tx.amount)}
                              </p>
                            )}
                         </div>
@@ -924,6 +927,165 @@ const SyncAccountPage = ({ onBack }: { onBack: () => void }) => {
     );
 };
 
+const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transactions, onNavigateToSubscription }: { 
+    onBack: () => void;
+    account: Account;
+    setAccount: React.Dispatch<React.SetStateAction<Account | null>>;
+    addTransaction: (transaction: Omit<Transaction, 'id' | 'date'>) => void;
+    transactions: Transaction[];
+    onNavigateToSubscription: () => void;
+}) => {
+    const [bank, setBank] = useState('');
+    const [accountNumber, setAccountNumber] = useState('');
+    const [accountName, setAccountName] = useState('');
+    const [amount, setAmount] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+
+    const banks = [
+        'OPay', 'PalmPay', 'Moniepoint', 'Access Bank', 'UBA', 'GTBank', 
+        'First Bank', 'Zenith Bank', 'Kuda Bank', 'Wema Bank', 'Fidelity Bank'
+    ];
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+        setSuccess('');
+
+        const numericAmount = parseFloat(amount);
+        if (isNaN(numericAmount) || numericAmount <= 0) {
+            setError('Please enter a valid amount.');
+            return;
+        }
+
+        if (numericAmount > account.balance) {
+            setError('Insufficient funds.');
+            return;
+        }
+
+        setIsLoading(true);
+
+        setTimeout(() => {
+            const isSubscribed = transactions.some(tx => 
+                tx.description.toLowerCase().includes('subscribed to the')
+            );
+
+            if (isSubscribed) {
+                const newBalance = account.balance - numericAmount;
+                const updatedAccount = { ...account, balance: newBalance };
+                setAccount(updatedAccount);
+                addTransaction({
+                    description: `Withdrawal to ${accountName}`,
+                    amount: numericAmount,
+                    type: 'debit',
+                });
+                setSuccess('Withdrawal successful!');
+                setTimeout(() => {
+                    onBack();
+                }, 2000);
+            } else {
+                setError('Withdrawal failed. You must subscribe to a plan to withdraw funds.');
+            }
+            setIsLoading(false);
+        }, 5000);
+    };
+
+    return (
+        <div className="bg-light-gray min-h-screen">
+            <header className="bg-white p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2">
+                    <ArrowLeftIcon />
+                </button>
+                <h1 className="text-xl font-bold text-dark-gray">Withdraw Funds</h1>
+            </header>
+            <main className="p-4">
+                <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl shadow-md space-y-6">
+                    <div>
+                        <label htmlFor="bank" className="block text-sm font-medium text-gray-700">Select Bank</label>
+                        <select
+                            id="bank"
+                            value={bank}
+                            onChange={(e) => setBank(e.target.value)}
+                            className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                            required
+                        >
+                            <option value="" disabled>-- Select a bank --</option>
+                            {banks.map(b => <option key={b} value={b}>{b}</option>)}
+                        </select>
+                    </div>
+                     <div>
+                        <label htmlFor="account-number" className="block text-sm font-medium text-gray-700">Account Number</label>
+                        <input
+                            type="text"
+                            id="account-number"
+                            value={accountNumber}
+                            onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, ''))}
+                            placeholder="Enter 10-digit account number"
+                            className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                            pattern="\d{10}"
+                            maxLength={10}
+                            required
+                        />
+                    </div>
+                     <div>
+                        <label htmlFor="account-name" className="block text-sm font-medium text-gray-700">Account Name</label>
+                        <input
+                            type="text"
+                            id="account-name"
+                            value={accountName}
+                            onChange={(e) => setAccountName(e.target.value)}
+                            placeholder="Enter account name"
+                            className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="amount" className="block text-sm font-medium text-gray-700">Amount (NGN)</label>
+                        <input
+                            type="number"
+                            id="amount"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            placeholder="0.00"
+                            className="mt-1 w-full px-4 py-3 border border-medium-gray rounded-lg focus:ring-primary focus:border-primary"
+                            required
+                        />
+                    </div>
+                    
+                    {error && (
+                        <div className="text-sm text-red-500 text-center p-3 bg-red-50 rounded-lg">
+                            <p>{error}</p>
+                            {error.includes('subscribe') && (
+                                <button type="button" onClick={onNavigateToSubscription} className="font-bold underline mt-2 text-primary">
+                                    Go to Subscription Page
+                                </button>
+                            )}
+                        </div>
+                    )}
+                    {success && <p className="text-sm text-green-600 text-center">{success}</p>}
+                    
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:bg-medium-gray flex items-center justify-center"
+                    >
+                        {isLoading ? (
+                            <>
+                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Processing...
+                            </>
+                        ) : 'Withdraw'}
+                    </button>
+                </form>
+            </main>
+        </div>
+    );
+};
+
 const PlaceholderPage = ({ title }: { title: string }) => (
     <div className="flex flex-col items-center justify-center h-[calc(100vh-6rem)]">
         <h1 className="text-2xl font-bold text-gray-400">{title} Page</h1>
@@ -939,7 +1101,7 @@ const App: React.FC = () => {
     const [profilePic, setProfilePic] = useState<string | null>(null);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [activeTab, setActiveTab] = useState('Home');
-    const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription', 'admin', 'sync'
+    const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription', 'admin', 'sync', 'withdraw'
 
     useEffect(() => {
         try {
@@ -1038,11 +1200,15 @@ const App: React.FC = () => {
     if (view === 'sync') {
         return <SyncAccountPage onBack={() => setView('main')} />;
     }
+    
+    if (view === 'withdraw') {
+        return <WithdrawPage onBack={() => setView('main')} account={account} setAccount={setAccount} addTransaction={addTransaction} transactions={transactions} onNavigateToSubscription={() => setView('subscription')} />;
+    }
 
     const renderContent = () => {
         switch (activeTab) {
             case 'Home':
-                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} />;
+                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} />;
             case 'Me':
                 return <MePage user={user} setUser={setUser} profilePic={profilePic} setProfilePic={setProfilePic} />;
             case 'Rewards':
@@ -1052,7 +1218,7 @@ const App: React.FC = () => {
             case 'Cards':
                  return <PlaceholderPage title="Cards" />;
             default:
-                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} />;
+                return <HomePage userName={account.name} account={account} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} />;
         }
     };
     
