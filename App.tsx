@@ -699,1416 +699,278 @@ Thank you.
                         </div>
                     </div>
                 </div>
-                
-                 <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm space-y-3">
-                    <h2 className="text-lg font-semibold text-dark-gray dark:text-gray-200">Upload Payment Proof</h2>
-                     <input 
-                        type="file" 
-                        ref={fileInputRef} 
-                        onChange={handleFileUpload} 
-                        className="hidden" 
-                        accept="image/*" 
-                    />
-                    <button onClick={() => fileInputRef.current?.click()} className="w-full border-2 border-dashed border-medium-gray dark:border-gray-600 rounded-lg p-4 text-center text-gray-500 dark:text-gray-400 hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary transition-colors">
-                        {proofFileName ? `✓ ${proofFileName}` : 'Click to select an image'}
-                    </button>
-                    {paymentProof && (
-                        <div className="mt-4">
-                            <img src={paymentProof} alt="Payment proof preview" className="rounded-lg max-h-48 mx-auto" />
-                        </div>
-                    )}
-                </div>
-
-                <button 
-                    onClick={handleSubmit}
-                    disabled={!selectedPlan || !paymentProof}
-                    className="w-full bg-primary text-white font-bold py-4 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:bg-medium-gray disabled:cursor-not-allowed"
-                >
-                   {selectedPlan ? `Submit for ${selectedPlan.name} Plan` : 'Select a plan and upload proof'}
-                </button>
             </main>
         </div>
     );
 };
 
-
-const MePage = ({ user, profilePic, setProfilePic, onLogout, darkMode, setDarkMode }: { 
-    user: { email: string }, 
-    profilePic: string | null,
-    setProfilePic: React.Dispatch<React.SetStateAction<string | null>>,
-    onLogout: () => void,
-    darkMode: boolean,
-    setDarkMode: React.Dispatch<React.SetStateAction<boolean>>
-}) => {
-    const [message, setMessage] = useState('');
-    const fileInputRef = useRef<HTMLInputElement>(null);
-
-    const handleProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                const base64String = reader.result as string;
-                setProfilePic(base64String);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-    
-    const handleSave = () => {
-        setMessage('Profile updated successfully!');
-        setTimeout(() => setMessage(''), 3000);
-    };
-
-    const ToggleSwitch = ({ isEnabled, onToggle }: { isEnabled: boolean, onToggle: () => void }) => (
-        <button
-            onClick={onToggle}
-            className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors duration-300 focus:outline-none ${isEnabled ? 'bg-primary' : 'bg-gray-300 dark:bg-gray-600'}`}
-        >
-            <span
-                className={`inline-block w-4 h-4 transform bg-white rounded-full transition-transform duration-300 ${isEnabled ? 'translate-x-6' : 'translate-x-1'}`}
-            />
-        </button>
-    );
-
-    return (
-        <div className="p-4 space-y-6">
-            <h1 className="text-2xl font-bold text-center text-dark-gray dark:text-gray-200">My Profile</h1>
-            <div className="flex flex-col items-center space-y-4">
-                <div className="relative cursor-pointer" onClick={() => fileInputRef.current?.click()}>
-                    <input 
-                        type="file" 
-                        ref={fileInputRef} 
-                        onChange={handleProfilePicChange} 
-                        className="hidden" 
-                        accept="image/*" 
-                    />
-                    {profilePic ? (
-                        <img src={profilePic} alt="Profile" className="w-32 h-32 rounded-full object-cover border-4 border-primary" />
-                    ) : (
-                        <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center border-4 border-gray-300">
-                             <UserCircleIcon />
-                        </div>
-                    )}
-                    <div className="absolute bottom-1 right-1 bg-primary p-2 rounded-full">
-                        <CameraIcon />
-                    </div>
-                </div>
-                <p className="font-semibold text-lg text-dark-gray dark:text-gray-200">{user.email.split('@')[0]}</p>
-            </div>
-            
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md space-y-4">
-                <div className="pb-4">
-                    <h2 className="font-bold text-lg text-dark-gray dark:text-gray-200 mb-2">Appearance</h2>
-                    <div className="flex justify-between items-center">
-                        <label htmlFor="darkModeToggle" className="font-medium text-dark-gray dark:text-gray-300">Dark Mode</label>
-                        <ToggleSwitch isEnabled={darkMode} onToggle={() => setDarkMode(!darkMode)} />
-                    </div>
-                </div>
-
-                <div className="pt-4 border-t border-medium-gray dark:border-gray-700">
-                    <h2 className="font-bold text-lg text-dark-gray dark:text-gray-200">Edit Information</h2>
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-400">Email Address</label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={user.email}
-                            readOnly
-                            disabled
-                            className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 rounded-lg focus:ring-primary focus:border-primary bg-gray-100 dark:bg-gray-700 dark:text-gray-400 cursor-not-allowed"
-                        />
-                        <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">Email address cannot be changed.</p>
-                    </div>
-                    {message && <p className="text-sm text-green-600 text-center">{message}</p>}
-                    <button
-                        onClick={handleSave}
-                        className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors mt-4"
-                    >
-                        Save Changes
-                    </button>
-                     <button
-                        onClick={onLogout}
-                        className="w-full bg-red-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-600 transition-colors mt-2"
-                    >
-                        Logout
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const TransactionHistoryPage = ({ onBack, transactions }: { 
-    onBack: () => void;
-    transactions: Transaction[];
-}) => {
-    const formatDate = (dateString: string) => {
-        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    };
-
-    return (
-        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
-            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200">
-                    <ArrowLeftIcon />
-                </button>
-                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Transaction History</h1>
-            </header>
-            <main className="p-4 space-y-3">
-                {transactions.length === 0 ? (
-                    <div className="text-center text-gray-500 dark:text-gray-400 mt-20">
-                        <p>No transactions yet.</p>
-                        <p className="text-sm">Your claimed rewards and withdrawals will appear here.</p>
-                    </div>
-                ) : (
-                    transactions.map(tx => (
-                        <div key={tx.id} className="bg-white dark:bg-gray-800 rounded-xl p-4 flex items-center justify-between shadow-sm">
-                            <div className="flex items-center space-x-4">
-                                <IconWrapper className="bg-light-green dark:bg-gray-700">
-                                    {tx.type === 'credit' ? <CreditIcon /> : <DebitIcon />}
-                                </IconWrapper>
-                                <div>
-                                    <p className="font-semibold text-dark-gray dark:text-gray-200">{tx.description}</p>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400">{formatDate(tx.date)}</p>
-                                </div>
-                            </div>
-                           {tx.amount > 0 && (
-                             <p className={`font-bold text-lg ${tx.type === 'credit' ? 'text-primary' : 'text-red-500'}`}>
-                                {tx.type === 'credit' ? '+ ' : '- '}
-                                {new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(tx.amount)}
-                             </p>
-                           )}
-                        </div>
-                    ))
-                )}
-            </main>
-        </div>
-    );
-};
-
-const AdminPage = ({ onBack, user, addTransaction }: {
-    onBack: () => void;
-    user: { email: string };
-    addTransaction: (transaction: Omit<Transaction, 'id' | 'date'>) => void;
-}) => {
-    const plans = [
-        { name: 'Weekly', price: 6200 },
-        { name: 'Monthly', price: 8300 },
-        { name: 'Yearly', price: 30000 },
-    ];
-    
-    const [selectedPlan, setSelectedPlan] = useState<typeof plans[0]>(plans[0]);
-    const [adminPassword, setAdminPassword] = useState('');
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setError('');
-        setSuccess('');
-
-        if (adminPassword !== 'MAVELLDC') {
-            setError('Incorrect admin password.');
-            return;
-        }
-
-        if (!selectedPlan) {
-            setError('Please select a subscription plan.');
-            return;
-        }
-
-        addTransaction({
-            description: `Congratulations! You've been subscribed to the ${selectedPlan.name} plan.`,
-            amount: 0,
-            type: 'credit',
-        });
-
-        setSuccess(`User ${user.email} has been subscribed to the ${selectedPlan.name} plan.`);
-        setAdminPassword('');
-        
-        setTimeout(() => {
-            onBack();
-        }, 2500);
-    };
-
-    return (
-        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
-            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200">
-                    <ArrowLeftIcon />
-                </button>
-                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Admin Panel</h1>
-            </header>
-            <main className="p-4">
-                <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md space-y-6">
-                    <h2 className="text-lg font-bold text-center text-dark-gray dark:text-gray-200">Subscribe User</h2>
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">User Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={user.email}
-                            disabled
-                            className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 cursor-not-allowed"
-                        />
-                    </div>
-                     <div>
-                        <label htmlFor="plan" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Select Plan</label>
-                        <select
-                            id="plan"
-                            value={selectedPlan.name}
-                            onChange={(e) => setSelectedPlan(plans.find(p => p.name === e.target.value) || plans[0])}
-                            className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
-                        >
-                            {plans.map(plan => (
-                                <option key={plan.name} value={plan.name}>
-                                    {plan.name} - ₦{plan.price.toLocaleString()}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                     <div>
-                        <label htmlFor="admin-password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Admin Password</label>
-                        <input
-                            type="password"
-                            id="admin-password"
-                            value={adminPassword}
-                            onChange={(e) => setAdminPassword(e.target.value)}
-                            placeholder="Enter admin password"
-                            className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
-                            required
-                        />
-                    </div>
-                    {error && <p className="text-sm text-red-500 text-center">{error}</p>}
-                    {success && <p className="text-sm text-green-600 text-center">{success}</p>}
-                    <button
-                        type="submit"
-                        className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors"
-                    >
-                        Subscribe User
-                    </button>
-                </form>
-            </main>
-        </div>
-    );
-};
-
-const SyncAccountPage = ({ onBack, user }: { onBack: () => void; user: { email: string } }) => {
-    const [syncCode, setSyncCode] = useState('');
-    const [restoreCode, setRestoreCode] = useState('');
-    const [copySuccess, setCopySuccess] = useState('');
-    const [restoreMessage, setRestoreMessage] = useState('');
-    const [isGenerating, setIsGenerating] = useState(true);
-
-    useEffect(() => {
-        try {
-            const userData = localStorage.getItem(`novapay_data_${user.email}`);
-            
-            if (!userData) {
-                setSyncCode('Error: User data not found.');
-                return;
-            }
-
-            const jsonString = JSON.stringify(JSON.parse(userData));
-            const encoded = btoa(jsonString);
-            setSyncCode(encoded);
-        } catch (error) {
-            console.error('Failed to generate sync code:', error);
-            setSyncCode('Error generating sync code.');
-        } finally {
-            setIsGenerating(false);
-        }
-    }, [user.email]);
-    
-    const handleCopy = () => {
-        if (!syncCode || syncCode.startsWith('Error')) return;
-        navigator.clipboard.writeText(syncCode).then(() => {
-            setCopySuccess('Copied to clipboard!');
-            setTimeout(() => setCopySuccess(''), 2000);
-        }, () => {
-            setCopySuccess('Failed to copy.');
-        });
-    };
-
-    const handleRestore = () => {
-        if (!restoreCode.trim()) {
-            setRestoreMessage('Please paste a code to restore.');
-            return;
-        }
-
-        try {
-            const decodedString = atob(restoreCode);
-            const data = JSON.parse(decodedString);
-
-            if (!data.account || !data.account.name) {
-                throw new Error('Invalid sync code format.');
-            }
-
-            localStorage.setItem(`novapay_data_${user.email}`, JSON.stringify(data));
-            
-            setRestoreMessage('Account data synced successfully! The app will now reload.');
-            
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
-
-        } catch (error) {
-            console.error('Failed to restore account:', error);
-            setRestoreMessage('Restore failed. The code is invalid or corrupted.');
-        }
-    };
-
-    return (
-        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
-            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200">
-                    <ArrowLeftIcon />
-                </button>
-                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Sync & Restore Account</h1>
-            </header>
-            <main className="p-4 space-y-6">
-                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm space-y-3">
-                    <h2 className="text-lg font-semibold text-dark-gray dark:text-gray-200">1. Sync Your Account</h2>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Copy this code and paste it on another device to restore your account data.</p>
-                    <textarea
-                        readOnly
-                        value={isGenerating ? 'Generating code...' : syncCode}
-                        className="w-full h-32 p-2 border border-medium-gray dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-gray-300 font-mono text-xs"
-                        placeholder="Your account sync code will appear here."
-                    />
-                    <button
-                        onClick={handleCopy}
-                        disabled={isGenerating || syncCode.startsWith('Error')}
-                        className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:bg-medium-gray"
-                    >
-                        {copySuccess || 'Copy Code'}
-                    </button>
-                </div>
-                
-                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm space-y-3">
-                    <h2 className="text-lg font-semibold text-dark-gray dark:text-gray-200">2. Restore Account</h2>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Paste a sync code here to restore another account on this device.</p>
-                    <textarea
-                        value={restoreCode}
-                        onChange={(e) => setRestoreCode(e.target.value)}
-                        className="w-full h-32 p-2 border border-medium-gray dark:border-gray-600 rounded-lg focus:ring-primary focus:border-primary font-mono text-xs dark:bg-gray-700 dark:text-gray-300"
-                        placeholder="Paste sync code here..."
-                    />
-                    {restoreMessage && <p className={`text-sm text-center ${restoreMessage.includes('failed') ? 'text-red-500' : 'text-green-600'}`}>{restoreMessage}</p>}
-                    <button
-                        onClick={handleRestore}
-                        className="w-full bg-green-800 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-900 transition-colors"
-                    >
-                        Restore Account
-                    </button>
-                </div>
-            </main>
-        </div>
-    );
-};
-
-const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transactions, onNavigateToSubscription, isLocked }: { 
-    onBack: () => void;
-    account: Account;
-    setAccount: React.Dispatch<React.SetStateAction<Account | null>>;
-    addTransaction: (transaction: Omit<Transaction, 'id' | 'date'>) => void;
-    transactions: Transaction[];
-    onNavigateToSubscription: () => void;
-    isLocked: boolean;
-}) => {
-    const [bank, setBank] = useState('');
-    const [accountNumber, setAccountNumber] = useState('');
-    const [accountName, setAccountName] = useState('');
-    const [amount, setAmount] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
-
-    const banks = [
-        'OPay', 'PalmPay', 'Moniepoint', 'Access Bank', 'UBA', 'GTBank', 
-        'First Bank', 'Zenith Bank', 'Kuda Bank', 'Wema Bank', 'Fidelity Bank'
-    ];
-    
-    useEffect(() => {
-        if(isLocked) {
-            setError('Account locked. Contact services.');
-        }
-    }, [isLocked]);
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setError('');
-        setSuccess('');
-
-        if (isLocked) {
-            setError('Account locked. Contact services.');
-            return;
-        }
-
-        const numericAmount = parseFloat(amount);
-        if (isNaN(numericAmount) || numericAmount <= 0) {
-            setError('Please enter a valid amount.');
-            return;
-        }
-
-        if (numericAmount > account.balance) {
-            setError('Insufficient funds.');
-            return;
-        }
-
-        setIsLoading(true);
-
-        setTimeout(() => {
-            const subscriptionStatus = getSubscriptionStatus(transactions);
-            const isSubscribed = subscriptionStatus !== 'none';
-
-            if (isSubscribed) {
-                const newBalance = account.balance - numericAmount;
-                const updatedAccount = { ...account, balance: newBalance };
-                setAccount(updatedAccount);
-                addTransaction({
-                    description: `Withdrawal to ${accountName}`,
-                    amount: numericAmount,
-                    type: 'debit',
-                });
-                setSuccess('Withdrawal successful!');
-                setTimeout(() => {
-                    onBack();
-                }, 2000);
-            } else {
-                setError('Withdrawal failed. You must have an active subscription to withdraw funds.');
-            }
-            setIsLoading(false);
-        }, 5000);
-    };
-
-    return (
-        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
-            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200">
-                    <ArrowLeftIcon />
-                </button>
-                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Withdraw Funds</h1>
-            </header>
-            <main className="p-4">
-                <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md space-y-6">
-                    <fieldset disabled={isLocked}>
-                        <div className="space-y-6">
-                            <div>
-                                <label htmlFor="bank" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Select Bank</label>
-                                <select
-                                    id="bank"
-                                    value={bank}
-                                    onChange={(e) => setBank(e.target.value)}
-                                    className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
-                                    required
-                                >
-                                    <option value="" disabled>-- Select a bank --</option>
-                                    {banks.map(b => <option key={b} value={b}>{b}</option>)}
-                                </select>
-                            </div>
-                             <div>
-                                <label htmlFor="account-number" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Account Number</label>
-                                <input
-                                    type="text"
-                                    id="account-number"
-                                    value={accountNumber}
-                                    onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, ''))}
-                                    placeholder="Enter 10-digit account number"
-                                    className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
-                                    pattern="\d{10}"
-                                    maxLength={10}
-                                    required
-                                />
-                            </div>
-                             <div>
-                                <label htmlFor="account-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Account Name</label>
-                                <input
-                                    type="text"
-                                    id="account-name"
-                                    value={accountName}
-                                    onChange={(e) => setAccountName(e.target.value)}
-                                    placeholder="Enter account name"
-                                    className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="amount" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Amount (NGN)</label>
-                                <input
-                                    type="number"
-                                    id="amount"
-                                    value={amount}
-                                    onChange={(e) => setAmount(e.target.value)}
-                                    placeholder="0.00"
-                                    className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
-                                    required
-                                />
-                            </div>
-                        </div>
-                    </fieldset>
-                    
-                    {error && (
-                        <div className="text-sm text-red-500 text-center p-3 bg-red-50 dark:bg-red-900/20 dark:text-red-300 rounded-lg">
-                            <p>{error}</p>
-                            {error.includes('subscription') && !isLocked && (
-                                <button type="button" onClick={onNavigateToSubscription} className="font-bold underline mt-2 text-primary">
-                                    Go to Subscription Page
-                                </button>
-                            )}
-                        </div>
-                    )}
-                    {success && <p className="text-sm text-green-600 text-center">{success}</p>}
-                    
-                    <button
-                        type="submit"
-                        disabled={isLoading || isLocked}
-                        className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:bg-medium-gray flex items-center justify-center disabled:cursor-not-allowed"
-                    >
-                        {isLoading ? (
-                            <>
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Processing...
-                            </>
-                        ) : 'Withdraw'}
-                    </button>
-                </form>
-            </main>
-        </div>
-    );
-};
-
-const LoanPage = ({ onBack, account, setAccount, addTransaction }: {
-    onBack: () => void;
-    account: Account;
-    setAccount: React.Dispatch<React.SetStateAction<Account | null>>;
-    addTransaction: (transaction: Omit<Transaction, 'id' | 'date'>) => void;
-}) => {
-    const [amount, setAmount] = useState('');
-    const [dueDateOption, setDueDateOption] = useState('1'); // value in months
-    const [adminPassword, setAdminPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setError('');
-        setSuccess('');
-        setIsLoading(true);
-
-        if (adminPassword !== 'MAVELLDC') {
-            setError('Incorrect admin password.');
-            setIsLoading(false);
-            return;
-        }
-
-        const numericAmount = parseFloat(amount);
-        if (isNaN(numericAmount) || numericAmount <= 0) {
-            setError('Please enter a valid loan amount.');
-            setIsLoading(false);
-            return;
-        }
-
-        // Simulate processing
-        setTimeout(() => {
-            if (!account || !setAccount) {
-                 setError('Account data not available.');
-                 setIsLoading(false);
-                 return;
-            }
-            
-            const newBalance = account.balance + numericAmount;
-            const updatedAccount = { ...account, balance: newBalance };
-            setAccount(updatedAccount);
-
-            const now = new Date();
-            const dueDate = new Date(now.setMonth(now.getMonth() + parseInt(dueDateOption)));
-            const formattedDueDate = dueDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-
-            addTransaction({
-                description: `Loan approved. Due on ${formattedDueDate}`,
-                amount: numericAmount,
-                type: 'credit',
-            });
-            
-            setSuccess('Loan approved and funds have been added to your account!');
-            setIsLoading(false);
-
-            setTimeout(() => {
-                onBack();
-            }, 2000);
-        }, 2000);
-    };
-
-    const dueDateOptions = [
-        { label: '1 Month', value: '1' },
-        { label: '3 Months', value: '3' },
-        { label: '6 Months', value: '6' },
-        { label: '12 Months', value: '12' },
-    ];
-
-    return (
-        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
-            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200">
-                    <ArrowLeftIcon />
-                </button>
-                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Request a Loan</h1>
-            </header>
-            <main className="p-4">
-                <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md space-y-6">
-                    <div>
-                        <label htmlFor="amount" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Loan Amount (NGN)</label>
-                        <input
-                            type="number"
-                            id="amount"
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
-                            placeholder="e.g., 50000"
-                            className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="due-date" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Repayment Duration</label>
-                        <select
-                            id="due-date"
-                            value={dueDateOption}
-                            onChange={(e) => setDueDateOption(e.target.value)}
-                            className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
-                            required
-                        >
-                            {dueDateOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
-                        </select>
-                    </div>
-                     <div>
-                        <label htmlFor="admin-password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Admin Approval Password</label>
-                        <input
-                            type="password"
-                            id="admin-password"
-                            value={adminPassword}
-                            onChange={(e) => setAdminPassword(e.target.value)}
-                            placeholder="Enter admin password for approval"
-                            className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
-                            required
-                        />
-                    </div>
-
-                    {error && <p className="text-sm text-red-500 text-center">{error}</p>}
-                    {success && <p className="text-sm text-green-600 text-center">{success}</p>}
-                    
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:bg-medium-gray flex items-center justify-center"
-                    >
-                        {isLoading ? (
-                            <>
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Processing...
-                            </>
-                        ) : 'Borrow Now'}
-                    </button>
-                </form>
-            </main>
-        </div>
-    );
-};
-
-const ReferAndEarnPage = ({ onBack, userEmail }: { onBack: () => void; userEmail: string; }) => {
-    const telegramLink = 'https://t.me/veripay99';
-    const rewardAmount = 1000;
-    
-    const [referralProof, setReferralProof] = useState<string | null>(null);
-    const [proofFileName, setProofFileName] = useState<string>('');
-    const fileInputRef = useRef<HTMLInputElement>(null);
-
-    const handleShare = () => {
-        const message = `Hey! I'm inviting you to join this amazing platform. You can join their Telegram group here: ${telegramLink}`;
-        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
-    };
-
-    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setReferralProof(reader.result as string);
-                setProofFileName(file.name);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    const handleSubmit = () => {
-        if (!referralProof) return;
-
-        const subject = `Referral Proof Submission - ${userEmail}`;
-        const body = `Hello,
-
-Please find my referral proof attached. I have referred a new user to the Telegram group.
-
-My account email is: ${userEmail}
-
-Please credit my account with the ₦${rewardAmount} reward after verification.
-
-Thank you.
-`;
-        const mailtoLink = `mailto:ukf5483@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = mailtoLink;
-    };
-
-    return (
-        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
-            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200">
-                    <ArrowLeftIcon />
-                </button>
-                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Refer & Earn</h1>
-            </header>
-            <main className="p-4 space-y-6">
-                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm text-center space-y-2">
-                    <h2 className="text-2xl font-bold text-primary">Earn ₦{rewardAmount.toLocaleString()}!</h2>
-                    <p className="text-gray-600 dark:text-gray-300">For every friend you invite to our Telegram group.</p>
-                </div>
-                
-                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm space-y-4">
-                    <h3 className="font-bold text-lg text-dark-gray dark:text-gray-200">How It Works</h3>
-                    <ul className="space-y-3 text-sm text-gray-700 dark:text-gray-300 list-inside">
-                        <li className="flex items-start"><span className="bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2">1</span> Share our Telegram link with your friends on WhatsApp.</li>
-                        <li className="flex items-start"><span className="bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2">2</span> Ask your friend to join the Telegram group.</li>
-                        <li className="flex items-start"><span className="bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2">3</span> Upload a screenshot of your friend joining as proof.</li>
-                        <li className="flex items-start"><span className="bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2">4</span> Get ₦{rewardAmount.toLocaleString()} credited to your account after verification.</li>
-                    </ul>
-                </div>
-
-                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm space-y-3">
-                    <h3 className="font-bold text-lg text-dark-gray dark:text-gray-200">Share The Link</h3>
-                    <input 
-                        type="text"
-                        readOnly
-                        value={telegramLink}
-                        className="w-full bg-light-gray dark:bg-gray-700 p-3 rounded-lg border border-medium-gray dark:border-gray-600 text-sm dark:text-gray-300"
-                    />
-                    <button onClick={handleShare} className="w-full bg-green-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" /></svg>
-                        <span>Share on WhatsApp</span>
-                    </button>
-                </div>
-                
-                 <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm space-y-3">
-                    <h3 className="font-bold text-lg text-dark-gray dark:text-gray-200">Upload Proof</h3>
-                     <p className="text-sm text-gray-600 dark:text-gray-400">Upload a screenshot showing your friend has joined the group.</p>
-                     <input 
-                        type="file" 
-                        ref={fileInputRef} 
-                        onChange={handleFileUpload} 
-                        className="hidden" 
-                        accept="image/*" 
-                    />
-                    <button onClick={() => fileInputRef.current?.click()} className="w-full border-2 border-dashed border-medium-gray dark:border-gray-600 rounded-lg p-4 text-center text-gray-500 dark:text-gray-400 hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary transition-colors">
-                        {proofFileName ? `✓ ${proofFileName}` : 'Click to select a screenshot'}
-                    </button>
-                    {referralProof && (
-                        <div className="mt-4">
-                            <img src={referralProof} alt="Referral proof preview" className="rounded-lg max-h-48 mx-auto" />
-                        </div>
-                    )}
-                </div>
-
-                <button 
-                    onClick={handleSubmit}
-                    disabled={!referralProof}
-                    className="w-full bg-primary text-white font-bold py-4 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:bg-medium-gray disabled:cursor-not-allowed"
-                >
-                   Submit for Verification
-                </button>
-            </main>
-        </div>
-    );
-};
-
-const SafeboxPage = ({ onBack }: { onBack: () => void; }) => {
-    type UserStatus = { email: string; isLocked: boolean };
-    const [users, setUsers] = useState<UserStatus[]>([]);
-    const [adminPassword, setAdminPassword] = useState('');
-    const [targetUser, setTargetUser] = useState<string | null>(null);
-    const [message, setMessage] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
-
-    const loadUsers = () => {
-        try {
-            const usersRaw = localStorage.getItem('novapay_users');
-            const userList = usersRaw ? JSON.parse(usersRaw) : [];
-            const userStatuses = userList.map((user: { email: string }) => {
-                const dataRaw = localStorage.getItem(`novapay_data_${user.email}`);
-                const data = dataRaw ? JSON.parse(dataRaw) : {};
-                return { email: user.email, isLocked: data.isLocked || false };
-            });
-            setUsers(userStatuses);
-        } catch (e) {
-            setMessage('Error loading user data.');
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        loadUsers();
-    }, []);
-
-    const handleLockToggle = (email: string, currentStatus: boolean) => {
-        setMessage('');
-        if (adminPassword !== 'MAVELLDC') {
-            setMessage('Incorrect admin password.');
-            return;
-        }
-
-        try {
-            const dataRaw = localStorage.getItem(`novapay_data_${email}`);
-            if (dataRaw) {
-                const data = JSON.parse(dataRaw);
-                data.isLocked = !currentStatus;
-                localStorage.setItem(`novapay_data_${email}`, JSON.stringify(data));
-                
-                // Update state to reflect change
-                setUsers(users.map(u => u.email === email ? { ...u, isLocked: !currentStatus } : u));
-                setMessage(`User ${email} has been ${!currentStatus ? 'locked' : 'unlocked'}.`);
-                setTargetUser(null);
-                setAdminPassword('');
-            } else {
-                setMessage('Could not find data for this user.');
-            }
-        } catch (e) {
-            setMessage('An error occurred while updating user status.');
-        }
-    };
-
-    return (
-        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
-            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200"> <ArrowLeftIcon /> </button>
-                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Safebox - Account Management</h1>
-            </header>
-            <main className="p-4 space-y-4">
-                <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm">
-                    <h2 className="text-lg font-semibold text-dark-gray dark:text-gray-200 mb-3">All Users</h2>
-                    {message && <p className="text-center text-sm mb-3 p-2 rounded-md bg-yellow-100 text-yellow-800">{message}</p>}
-                    {isLoading ? <p className="dark:text-gray-300">Loading users...</p> : (
-                        <div className="space-y-3">
-                            {users.map(user => (
-                                <div key={user.email} className="bg-light-gray dark:bg-gray-700 p-3 rounded-lg">
-                                    <div className="flex justify-between items-center">
-                                        <div>
-                                            <p className="font-medium text-dark-gray dark:text-gray-300 text-sm">{user.email}</p>
-                                            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${user.isLocked ? 'bg-red-200 text-red-800' : 'bg-green-200 text-green-800'}`}>
-                                                {user.isLocked ? 'Locked' : 'Active'}
-                                            </span>
-                                        </div>
-                                        <button onClick={() => setTargetUser(user.email)} className={`text-sm font-semibold px-4 py-2 rounded-lg ${user.isLocked ? 'bg-green-600' : 'bg-red-600'} text-white`}>
-                                            {user.isLocked ? 'Unlock' : 'Lock'}
-                                        </button>
-                                    </div>
-                                    {targetUser === user.email && (
-                                        <div className="mt-3 pt-3 border-t border-medium-gray dark:border-gray-600 space-y-2">
-                                            <p className="text-xs text-gray-600 dark:text-gray-400">Enter admin password to confirm:</p>
-                                            <input
-                                                type="password"
-                                                value={adminPassword}
-                                                onChange={e => setAdminPassword(e.target.value)}
-                                                className="w-full px-3 py-2 border border-medium-gray dark:border-gray-500 dark:bg-gray-600 rounded-lg text-sm"
-                                                placeholder="Admin Password"
-                                            />
-                                            <div className="flex space-x-2 justify-end">
-                                                <button onClick={() => setTargetUser(null)} className="text-sm font-semibold px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-500">Cancel</button>
-                                                <button onClick={() => handleLockToggle(user.email, user.isLocked)} className="text-sm font-semibold px-4 py-2 rounded-lg bg-primary text-white">Confirm</button>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </main>
-        </div>
-    );
-};
-
-const TelegramAdPage = ({ onContinue, onJoin }: { onContinue: () => void; onJoin: () => void; }) => (
-    <div className="min-h-screen bg-light-gray dark:bg-gray-900 flex flex-col justify-center items-center p-4 text-center">
-        <div className="max-w-sm w-full mx-auto space-y-6">
-            <div className="flex justify-center mb-4">
-                <NovapayLogo />
-            </div>
-            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-md space-y-5">
-                <h1 className="text-2xl font-bold text-dark-gray dark:text-gray-200">Welcome to NOVAPAY!</h1>
-                <p className="text-gray-600 dark:text-gray-400">
-                    Join our official Telegram channel to get exclusive updates, 24/7 customer support, and connect with other users in our community.
-                </p>
-                <button
-                    onClick={onJoin}
-                    className="w-full bg-blue-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center"
-                >
-                    <TelegramIcon />
-                    Join Telegram Channel
-                </button>
-                <button
-                    onClick={onContinue}
-                    className="w-full bg-transparent text-primary font-semibold py-2 px-4 rounded-lg hover:bg-lighter-green dark:hover:bg-gray-700"
-                >
-                    Continue to Dashboard
-                </button>
-            </div>
-        </div>
-    </div>
-);
-
-
-const PlaceholderPage = ({ title }: { title: string }) => (
-    <div className="flex flex-col items-center justify-center h-[calc(100vh-6rem)]">
-        <h1 className="text-2xl font-bold text-gray-400 dark:text-gray-500">{title} Page</h1>
-        <p className="text-gray-500 dark:text-gray-600">Coming Soon!</p>
-    </div>
-);
-
+// --- ChatBot Component ---
 const ChatBot = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState<{role: 'user' | 'model', text: string}[]>([]);
-    const [input, setInput] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const chatSessionRef = useRef<Chat | null>(null);
-    const messagesEndRef = useRef<HTMLDivElement>(null);
-    // Keep track of current streaming message content
-    const [streamingContent, setStreamingContent] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<{role: 'user' | 'model', text: string}[]>([]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if (isOpen && !chatSessionRef.current) {
-             try {
-                 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-                 chatSessionRef.current = ai.chats.create({
-                    model: 'gemini-2.5-flash',
-                    config: {
-                        systemInstruction: "You are Nova, a helpful AI support assistant for the NOVAPAY mobile banking app. Help users with account balances, transfers, airtime, data, bill payments (Betting, TV), loans, and the Safebox feature. NOVAPAY also has subscription plans (Weekly, Monthly, Yearly). Be concise, friendly, and use emojis occasionally. Do not provide real financial advice or ask for sensitive personal info like passwords.",
-                    }
-                });
-                setMessages([{ role: 'model', text: "Hi! I'm Nova. How can I help you with your banking today? 👋" }]);
-             } catch (error) {
-                 console.error("Failed to initialize chat:", error);
-                 setMessages([{ role: 'model', text: "Chat system currently unavailable." }]);
-             }
-        }
-    }, [isOpen]);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    };
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isOpen]);
 
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages, streamingContent, isOpen]);
+  const handleSend = async () => {
+    if (!input.trim()) return;
+    const userMessage = input;
+    setInput('');
+    setMessages(prev => [...prev, { role: 'user', text: userMessage }]);
+    setIsLoading(true);
 
-    const handleSend = async (e?: React.FormEvent) => {
-        e?.preventDefault();
-        if (!input.trim() || !chatSessionRef.current) return;
+    try {
+      // Fallback if API key is missing, but assume it's there as per instructions
+      const apiKey = process.env.API_KEY;
+      if (!apiKey) {
+          throw new Error("API Key not configured.");
+      }
 
-        const userMsg = input.trim();
-        setInput('');
-        setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
-        setIsLoading(true);
-        setStreamingContent('');
+      const ai = new GoogleGenAI({ apiKey });
+      const chat = ai.chats.create({
+        model: 'gemini-2.5-flash',
+        config: {
+            systemInstruction: "You are Nova, the helpful AI assistant for NOVAPAY. You help users with their banking, explaining features like rewards (daily login bonus), subscriptions (Weekly, Monthly, Yearly plans for premium features), and security. Keep answers short, friendly, and emoji-rich. If a user asks about their specific account balance or transaction details, politely explain that for security reasons you cannot access their private data directly, but guide them on how to check it in the app."
+        },
+        history: messages.map(m => ({ role: m.role, parts: [{ text: m.text }] }))
+      });
 
-        try {
-            const resultStream = await chatSessionRef.current.sendMessageStream({ message: userMsg });
-            
-            let fullText = '';
-            for await (const chunk of resultStream) {
-                const text = chunk.text; // Access .text property directly
-                if (text) {
-                    fullText += text;
-                    setStreamingContent(fullText);
-                }
-            }
-            
-            setMessages(prev => [...prev, { role: 'model', text: fullText }]);
-            setStreamingContent('');
-        } catch (err) {
-            console.error(err);
-            setMessages(prev => [...prev, { role: 'model', text: "Sorry, I'm having trouble connecting. Please try again later." }]);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    if (!isOpen) {
-        return (
-            <button 
-                onClick={() => setIsOpen(true)} 
-                className="fixed bottom-24 right-4 z-50 bg-primary text-white p-4 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 hover:scale-110"
-                aria-label="Open Chat Support"
-            >
-                <ChatBubbleLeftRightIcon />
-            </button>
-        );
-    }
-
-    return (
-        <div className="fixed bottom-24 right-4 z-50 w-[90vw] max-w-sm h-[500px] max-h-[60vh] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-medium-gray dark:border-gray-700 animate-in slide-in-from-bottom-10 fade-in duration-300">
-            <div className="bg-primary p-4 flex justify-between items-center text-white shrink-0">
-                <div className="flex items-center space-x-2">
-                    <div className="bg-white/20 p-1.5 rounded-full">
-                        <ChatBubbleLeftRightIcon />
-                    </div>
-                    <div>
-                        <h3 className="font-bold text-sm">Nova Support</h3>
-                        <span className="text-xs text-green-100 flex items-center gap-1">
-                            <span className="w-2 h-2 bg-green-300 rounded-full animate-pulse"></span> Online
-                        </span>
-                    </div>
-                </div>
-                <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-white/20 rounded-full transition-colors">
-                    <XMarkIcon />
-                </button>
-            </div>
-
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-900/50">
-                {messages.map((msg, idx) => (
-                    <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${
-                            msg.role === 'user' 
-                                ? 'bg-primary text-white rounded-tr-none' 
-                                : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-tl-none shadow-sm'
-                        }`}>
-                            {msg.text}
-                        </div>
-                    </div>
-                ))}
-                {isLoading && streamingContent && (
-                     <div className="flex justify-start">
-                        <div className="max-w-[80%] p-3 rounded-2xl text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-tl-none shadow-sm">
-                            {streamingContent}
-                        </div>
-                    </div>
-                )}
-                {isLoading && !streamingContent && (
-                    <div className="flex justify-start">
-                        <div className="bg-white dark:bg-gray-700 p-3 rounded-2xl rounded-tl-none shadow-sm flex space-x-1">
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-75"></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-150"></div>
-                        </div>
-                    </div>
-                )}
-                <div ref={messagesEndRef} />
-            </div>
-
-            <form onSubmit={handleSend} className="p-3 bg-white dark:bg-gray-800 border-t border-medium-gray dark:border-gray-700 flex items-center space-x-2 shrink-0">
-                <input 
-                    type="text" 
-                    value={input} 
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder="Type a message..."
-                    className="flex-1 bg-light-gray dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-                <button 
-                    type="submit" 
-                    disabled={!input.trim() || isLoading}
-                    className="bg-primary text-white p-2 rounded-full hover:bg-green-700 disabled:opacity-50 disabled:hover:bg-primary transition-colors"
-                >
-                    <PaperAirplaneIcon />
-                </button>
-            </form>
-        </div>
-    );
-};
-
-// --- App Container ---
-const App: React.FC = () => {
-    const [user, setUser] = useState<{ email: string } | null>(null);
-    const [account, setAccount] = useState<Account | null>(null);
-    const [profilePic, setProfilePic] = useState<string | null>(null);
-    const [transactions, setTransactions] = useState<Transaction[]>([]);
-    const [claimedDays, setClaimedDays] = useState(0);
-    const [lastClaimTimestamp, setLastClaimTimestamp] = useState(0);
-    const [isLocked, setIsLocked] = useState(false);
-    const [darkMode, setDarkMode] = useState(false);
-
-    const [activeTab, setActiveTab] = useState('Home');
-    const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription', 'admin', 'sync', 'withdraw', 'airtime', 'data', 'refer', 'safebox', 'telegramAd', 'loan'
-    const [testimonial, setTestimonial] = useState<{ name: string; amount: number; } | null>(null);
-
-    // Load theme from local storage on initial render
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('novapay_theme');
-        if (savedTheme === 'dark') {
-            setDarkMode(true);
-        }
-    }, []);
-
-    // Apply theme to document and save to local storage
-    useEffect(() => {
-        if (darkMode) {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('novapay_theme', 'dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('novapay_theme', 'light');
-        }
-    }, [darkMode]);
-
-    const loadUserData = (email: string) => {
-        try {
-            const userDataRaw = localStorage.getItem(`novapay_data_${email}`);
-            if (userDataRaw) {
-                const data = JSON.parse(userDataRaw);
-                setUser({ email });
-                setAccount(data.account);
-                setTransactions(data.transactions || []);
-                setProfilePic(data.profilePic || null);
-                setClaimedDays(data.claimedDays || 0);
-                setLastClaimTimestamp(data.lastClaimTimestamp || 0);
-                setIsLocked(data.isLocked || false);
-            }
-        } catch (error) {
-            console.error("Failed to load user data", error);
-        }
-    };
-
-    useEffect(() => {
-        try {
-            const sessionRaw = localStorage.getItem('novapay_session');
-            if (sessionRaw) {
-                const session = JSON.parse(sessionRaw);
-                if (session.email) {
-                    loadUserData(session.email);
-                }
-            }
-        } catch (error) {
-            console.error("Failed to parse session data from localStorage", error);
-            localStorage.removeItem('novapay_session');
-        }
-    }, []);
-
-    useEffect(() => {
-        if (!user || !account) return;
-
-        const dataToSave = {
-            account,
-            transactions,
-            profilePic,
-            claimedDays,
-            lastClaimTimestamp,
-            isLocked,
-        };
-        localStorage.setItem(`novapay_data_${user.email}`, JSON.stringify(dataToSave));
-
-    }, [user, account, transactions, profilePic, claimedDays, lastClaimTimestamp, isLocked]);
-
-    const names = ['Olamide', 'Bisi', 'Tunde', 'Chiamaka', 'Ade', 'Fatima', 'Emeka', 'Aisha', 'Ibrahim', 'Ngozi'];
-
-    useEffect(() => {
-        if(!user) return; // Only run when logged in
-
-        const interval = setInterval(() => {
-            const randomName = names[Math.floor(Math.random() * names.length)];
-            const randomAmount = Math.floor(Math.random() * (200000 - 20000 + 1)) + 20000;
-            setTestimonial({ name: randomName, amount: randomAmount });
-            
-            setTimeout(() => {
-                setTestimonial(null);
-            }, 6000); // Disappears after 6 seconds
-
-        }, 7000); // Appears every 7 seconds
-
-        return () => clearInterval(interval);
-    }, [user]);
-
-
-    const addTransaction = (transaction: Omit<Transaction, 'id' | 'date'>) => {
-        setTransactions(prev => {
-            const newTransaction: Transaction = {
-                ...transaction,
-                id: `txn_${Date.now()}`,
-                date: new Date().toISOString(),
-            };
-            return [newTransaction, ...prev].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      const result = await chat.sendMessageStream({ message: userMessage });
+      
+      let fullText = '';
+      setMessages(prev => [...prev, { role: 'model', text: '' }]);
+      
+      for await (const chunk of result) {
+        const text = chunk.text;
+        fullText += text;
+        setMessages(prev => {
+            const newArr = [...prev];
+            newArr[newArr.length - 1].text = fullText;
+            return newArr;
         });
-    };
-    
-    const handleLogin = async (email: string, password: string): Promise<string | null> => {
-        const usersRaw = localStorage.getItem('novapay_users');
-        const users = usersRaw ? JSON.parse(usersRaw) : [];
-
-        const foundUser = users.find((u: any) => u.email === email);
-        if (!foundUser || foundUser.password !== password) {
-            return 'Invalid email or password.';
-        }
-
-        localStorage.setItem('novapay_session', JSON.stringify({ email }));
-        loadUserData(email);
-        return null;
-    };
-
-    const handleRegister = async (email: string, password: string): Promise<string | null> => {
-        const usersRaw = localStorage.getItem('novapay_users');
-        let users = usersRaw ? JSON.parse(usersRaw) : [];
-
-        if (users.find((u: any) => u.email === email)) {
-            return 'An account with this email already exists.';
-        }
-
-        users.push({ email, password });
-        localStorage.setItem('novapay_users', JSON.stringify(users));
-
-        const initialAccount: Account = {
-            id: `acc_${email}`,
-            name: email.split('@')[0],
-            accountNumber: '**** **** **** 5000',
-            balance: 5000,
-            type: 'checking',
-        };
-        const initialUserData = {
-            account: initialAccount,
-            transactions: [],
-            profilePic: null,
-            claimedDays: 0,
-            lastClaimTimestamp: 0,
-            isLocked: false,
-        };
-        localStorage.setItem(`novapay_data_${email}`, JSON.stringify(initialUserData));
-        
-        const loginError = await handleLogin(email, password);
-        if (loginError) {
-             return loginError;
-        }
-
-        setView('telegramAd');
-        return null;
-    };
-    
-    const handleLogout = () => {
-        localStorage.removeItem('novapay_session');
-        setUser(null);
-        setAccount(null);
-        setTransactions([]);
-        setProfilePic(null);
-        setClaimedDays(0);
-        setLastClaimTimestamp(0);
-        setIsLocked(false);
-        setActiveTab('Home');
-        setView('main');
-    };
-
-    const handleNavigateToTelegram = () => {
-        window.open('https://t.me/veripay99', '_blank', 'noopener,noreferrer');
-    };
-
-    if (!user || !account) {
-        return <AuthFlow onLogin={handleLogin} onRegister={handleRegister} />;
+      }
+    } catch (error) {
+      console.error(error);
+      setMessages(prev => [...prev, { role: 'model', text: "I'm having trouble connecting to the server right now. Please check your internet connection or try again later." }]);
+    } finally {
+      setIsLoading(false);
     }
-    
-    if (view === 'telegramAd') {
-        return <TelegramAdPage 
-            onContinue={() => setView('main')} 
-            onJoin={handleNavigateToTelegram} 
-        />;
-    }
+  };
 
-    if (view === 'rewards') {
-        return <RewardsPage onBack={() => setView('main')} account={account} setAccount={setAccount} addTransaction={addTransaction} claimedDays={claimedDays} setClaimedDays={setClaimedDays} lastClaimTimestamp={lastClaimTimestamp} setLastClaimTimestamp={setLastClaimTimestamp} />;
-    }
-    
-    if (view === 'history') {
-        return <TransactionHistoryPage onBack={() => setView('main')} transactions={transactions} />;
-    }
-    
-    if (view === 'subscription') {
-        return <SubscriptionPage onBack={() => setView('main')} userEmail={user.email} />;
-    }
-    
-    if (view === 'admin') {
-        return <AdminPage onBack={() => setView('main')} user={user} addTransaction={addTransaction} />;
-    }
+  return (
+    <>
+      <button 
+        onClick={() => setIsOpen(true)}
+        className={`fixed bottom-24 right-4 z-50 bg-primary text-white p-4 rounded-full shadow-lg transition-transform hover:scale-110 ${isOpen ? 'hidden' : 'flex'}`}
+        aria-label="Open Support Chat"
+      >
+        <ChatBubbleLeftRightIcon />
+      </button>
 
-    if (view === 'sync') {
-        return <SyncAccountPage onBack={() => setView('main')} user={user} />;
-    }
-    
-    if (view === 'withdraw') {
-        return <WithdrawPage onBack={() => setView('main')} account={account} setAccount={setAccount} addTransaction={addTransaction} transactions={transactions} onNavigateToSubscription={() => setView('subscription')} isLocked={isLocked} />;
-    }
+      {isOpen && (
+        <div className="fixed bottom-24 right-4 z-50 w-80 md:w-96 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200 dark:border-gray-700" style={{ maxHeight: '60vh' }}>
+          <div className="bg-primary p-4 flex justify-between items-center text-white">
+            <div className="flex items-center space-x-2">
+               <div className="bg-white p-1 rounded-full">
+                 <NovapayLogo /> 
+               </div>
+               <span className="font-bold">Nova Support</span>
+            </div>
+            <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-green-700 rounded">
+              <XMarkIcon />
+            </button>
+          </div>
 
-    if (view === 'loan') {
-        return <LoanPage onBack={() => setView('main')} account={account} setAccount={setAccount} addTransaction={addTransaction} />;
-    }
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-900">
+            {messages.length === 0 && (
+                <div className="text-center text-gray-500 mt-4 text-sm">
+                    <p>👋 Hi! I'm Nova.</p>
+                    <p>Ask me about your account, rewards, or subscriptions.</p>
+                </div>
+            )}
+            {messages.map((msg, idx) => (
+              <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[80%] p-3 rounded-xl text-sm ${
+                  msg.role === 'user' 
+                    ? 'bg-primary text-white rounded-tr-none' 
+                    : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-tl-none shadow-sm'
+                }`}>
+                  {msg.text}
+                </div>
+              </div>
+            ))}
+            {isLoading && (
+               <div className="flex justify-start">
+                 <div className="bg-white dark:bg-gray-700 p-3 rounded-xl rounded-tl-none shadow-sm">
+                    <div className="flex space-x-1">
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.4s'}}></div>
+                    </div>
+                 </div>
+               </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
 
-    if (view === 'refer') {
-        return <ReferAndEarnPage onBack={() => setView('main')} userEmail={user.email} />;
-    }
-    
-    if (view === 'safebox') {
-        return <SafeboxPage onBack={() => setView('main')} />;
-    }
-
-    if (view === 'airtime') {
-        return (
-            <>
-                <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                    <button onClick={() => setView('main')} className="p-2 -ml-2 text-dark-gray dark:text-gray-200"><ArrowLeftIcon /></button>
-                    <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Buy Airtime</h1>
-                </header>
-                <PlaceholderPage title="Buy Airtime" />
-                <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-            </>
-        )
-    }
-    if (view === 'data') {
-        return (
-            <>
-                <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
-                    <button onClick={() => setView('main')} className="p-2 -ml-2 text-dark-gray dark:text-gray-200"><ArrowLeftIcon /></button>
-                    <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Buy Data</h1>
-                </header>
-                <PlaceholderPage title="Buy Data" />
-                <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-            </>
-        )
-    }
-
-    const renderContent = () => {
-        switch (activeTab) {
-            case 'Home':
-                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} onNavigateToRefer={() => setView('refer')} onNavigateToTelegram={handleNavigateToTelegram} onNavigateToSafebox={() => setView('safebox')} onNavigateToLoan={() => setView('loan')} testimonial={testimonial} />;
-            case 'Me':
-                return <MePage user={user} profilePic={profilePic} setProfilePic={setProfilePic} onLogout={handleLogout} darkMode={darkMode} setDarkMode={setDarkMode} />;
-            case 'Rewards':
-                 return <PlaceholderPage title="Rewards" />;
-            case 'Finance':
-                 return <PlaceholderPage title="Finance" />;
-            case 'Cards':
-                 return <PlaceholderPage title="Cards" />;
-            default:
-                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} onNavigateToRefer={() => setView('refer')} onNavigateToTelegram={handleNavigateToTelegram} onNavigateToSafebox={() => setView('safebox')} onNavigateToLoan={() => setView('loan')} testimonial={testimonial} />;
-        }
-    };
-    
-    return (
-        <div className="max-w-md mx-auto bg-light-gray dark:bg-gray-900 font-sans relative pb-24 min-h-screen">
-            {renderContent()}
-            <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-            {user && <ChatBot />}
+          <div className="p-3 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex items-center space-x-2">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+              placeholder="Type a message..."
+              className="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+            />
+            <button 
+                onClick={handleSend} 
+                disabled={isLoading || !input.trim()}
+                className={`p-2 rounded-full ${!input.trim() ? 'text-gray-400' : 'text-primary hover:bg-green-50'}`}
+            >
+              <PaperAirplaneIcon />
+            </button>
+          </div>
         </div>
-    );
+      )}
+    </>
+  );
 };
+
+// --- Main App Component ---
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [activeTab, setActiveTab] = useState('Home');
+  const [currentView, setCurrentView] = useState<'home' | 'rewards' | 'subscription' | 'history' | 'transfer'>('home');
+  
+  // Mock Data State
+  const [account, setAccount] = useState<Account>({
+    id: '1',
+    name: 'User',
+    accountNumber: '1234567890',
+    balance: 50000,
+    type: 'checking'
+  });
+  
+  const [transactions, setTransactions] = useState<Transaction[]>([
+     { id: '1', date: new Date().toISOString(), description: 'Transfer from John', amount: 5000, type: 'credit' },
+     { id: '2', date: new Date(Date.now() - 86400000).toISOString(), description: 'Airtime Purchase', amount: 1000, type: 'debit' }
+  ]);
+
+  // Rewards State
+  const [claimedDays, setClaimedDays] = useState(0);
+  const [lastClaimTimestamp, setLastClaimTimestamp] = useState(0);
+  
+  // Testimonial State (Mock)
+  const [testimonial, setTestimonial] = useState<{ name: string; amount: number } | null>(null);
+
+  useEffect(() => {
+      // Simulate random testimonials appearing
+      const interval = setInterval(() => {
+          if (Math.random() > 0.7) {
+              setTestimonial({ name: `User${Math.floor(Math.random()*1000)}`, amount: Math.floor(Math.random() * 50000) + 5000 });
+              setTimeout(() => setTestimonial(null), 4000);
+          }
+      }, 10000);
+      return () => clearInterval(interval);
+  }, []);
+
+  const handleLogin = async (e: string, p: string) => {
+     // Simple mock auth
+     if(e && p.length === 6) {
+         setIsLoggedIn(true);
+         return null;
+     }
+     return "Invalid credentials";
+  };
+
+  const handleRegister = async (e: string, p: string) => {
+     if(e && p.length === 6) {
+         setIsLoggedIn(true);
+         return null;
+     }
+     return "Registration failed";
+  };
+
+  if (!isLoggedIn) {
+    return <AuthFlow onLogin={handleLogin} onRegister={handleRegister} />;
+  }
+
+  return (
+    <div className="min-h-screen bg-light-gray dark:bg-gray-900 text-dark-gray dark:text-white pb-20 relative">
+       {currentView === 'home' && (
+         <HomePage 
+           userName={account.name}
+           account={account}
+           transactions={transactions}
+           onNavigateToRewards={() => setCurrentView('rewards')}
+           onNavigateToSubscription={() => setCurrentView('subscription')}
+           onNavigateToHistory={() => setCurrentView('history')}
+           onNavigateToAdmin={() => alert('Admin panel restricted')}
+           onNavigateToSync={() => alert('Syncing...')}
+           onNavigateToWithdraw={() => alert('Withdraw feature coming soon')}
+           onNavigateToAirtime={() => alert('Airtime feature coming soon')}
+           onNavigateToData={() => alert('Data feature coming soon')}
+           onNavigateToRefer={() => alert('Referral feature coming soon')}
+           onNavigateToTelegram={() => alert('Opening Telegram...')}
+           onNavigateToSafebox={() => alert('Safebox feature coming soon')}
+           onNavigateToLoan={() => alert('Loan feature coming soon')}
+           testimonial={testimonial}
+         />
+       )}
+       
+       {currentView === 'rewards' && (
+         <RewardsPage 
+            onBack={() => setCurrentView('home')}
+            account={account}
+            setAccount={setAccount as any}
+            addTransaction={(tx) => setTransactions(prev => [{id: Date.now().toString(), date: new Date().toISOString(), ...tx}, ...prev])}
+            claimedDays={claimedDays}
+            setClaimedDays={setClaimedDays}
+            lastClaimTimestamp={lastClaimTimestamp}
+            setLastClaimTimestamp={setLastClaimTimestamp}
+         />
+       )}
+
+       {currentView === 'subscription' && (
+          <SubscriptionPage onBack={() => setCurrentView('home')} userEmail="user@example.com" />
+       )}
+
+       {/* Simple placeholder views for missing components */}
+       {currentView === 'history' && (
+           <div className="p-4">
+               <button onClick={() => setCurrentView('home')} className="mb-4 flex items-center text-primary font-bold"><ArrowLeftIcon /> Back</button>
+               <h2 className="text-xl font-bold mb-4">Transaction History</h2>
+               <div className="space-y-2">
+                   {transactions.map(tx => (
+                       <div key={tx.id} className="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm flex justify-between">
+                           <div>
+                               <p className="font-semibold">{tx.description}</p>
+                               <p className="text-xs text-gray-500">{new Date(tx.date).toLocaleDateString()}</p>
+                           </div>
+                           <p className={`font-bold ${tx.type === 'credit' ? 'text-green-500' : 'text-red-500'}`}>
+                               {tx.type === 'credit' ? '+' : '-'}₦{tx.amount.toLocaleString()}
+                           </p>
+                       </div>
+                   ))}
+               </div>
+           </div>
+       )}
+
+       {/* Bottom Nav for main views - only show on home for now or handle navigation logic */}
+       {currentView === 'home' && <BottomNav activeTab={activeTab} setActiveTab={(tab) => { setActiveTab(tab); }} />}
+       
+       {/* ChatBot Integration - Works globally when logged in */}
+       <ChatBot />
+    </div>
+  );
+}
 
 export default App;
