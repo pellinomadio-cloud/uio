@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { GoogleGenAI, type Chat, type GenerateContentResponse } from "@google/genai";
 import type { Account, Transaction } from './types';
 
 // --- Icon Components ---
@@ -13,6 +14,7 @@ const HeadsetIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6
 const ScanIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 1v4m0 0h-4m4 0l-5-5" /></svg>;
 const BellIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>;
 const EyeIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>;
+const EyeOffIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.243 4.243L6.228 6.228" /></svg>;
 const ChevronRightIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>;
 const BuildingIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>;
 const CameraIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>;
@@ -30,6 +32,10 @@ const CreditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 
 const DebitIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110 18 9 9 0 010-18z" /></svg>;
 const CrownIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>;
 const SyncIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5m11 2a9 9 0 11-18 0 9 9 0 0118 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M20 4v5h-5" /></svg>;
+const TelegramIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23l7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3L3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.57c-.28 1.13-1.04 1.4-1.74.88l-4.98-3.65l-2.32 2.23c-.25.24-.45.43-.86.43z"></path></svg>;
+const ChatBubbleLeftRightIcon = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.159 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" /></svg>;
+const XMarkIcon = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>;
+const PaperAirplaneIcon = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 -rotate-45"><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>;
 
 // --- UI Section Components ---
 const AppHeader = ({ userName }: { userName: string }) => (
@@ -53,13 +59,21 @@ const AppHeader = ({ userName }: { userName: string }) => (
 );
 
 const BalanceCard = ({ balance, onNavigateToHistory }: { balance: number, onNavigateToHistory: () => void }) => {
+  const [isBalanceVisible, setIsBalanceVisible] = useState(true);
+
   const formattedBalance = new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(balance);
+  const hiddenBalance = `₦ ${'•'.repeat(formattedBalance.length - 2)}`;
+
+  const toggleBalanceVisibility = () => {
+    setIsBalanceVisible(prev => !prev);
+  };
+
   return (
     <div className="bg-primary text-primary-content rounded-2xl p-4 shadow-lg space-y-4">
       <div className="flex justify-between items-center text-sm">
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 cursor-pointer" onClick={toggleBalanceVisibility}>
           <span>Available Balance</span>
-          <EyeIcon />
+          {isBalanceVisible ? <EyeIcon /> : <EyeOffIcon />}
         </div>
         <button onClick={onNavigateToHistory} className="flex items-center space-x-1">
           <span>Transaction History</span>
@@ -67,7 +81,7 @@ const BalanceCard = ({ balance, onNavigateToHistory }: { balance: number, onNavi
         </button>
       </div>
       <div className="flex justify-between items-end">
-        <p className="text-3xl font-bold">{formattedBalance}</p>
+        <p className="text-3xl font-bold">{isBalanceVisible ? formattedBalance : hiddenBalance}</p>
         <button className="bg-white text-primary font-bold py-2 px-4 rounded-lg text-sm">+ Add Money</button>
       </div>
     </div>
@@ -107,7 +121,7 @@ const ServiceItem = ({ icon, label, tag, onClick }: { icon: React.ReactElement; 
     </div>
 );
 
-const Services = ({ onNavigateToSync, isSubscribed, onNavigateToSubscription, onNavigateToAirtime, onNavigateToData, onNavigateToRefer, onNavigateToTelegram, onNavigateToSafebox }: { 
+const Services = ({ onNavigateToSync, isSubscribed, onNavigateToSubscription, onNavigateToAirtime, onNavigateToData, onNavigateToRefer, onNavigateToTelegram, onNavigateToSafebox, onNavigateToLoan }: { 
     onNavigateToSync: () => void;
     isSubscribed: boolean;
     onNavigateToSubscription: () => void;
@@ -116,6 +130,7 @@ const Services = ({ onNavigateToSync, isSubscribed, onNavigateToSubscription, on
     onNavigateToRefer: () => void;
     onNavigateToTelegram: () => void;
     onNavigateToSafebox: () => void;
+    onNavigateToLoan: () => void;
 }) => {
     const handleServiceClick = (service: 'airtime' | 'data') => {
         if (isSubscribed) {
@@ -131,10 +146,10 @@ const Services = ({ onNavigateToSync, isSubscribed, onNavigateToSubscription, on
         <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 grid grid-cols-4 gap-y-6 gap-x-2 shadow-sm">
             <ServiceItem onClick={() => handleServiceClick('airtime')} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>} label="Airtime" tag="Up to 6%"/>
             <ServiceItem onClick={() => handleServiceClick('data')} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path></svg>} label="Data" tag="Up to 6%"/>
-            <ServiceItem onClick={onNavigateToTelegram} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>} label="Betting" />
+            <ServiceItem onClick={onNavigateToSubscription} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>} label="Betting" />
             <ServiceItem onClick={onNavigateToTelegram} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>} label="TV" />
             <ServiceItem onClick={onNavigateToSafebox} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>} label="Safebox" />
-            <ServiceItem icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>} label="Loan" tag="LoanMore" />
+            <ServiceItem onClick={onNavigateToLoan} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>} label="Loan" tag="LoanMore" />
             <ServiceItem onClick={onNavigateToRefer} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>} label="Refer & Earn" />
             <ServiceItem onClick={onNavigateToSync} icon={<SyncIcon />} label="Sync Account" />
         </div>
@@ -403,7 +418,7 @@ const getSubscriptionStatus = (transactions: Transaction[]): 'none' | 'weekly' |
 };
 
 // --- Page Components ---
-const HomePage = ({ userName, account, transactions, onNavigateToRewards, onNavigateToHistory, onNavigateToSubscription, onNavigateToAdmin, onNavigateToSync, onNavigateToWithdraw, onNavigateToAirtime, onNavigateToData, onNavigateToRefer, onNavigateToTelegram, onNavigateToSafebox, testimonial }: { 
+const HomePage = ({ userName, account, transactions, onNavigateToRewards, onNavigateToHistory, onNavigateToSubscription, onNavigateToAdmin, onNavigateToSync, onNavigateToWithdraw, onNavigateToAirtime, onNavigateToData, onNavigateToRefer, onNavigateToTelegram, onNavigateToSafebox, onNavigateToLoan, testimonial }: { 
     userName: string, 
     account: Account,
     transactions: Transaction[],
@@ -418,6 +433,7 @@ const HomePage = ({ userName, account, transactions, onNavigateToRewards, onNavi
     onNavigateToRefer: () => void,
     onNavigateToTelegram: () => void,
     onNavigateToSafebox: () => void,
+    onNavigateToLoan: () => void,
     testimonial: { name: string; amount: number } | null,
 }) => {
     const subscriptionStatus = getSubscriptionStatus(transactions);
@@ -441,6 +457,7 @@ const HomePage = ({ userName, account, transactions, onNavigateToRewards, onNavi
                     onNavigateToRefer={onNavigateToRefer}
                     onNavigateToTelegram={onNavigateToTelegram}
                     onNavigateToSafebox={onNavigateToSafebox}
+                    onNavigateToLoan={onNavigateToLoan}
                 />
                 <SpecialBonus />
                 <SecurityTest onNavigateToAdmin={onNavigateToAdmin} />
@@ -634,6 +651,10 @@ Thank you.
                 <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Subscription Plans</h1>
             </header>
             <main className="p-4 space-y-6">
+                <div className="bg-yellow-100 dark:bg-yellow-900/30 border-l-4 border-yellow-500 text-yellow-700 dark:text-yellow-300 p-4 rounded-md" role="alert">
+                    <p className="font-bold">Important Notice</p>
+                    <p>Do not pay for your subscription using Opay. You can use Palmpay or other banks. We do not approve OPAY payment for subscription.</p>
+                </div>
                 <div>
                     <h2 className="text-lg font-semibold text-dark-gray dark:text-gray-200 mb-3">Choose Your Plan</h2>
                     <div className="space-y-3">
@@ -1262,6 +1283,147 @@ const WithdrawPage = ({ onBack, account, setAccount, addTransaction, transaction
     );
 };
 
+const LoanPage = ({ onBack, account, setAccount, addTransaction }: {
+    onBack: () => void;
+    account: Account;
+    setAccount: React.Dispatch<React.SetStateAction<Account | null>>;
+    addTransaction: (transaction: Omit<Transaction, 'id' | 'date'>) => void;
+}) => {
+    const [amount, setAmount] = useState('');
+    const [dueDateOption, setDueDateOption] = useState('1'); // value in months
+    const [adminPassword, setAdminPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+        setSuccess('');
+        setIsLoading(true);
+
+        if (adminPassword !== 'MAVELLDC') {
+            setError('Incorrect admin password.');
+            setIsLoading(false);
+            return;
+        }
+
+        const numericAmount = parseFloat(amount);
+        if (isNaN(numericAmount) || numericAmount <= 0) {
+            setError('Please enter a valid loan amount.');
+            setIsLoading(false);
+            return;
+        }
+
+        // Simulate processing
+        setTimeout(() => {
+            if (!account || !setAccount) {
+                 setError('Account data not available.');
+                 setIsLoading(false);
+                 return;
+            }
+            
+            const newBalance = account.balance + numericAmount;
+            const updatedAccount = { ...account, balance: newBalance };
+            setAccount(updatedAccount);
+
+            const now = new Date();
+            const dueDate = new Date(now.setMonth(now.getMonth() + parseInt(dueDateOption)));
+            const formattedDueDate = dueDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+            addTransaction({
+                description: `Loan approved. Due on ${formattedDueDate}`,
+                amount: numericAmount,
+                type: 'credit',
+            });
+            
+            setSuccess('Loan approved and funds have been added to your account!');
+            setIsLoading(false);
+
+            setTimeout(() => {
+                onBack();
+            }, 2000);
+        }, 2000);
+    };
+
+    const dueDateOptions = [
+        { label: '1 Month', value: '1' },
+        { label: '3 Months', value: '3' },
+        { label: '6 Months', value: '6' },
+        { label: '12 Months', value: '12' },
+    ];
+
+    return (
+        <div className="bg-light-gray dark:bg-gray-900 min-h-screen">
+            <header className="bg-white dark:bg-gray-800 p-4 flex items-center space-x-4 sticky top-0 z-10 shadow-sm">
+                <button onClick={onBack} className="p-2 -ml-2 text-dark-gray dark:text-gray-200">
+                    <ArrowLeftIcon />
+                </button>
+                <h1 className="text-xl font-bold text-dark-gray dark:text-gray-200">Request a Loan</h1>
+            </header>
+            <main className="p-4">
+                <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md space-y-6">
+                    <div>
+                        <label htmlFor="amount" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Loan Amount (NGN)</label>
+                        <input
+                            type="number"
+                            id="amount"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            placeholder="e.g., 50000"
+                            className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="due-date" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Repayment Duration</label>
+                        <select
+                            id="due-date"
+                            value={dueDateOption}
+                            onChange={(e) => setDueDateOption(e.target.value)}
+                            className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
+                            required
+                        >
+                            {dueDateOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                        </select>
+                    </div>
+                     <div>
+                        <label htmlFor="admin-password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Admin Approval Password</label>
+                        <input
+                            type="password"
+                            id="admin-password"
+                            value={adminPassword}
+                            onChange={(e) => setAdminPassword(e.target.value)}
+                            placeholder="Enter admin password for approval"
+                            className="mt-1 w-full px-4 py-3 border border-medium-gray dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-primary focus:border-primary"
+                            required
+                        />
+                    </div>
+
+                    {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+                    {success && <p className="text-sm text-green-600 text-center">{success}</p>}
+                    
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:bg-medium-gray flex items-center justify-center"
+                    >
+                        {isLoading ? (
+                            <>
+                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Processing...
+                            </>
+                        ) : 'Borrow Now'}
+                    </button>
+                </form>
+            </main>
+        </div>
+    );
+};
+
 const ReferAndEarnPage = ({ onBack, userEmail }: { onBack: () => void; userEmail: string; }) => {
     const telegramLink = 'https://t.me/veripay99';
     const rewardAmount = 1000;
@@ -1483,6 +1645,36 @@ const SafeboxPage = ({ onBack }: { onBack: () => void; }) => {
     );
 };
 
+const TelegramAdPage = ({ onContinue, onJoin }: { onContinue: () => void; onJoin: () => void; }) => (
+    <div className="min-h-screen bg-light-gray dark:bg-gray-900 flex flex-col justify-center items-center p-4 text-center">
+        <div className="max-w-sm w-full mx-auto space-y-6">
+            <div className="flex justify-center mb-4">
+                <NovapayLogo />
+            </div>
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-md space-y-5">
+                <h1 className="text-2xl font-bold text-dark-gray dark:text-gray-200">Welcome to NOVAPAY!</h1>
+                <p className="text-gray-600 dark:text-gray-400">
+                    Join our official Telegram channel to get exclusive updates, 24/7 customer support, and connect with other users in our community.
+                </p>
+                <button
+                    onClick={onJoin}
+                    className="w-full bg-blue-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center"
+                >
+                    <TelegramIcon />
+                    Join Telegram Channel
+                </button>
+                <button
+                    onClick={onContinue}
+                    className="w-full bg-transparent text-primary font-semibold py-2 px-4 rounded-lg hover:bg-lighter-green dark:hover:bg-gray-700"
+                >
+                    Continue to Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+);
+
+
 const PlaceholderPage = ({ title }: { title: string }) => (
     <div className="flex flex-col items-center justify-center h-[calc(100vh-6rem)]">
         <h1 className="text-2xl font-bold text-gray-400 dark:text-gray-500">{title} Page</h1>
@@ -1490,6 +1682,130 @@ const PlaceholderPage = ({ title }: { title: string }) => (
     </div>
 );
 
+const ChatBot = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [messages, setMessages] = useState<{role: 'user' | 'model', text: string}[]>([]);
+    const [input, setInput] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const chatSessionRef = useRef<Chat | null>(null);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (isOpen && !chatSessionRef.current) {
+             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+             chatSessionRef.current = ai.chats.create({
+                model: 'gemini-2.5-flash',
+                config: {
+                    systemInstruction: "You are Nova, a helpful AI support assistant for the NOVAPAY mobile banking app. Help users with account balances, transfers, airtime, data, bill payments (Betting, TV), loans, and the Safebox feature. NOVAPAY also has subscription plans (Weekly, Monthly, Yearly). Be concise, friendly, and use emojis occasionally. Do not provide real financial advice or ask for sensitive personal info like passwords.",
+                }
+            });
+            setMessages([{ role: 'model', text: "Hi! I'm Nova. How can I help you with your banking today? 👋" }]);
+        }
+    }, [isOpen]);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages, isOpen]);
+
+    const handleSend = async (e?: React.FormEvent) => {
+        e?.preventDefault();
+        if (!input.trim() || !chatSessionRef.current) return;
+
+        const userMsg = input.trim();
+        setInput('');
+        setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
+        setIsLoading(true);
+
+        try {
+            const result: GenerateContentResponse = await chatSessionRef.current.sendMessage({ message: userMsg });
+            const responseText = result.text;
+            setMessages(prev => [...prev, { role: 'model', text: responseText || "I'm thinking..." }]);
+        } catch (err) {
+            console.error(err);
+            setMessages(prev => [...prev, { role: 'model', text: "Sorry, I'm having trouble connecting. Please try again later." }]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    if (!isOpen) {
+        return (
+            <button 
+                onClick={() => setIsOpen(true)} 
+                className="fixed bottom-20 right-4 z-50 bg-primary text-white p-4 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 hover:scale-110"
+                aria-label="Open Chat Support"
+            >
+                <ChatBubbleLeftRightIcon />
+            </button>
+        );
+    }
+
+    return (
+        <div className="fixed bottom-20 right-4 z-50 w-80 md:w-96 h-[500px] max-h-[70vh] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-medium-gray dark:border-gray-700 animate-in slide-in-from-bottom-10 fade-in duration-300">
+            <div className="bg-primary p-4 flex justify-between items-center text-white">
+                <div className="flex items-center space-x-2">
+                    <div className="bg-white/20 p-1.5 rounded-full">
+                        <ChatBubbleLeftRightIcon />
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-sm">Nova Support</h3>
+                        <span className="text-xs text-green-100 flex items-center gap-1">
+                            <span className="w-2 h-2 bg-green-300 rounded-full animate-pulse"></span> Online
+                        </span>
+                    </div>
+                </div>
+                <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-white/20 rounded-full transition-colors">
+                    <XMarkIcon />
+                </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-900/50">
+                {messages.map((msg, idx) => (
+                    <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${
+                            msg.role === 'user' 
+                                ? 'bg-primary text-white rounded-tr-none' 
+                                : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-tl-none shadow-sm'
+                        }`}>
+                            {msg.text}
+                        </div>
+                    </div>
+                ))}
+                {isLoading && (
+                    <div className="flex justify-start">
+                        <div className="bg-white dark:bg-gray-700 p-3 rounded-2xl rounded-tl-none shadow-sm flex space-x-1">
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-75"></div>
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-150"></div>
+                        </div>
+                    </div>
+                )}
+                <div ref={messagesEndRef} />
+            </div>
+
+            <form onSubmit={handleSend} className="p-3 bg-white dark:bg-gray-800 border-t border-medium-gray dark:border-gray-700 flex items-center space-x-2">
+                <input 
+                    type="text" 
+                    value={input} 
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Type a message..."
+                    className="flex-1 bg-light-gray dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+                <button 
+                    type="submit" 
+                    disabled={!input.trim() || isLoading}
+                    className="bg-primary text-white p-2 rounded-full hover:bg-green-700 disabled:opacity-50 disabled:hover:bg-primary transition-colors"
+                >
+                    <PaperAirplaneIcon />
+                </button>
+            </form>
+        </div>
+    );
+};
 
 // --- App Container ---
 const App: React.FC = () => {
@@ -1503,7 +1819,7 @@ const App: React.FC = () => {
     const [darkMode, setDarkMode] = useState(false);
 
     const [activeTab, setActiveTab] = useState('Home');
-    const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription', 'admin', 'sync', 'withdraw', 'airtime', 'data', 'refer', 'safebox'
+    const [view, setView] = useState('main'); // 'main', 'rewards', 'history', 'subscription', 'admin', 'sync', 'withdraw', 'airtime', 'data', 'refer', 'safebox', 'telegramAd', 'loan'
     const [testimonial, setTestimonial] = useState<{ name: string; amount: number; } | null>(null);
 
     // Load theme from local storage on initial render
@@ -1620,7 +1936,7 @@ const App: React.FC = () => {
 
     const handleRegister = async (email: string, password: string): Promise<string | null> => {
         const usersRaw = localStorage.getItem('novapay_users');
-        const users = usersRaw ? JSON.parse(usersRaw) : [];
+        let users = usersRaw ? JSON.parse(usersRaw) : [];
 
         if (users.find((u: any) => u.email === email)) {
             return 'An account with this email already exists.';
@@ -1645,8 +1961,14 @@ const App: React.FC = () => {
             isLocked: false,
         };
         localStorage.setItem(`novapay_data_${email}`, JSON.stringify(initialUserData));
+        
+        const loginError = await handleLogin(email, password);
+        if (loginError) {
+             return loginError;
+        }
 
-        return handleLogin(email, password);
+        setView('telegramAd');
+        return null;
     };
     
     const handleLogout = () => {
@@ -1670,6 +1992,13 @@ const App: React.FC = () => {
         return <AuthFlow onLogin={handleLogin} onRegister={handleRegister} />;
     }
     
+    if (view === 'telegramAd') {
+        return <TelegramAdPage 
+            onContinue={() => setView('main')} 
+            onJoin={handleNavigateToTelegram} 
+        />;
+    }
+
     if (view === 'rewards') {
         return <RewardsPage onBack={() => setView('main')} account={account} setAccount={setAccount} addTransaction={addTransaction} claimedDays={claimedDays} setClaimedDays={setClaimedDays} lastClaimTimestamp={lastClaimTimestamp} setLastClaimTimestamp={setLastClaimTimestamp} />;
     }
@@ -1692,6 +2021,10 @@ const App: React.FC = () => {
     
     if (view === 'withdraw') {
         return <WithdrawPage onBack={() => setView('main')} account={account} setAccount={setAccount} addTransaction={addTransaction} transactions={transactions} onNavigateToSubscription={() => setView('subscription')} isLocked={isLocked} />;
+    }
+
+    if (view === 'loan') {
+        return <LoanPage onBack={() => setView('main')} account={account} setAccount={setAccount} addTransaction={addTransaction} />;
     }
 
     if (view === 'refer') {
@@ -1730,7 +2063,7 @@ const App: React.FC = () => {
     const renderContent = () => {
         switch (activeTab) {
             case 'Home':
-                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} onNavigateToRefer={() => setView('refer')} onNavigateToTelegram={handleNavigateToTelegram} onNavigateToSafebox={() => setView('safebox')} testimonial={testimonial} />;
+                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} onNavigateToRefer={() => setView('refer')} onNavigateToTelegram={handleNavigateToTelegram} onNavigateToSafebox={() => setView('safebox')} onNavigateToLoan={() => setView('loan')} testimonial={testimonial} />;
             case 'Me':
                 return <MePage user={user} profilePic={profilePic} setProfilePic={setProfilePic} onLogout={handleLogout} darkMode={darkMode} setDarkMode={setDarkMode} />;
             case 'Rewards':
@@ -1740,7 +2073,7 @@ const App: React.FC = () => {
             case 'Cards':
                  return <PlaceholderPage title="Cards" />;
             default:
-                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} onNavigateToRefer={() => setView('refer')} onNavigateToTelegram={handleNavigateToTelegram} onNavigateToSafebox={() => setView('safebox')} testimonial={testimonial} />;
+                return <HomePage userName={account.name} account={account} transactions={transactions} onNavigateToRewards={() => setView('rewards')} onNavigateToHistory={() => setView('history')} onNavigateToSubscription={() => setView('subscription')} onNavigateToAdmin={() => setView('admin')} onNavigateToSync={() => setView('sync')} onNavigateToWithdraw={() => setView('withdraw')} onNavigateToAirtime={() => setView('airtime')} onNavigateToData={() => setView('data')} onNavigateToRefer={() => setView('refer')} onNavigateToTelegram={handleNavigateToTelegram} onNavigateToSafebox={() => setView('safebox')} onNavigateToLoan={() => setView('loan')} testimonial={testimonial} />;
         }
     };
     
@@ -1748,6 +2081,7 @@ const App: React.FC = () => {
         <div className="max-w-md mx-auto bg-light-gray dark:bg-gray-900 font-sans relative pb-24 min-h-screen">
             {renderContent()}
             <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+            {user && <ChatBot />}
         </div>
     );
 };
