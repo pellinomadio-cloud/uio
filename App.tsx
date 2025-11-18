@@ -1689,17 +1689,24 @@ const ChatBot = () => {
     const [isLoading, setIsLoading] = useState(false);
     const chatSessionRef = useRef<Chat | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    // Keep track of current streaming message content
+    const [streamingContent, setStreamingContent] = useState('');
 
     useEffect(() => {
         if (isOpen && !chatSessionRef.current) {
-             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-             chatSessionRef.current = ai.chats.create({
-                model: 'gemini-2.5-flash',
-                config: {
-                    systemInstruction: "You are Nova, a helpful AI support assistant for the NOVAPAY mobile banking app. Help users with account balances, transfers, airtime, data, bill payments (Betting, TV), loans, and the Safebox feature. NOVAPAY also has subscription plans (Weekly, Monthly, Yearly). Be concise, friendly, and use emojis occasionally. Do not provide real financial advice or ask for sensitive personal info like passwords.",
-                }
-            });
-            setMessages([{ role: 'model', text: "Hi! I'm Nova. How can I help you with your banking today? 👋" }]);
+             try {
+                 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+                 chatSessionRef.current = ai.chats.create({
+                    model: 'gemini-2.5-flash',
+                    config: {
+                        systemInstruction: "You are Nova, a helpful AI support assistant for the NOVAPAY mobile banking app. Help users with account balances, transfers, airtime, data, bill payments (Betting, TV), loans, and the Safebox feature. NOVAPAY also has subscription plans (Weekly, Monthly, Yearly). Be concise, friendly, and use emojis occasionally. Do not provide real financial advice or ask for sensitive personal info like passwords.",
+                    }
+                });
+                setMessages([{ role: 'model', text: "Hi! I'm Nova. How can I help you with your banking today? 👋" }]);
+             } catch (error) {
+                 console.error("Failed to initialize chat:", error);
+                 setMessages([{ role: 'model', text: "Chat system currently unavailable." }]);
+             }
         }
     }, [isOpen]);
 
@@ -1709,7 +1716,7 @@ const ChatBot = () => {
 
     useEffect(() => {
         scrollToBottom();
-    }, [messages, isOpen]);
+    }, [messages, streamingContent, isOpen]);
 
     const handleSend = async (e?: React.FormEvent) => {
         e?.preventDefault();
@@ -1719,11 +1726,22 @@ const ChatBot = () => {
         setInput('');
         setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
         setIsLoading(true);
+        setStreamingContent('');
 
         try {
-            const result: GenerateContentResponse = await chatSessionRef.current.sendMessage({ message: userMsg });
-            const responseText = result.text;
-            setMessages(prev => [...prev, { role: 'model', text: responseText || "I'm thinking..." }]);
+            const resultStream = await chatSessionRef.current.sendMessageStream({ message: userMsg });
+            
+            let fullText = '';
+            for await (const chunk of resultStream) {
+                const text = chunk.text; // Access .text property directly
+                if (text) {
+                    fullText += text;
+                    setStreamingContent(fullText);
+                }
+            }
+            
+            setMessages(prev => [...prev, { role: 'model', text: fullText }]);
+            setStreamingContent('');
         } catch (err) {
             console.error(err);
             setMessages(prev => [...prev, { role: 'model', text: "Sorry, I'm having trouble connecting. Please try again later." }]);
@@ -1736,7 +1754,7 @@ const ChatBot = () => {
         return (
             <button 
                 onClick={() => setIsOpen(true)} 
-                className="fixed bottom-20 right-4 z-50 bg-primary text-white p-4 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 hover:scale-110"
+                className="fixed bottom-24 right-4 z-50 bg-primary text-white p-4 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 hover:scale-110"
                 aria-label="Open Chat Support"
             >
                 <ChatBubbleLeftRightIcon />
@@ -1745,8 +1763,8 @@ const ChatBot = () => {
     }
 
     return (
-        <div className="fixed bottom-20 right-4 z-50 w-80 md:w-96 h-[500px] max-h-[70vh] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-medium-gray dark:border-gray-700 animate-in slide-in-from-bottom-10 fade-in duration-300">
-            <div className="bg-primary p-4 flex justify-between items-center text-white">
+        <div className="fixed bottom-24 right-4 z-50 w-[90vw] max-w-sm h-[500px] max-h-[60vh] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-medium-gray dark:border-gray-700 animate-in slide-in-from-bottom-10 fade-in duration-300">
+            <div className="bg-primary p-4 flex justify-between items-center text-white shrink-0">
                 <div className="flex items-center space-x-2">
                     <div className="bg-white/20 p-1.5 rounded-full">
                         <ChatBubbleLeftRightIcon />
@@ -1775,7 +1793,14 @@ const ChatBot = () => {
                         </div>
                     </div>
                 ))}
-                {isLoading && (
+                {isLoading && streamingContent && (
+                     <div className="flex justify-start">
+                        <div className="max-w-[80%] p-3 rounded-2xl text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-tl-none shadow-sm">
+                            {streamingContent}
+                        </div>
+                    </div>
+                )}
+                {isLoading && !streamingContent && (
                     <div className="flex justify-start">
                         <div className="bg-white dark:bg-gray-700 p-3 rounded-2xl rounded-tl-none shadow-sm flex space-x-1">
                             <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
@@ -1787,7 +1812,7 @@ const ChatBot = () => {
                 <div ref={messagesEndRef} />
             </div>
 
-            <form onSubmit={handleSend} className="p-3 bg-white dark:bg-gray-800 border-t border-medium-gray dark:border-gray-700 flex items-center space-x-2">
+            <form onSubmit={handleSend} className="p-3 bg-white dark:bg-gray-800 border-t border-medium-gray dark:border-gray-700 flex items-center space-x-2 shrink-0">
                 <input 
                     type="text" 
                     value={input} 
